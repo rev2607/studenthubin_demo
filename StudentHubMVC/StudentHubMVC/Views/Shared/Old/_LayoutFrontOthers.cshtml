@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+    @Html.Partial("__HeadIncludesFront")
+
+</head>
+<body class="">
+    <style>
+        .waitOverlay {
+            background: rgba( 255, 255, 255, .8 ) url('http://i.stack.imgur.com/FhHRx.gif') 50% 50% no-repeat;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 2px;
+            z-index: 1000;
+            display: none;
+        }
+        .searchsection {
+            padding: 4px 0 5px;
+            margin-bottom: 10px;
+            max-height: 155px;
+            overflow: auto;
+        }
+        .searchlabel {
+            display: block;
+            position: relative;
+            font-weight: 600;
+            /*padding: 0 0 0 40px;*/
+            z-index: 9;
+            cursor: pointer;
+            -webkit-transition: all .25s linear;
+            font-size: 11px;
+            line-height: 2.2;
+            letter-spacing: .4px;
+            color: #7b7b7b;
+            transition: 0s ease all;
+            text-transform: uppercase;
+        }
+        .listing_filter {
+            padding: 4px 0 5px;
+            margin-bottom: 10px;
+            max-height: 155px;
+            overflow: auto;
+        }
+    </style>
+
+    <div id="wrapper" class="clearfix">
+        <!-- preloader -->
+        <div id="preloader">
+            <div id="spinner">
+                <img alt="" src="/images/loader.gif">
+            </div>
+
+        </div>
+
+        <!-- Header Start -->
+        <header id="header" class="header header-floating header-transparent-dark dark-light">
+            @Html.Partial("__TopNavMenuFront")
+            <div class="header-nav">
+                <div class="header-nav-wrapper navbar-scrolltofixed bg-lightest">
+                    <div class="container-fluid">
+                        <nav id="menuzord-right" class="menuzord default no-bg">
+                            <a class="menuzord-brand switchable-logo pull-left flip" href="#">
+                                <img class="logo-default" src="/images/logo-wide.png" alt="">
+                                <img class="logo-scrolled-to-fixed" src="/images/logo-wide.png" alt="">
+                            </a>
+                            @Html.Partial("__NavMenu")
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Header End -->
+
+        @RenderBody()
+
+    </div>
+
+    @Html.Partial("__FooterFront")
+    @RenderSection("scripts", false)
+    <script type="text/javascript">
+
+        function showPleaseWait() {
+            $(".waitOverlay").show();
+        }
+
+        function hidePleaseWait() {
+            $(".waitOverlay").hide();
+        }
+    </script>
+</body>
+
+</html>

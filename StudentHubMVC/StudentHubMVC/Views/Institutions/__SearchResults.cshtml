@@ -1,0 +1,70 @@
+﻿@model StudentHubMVC.Models.ViewModels.Home.VMHomeInstitutionSearch
+
+<div class="waitOverlay"></div>
+<div>
+    @foreach (Institutions institution in Model.Institutions)
+    {
+        <hr>
+        <div class="author-details media-post mt-20">
+            <a href="@Url.Action("Details", "Institutions", new { name = institution.UrlKeyword })" class="post-thumb mb-0 pull-left flip pr-20"><img class="img-thumbnail" alt="" src="images/c-logo.jpg"></a>
+
+            <div class="post-right">
+                <div class="details-row">
+                    <a href="@Url.Action("Details", "Institutions", new { name = institution.UrlKeyword })" class="author-title">@institution.Name <img src="images/verified.svg"> </a>
+
+                    <div class="review_info pull-right">
+                        <div class="ratingBlockContent">
+                            <div class="rating_bar">
+                                <div class="rating" style="width:100.0%;">
+                                </div>
+                            </div> (5)
+                        </div>
+
+                        <div class="cal-button mt-10">
+                            <a class="author-cal" href="#">
+                                ENQUIRY <i class="fa fa-envelope"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <span class="font-weight-600 mb-20" style="display: inline-block;"><i class="fa fa-map-marker font-19"></i> &nbsp;  @institution.Area, @institution.City</span>
+                <div class="classes-exp">
+                </div>
+                <div class="slug_list">
+                    <ul style="max-height: 68px; overflow: hidden;">
+                        @foreach (InstitutionCourses course in institution.MainCourses.OrderBy(c => c.MainCourses.Name))
+                        {
+                            <li style="padding-bottom: 5px;"><a class="course_slug_filter1" data-id="@course.MainCourses.Name" href="#">@course.MainCourses.Name</a></li>
+                        }
+                    </ul>
+                    <span id="showMoreCourses" onclick="showMoreLess(this);" style="float: right; padding: 10px 50px; cursor: pointer; font-weight: bold;">..more</span>
+                </div>
+
+                @*<p class="mt-10">
+                    SR Cloud Engineering
+                    3rd Floor, HIG-208, Dharma Reddy Colony Phase I, Kukatpally, Above Green Trends, KPHB Colony
+                    Kukatpally Dharma Reddy Colony Phase I, Hyderabad, India - 500085
+                    Landmark: Nr. Bank Of Maharashtra, KPHB branch, Beside KPHB Post Office
+                </p>*@
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    }
+</div>
+<div class="col-md-12">
+    <nav>
+        <ul class="pagination theme-colored">
+            @if (Model.PreviousPageExist)
+            {
+                <li> <a aria-label="First" title="First" onclick="getInstituteSearchResults(1);"> <span aria-hidden="true">««</span> </a> </li>
+                <li> <a aria-label="Previous" title="Previous" onclick="getInstituteSearchResults(@Model.previousPage)"> <span aria-hidden="true">«</span> </a> </li>
+            }
+            <li class="active"><a href="#">Page @Model.page of @Model.totalPages.</a></li>
+            @if (Model.NextPageExist)
+            {
+                <li> <a aria-label="Next" title="Next" onclick="getInstituteSearchResults(@Model.nextPage)"> <span aria-hidden="true">»</span> </a> </li>
+                <li> <a aria-label="Last" title="Last"> <span aria-hidden="true" onclick="getInstituteSearchResults(@Model.lastPage)">»»</span> </a> </li>
+            }
+        </ul>
+    </nav>
+</div>

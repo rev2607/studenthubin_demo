@@ -1,0 +1,150 @@
+﻿@model StudentHubMVC.Models.ViewModels.APSSCResults
+
+<div class="x_panel" style="border-color: #26b99a; border-width: 2px; ">
+    <div class="x_content">
+        <h3 style="text-align: center;">AP SSC Results</h3>
+        <div class="table-responsive">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="text-align: center;"><b>PERSONAL DETAILS</b></td>
+                    </tr>
+                    <tr>
+                        <td><b>Roll No</b></td>
+                        <td>@Model.RollNo</td>
+                    </tr>
+                    <tr>
+                        <td><b>Name</b></td>
+                        <td>@Model.FullName</td>
+                    </tr>
+                    <tr>
+                        <td><b>Result</b></td>
+                        <td>@Model.Result</td>
+                    </tr>
+                    <tr>
+                        <td><b>GPA</b></td>
+                        <td>@Model.GPA</td>
+                    </tr>
+                    <tr>
+                        <td><b>District Name</b></td>
+                        <td>@Model.DistrictName</td>
+                    </tr>
+                    <tr>
+                        <td><b>Physical Desc.</b></td>
+                        <td>@Model.PHDescription</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: center;"><b>EXTRA CURRICULUM GRADES</b></td>
+                    </tr>
+                    <tr>
+                        <td><b>Value Education & Life Skills</b></td>
+                        <td>@Model.ValueEducationLifeSkillsGrade</td>
+                    </tr>
+                    <tr>
+                        <td><b>Arts & Cultural Education</b></td>
+                        <td>@Model.ArtCulturalEducationGrade</td>
+                    </tr>
+                    <tr>
+                        <td><b>Work & Computer Education</b></td>
+                        <td>@Model.WorkComputerEducationGrade</td>
+                    </tr>
+                    <tr>
+                        <td><b>Physical & Health Education</b></td>
+                        <td>@Model.PhysicalHealthEducationGrade</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="table-responsive">
+            <table class="table">
+                <tbody style="text-align: center;">
+                    <tr><td colspan="6"><b>MARKS DETAILS</b></td></tr>
+                    <tr>
+                        <td style="text-align: center;"><b>Subject</b></td>
+                        <td style="text-align: center;"><b>Flag</b></td>
+                        <td style="text-align: center;"><b>Int. Grade</b></td>
+                        <td style="text-align: center;"><b>Ext. Grade</b></td>
+                        <td style="text-align: center;"><b>Final Grade</b></td>
+                        <td style="text-align: center;"><b>Points</b></td>
+                    </tr>
+                    <tr>
+                        <td>Language 1</td>
+                        <td>@Model.Language1Flag.Trim()</td>
+                        <td>@Model.Language1InternalGrade.Trim()</td>
+                        <td>@Model.Language1Grade1.Trim()</td>
+                        <td>@Model.Language1FinalGrade.Trim()</td>
+                        <td>@Model.Language1Points.Trim()</td>
+                    </tr>
+                    <tr>
+                        <td>Language 2</td>
+                        <td>@Model.Language2Flag.Trim()</td>
+                        <td>@Model.Language2InternalGrade.Trim()</td>
+                        <td>@Model.Language2Grade1.Trim()</td>
+                        <td>@Model.Language2FinalGrade.Trim()</td>
+                        <td>@Model.Language2Points.Trim()</td>
+                    </tr>
+                    <tr>
+                        <td>Language 3</td>
+                        <td>@Model.Language3Flag.Trim()</td>
+                        <td>@Model.Language3InternalGrade.Trim()</td>
+                        <td>@Model.Language3Grade1.Trim()</td>
+                        <td>@Model.Language3FinalGrade.Trim()</td>
+                        <td>@Model.Language3Points.Trim()</td>
+                    </tr>
+                    <tr>
+                        <td>Mathematics</td>
+                        <td>@Model.MathsFlag.Trim()</td>
+                        <td>@Model.MathsInternalGrade.Trim()</td>
+                        <td>@Model.MathsGrade1.Trim()</td>
+                        <td>@Model.MathsFinalGrade.Trim()</td>
+                        <td>@Model.MathsPoints.Trim()</td>
+                    </tr>
+                    <tr>
+                        <td>Science</td>
+                        <td>@Model.ScienceFlag.Trim()</td>
+                        <td>@Model.ScienceInternalGrade.Trim()</td>
+                        <td>@Model.ScienceGrade1.Trim()</td>
+                        <td>@Model.ScienceFinalGrade.Trim()</td>
+                        <td>@Model.SciencePoints.Trim()</td>
+                    </tr>
+                    <tr>
+                        <td>Social</td>
+                        <td>@Model.SocialFlag.Trim()</td>
+                        <td>@Model.SocialInternalGrade.Trim()</td>
+                        <td>@Model.SocialGrade1.Trim()</td>
+                        <td>@Model.SocialFinalGrade.Trim()</td>
+                        <td>@Model.SocialPoints.Trim()</td>
+                    </tr>
+                    <tr>
+                        <td>Optional Language</td>
+                        <td>@Model.OptionalLanguageFlag.Trim()</td>
+                        <td>@Model.OptionalLanguageInternalGrade.Trim()</td>
+                        <td>@Model.OptionalLanguageGrade1.Trim()</td>
+                        <td>@Model.OptionalLanguageFinalGrade.Trim()</td>
+                        <td>@Model.OptionalLanguagePoints.Trim()</td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">
+                            <p>
+                                Disclaimer : The results published on net are for information to the examinees. We are not responsible for any defect or inaccuracy in the information available on website.
+                                The AP SSC or class 10 board exam results released now, by the Board of Secondary Education of Andhra Pradesh. The board's official website, bse.ap.gov.in & www.manabadi.co.in, allows SSC candidates to verify their subject-wise results. More than 6 lakh students would be able to review their SSC or class 10 board exam grades.
+
+                                The board has previously requested that schools submit the students internal evaluation scores. All of the students were promoted after the exam was cancelled because of the COVID-19 pandemic. The students were evaluated on the basis of marks in semester and internal assessment.
+
+                                In the allotment of 10th class marks, the marks evaluation committee has decided to give the formative written test 70% weightage. According to reports, the government, which canceled 10th grade exams because to Covid-19, has formed a high-level committee chaired by the chairperson to release the results. On Wednesday, the committee convened and determined on the mechanism to be used for allotment of the marks. In the formative test for 50 marks 20 marks were given for written test, 10 marks for projects, 10 marks for note book writing and 10 marks for class participation of children. At present 70 per cent weightage will be given for written test and 30 per cent weightage for other marks. two formative tests were conducted this year.
+
+                                AP 10th Class Marks calculation method
+                                Formative exam total 50 marks. In this 70% of the written test i.e. 20 marks will be brought to 35. The remaining 30 marks will be reduced to 15 marks with 30% weightage.
+                                If a student wants to get 18 out of 20 marks in the written test , increase it to 35 marks ( 18X35/20) to reach 31.5 marks.
+                                The remaining 30 marks will be reduced to 15. That is, if a student gets 27 out of 30 marks, it will be taken as 13.5 according to the weightage ( 15X27/30).
+                                45 marks in total combined format is considered.
+                                similarly another format is calculated. subject grade is declared by combining the marks obtained in both.
+                                All marks are added together to give a total grade.
+                            </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

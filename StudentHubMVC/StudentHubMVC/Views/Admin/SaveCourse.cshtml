@@ -1,0 +1,247 @@
+﻿@using System.Configuration;
+
+@model StudentHubMVC.MainCourses
+
+@{
+    ViewBag.Title = "SaveCourse";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+    var streams = new Entities().DropdownTypes.Where(stream => stream.GroupName == "COURSESTREAM").Select(stream => new SelectListItem { Text = stream.TypeValue, Value = stream.DropdownTypeId.ToString() }).ToList();
+}
+
+<div style="width: 100%;">
+    <div style="padding: 10px 0px 15px 0px; width: 80%; display: inline-block;">
+        <div style="font-size:x-large; display: inline-block;"><u>@Html.ActionLink("Courses Manager", "CoursesManager")</u></div>
+        &nbsp;>&nbsp;
+        <div style="font-size:larger; display: inline-block; font-weight: bold;">Save Course</div>
+    </div>
+    <div style="padding-top: 10px; width: 14%; display: inline-block;">
+        @Html.ActionLink("Add Course", "SaveCourse", new { id = "" }, new { @class = "newaddbutton" })
+    </div>
+    <div style="width: 5%;float: right; padding-top: 14px;">
+        <form method="post" action="@Url.Action("DeleteMainCourse")" id="frmDeleteMainCourse" name="frmDeleteMainCourse" style="">
+            @Html.Hidden("courseId", Model.MainCourseId)
+            <img alt="Delete Course" title="Delete Course" class="deletesmall" onclick="deleteMainCourse();" style="margin: 4px;" />
+        </form>
+    </div>
+    
+</div>
+
+
+@using (Html.BeginForm("SaveCourse", "Admin", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="x_panel">
+    @*<div class="x_title">
+
+    </div>*@
+    <div class="x_content">
+        <div class="form-horizontal form-label-left">
+
+            @if (ViewBag.SaveMessage != "" && ViewBag.SaveMessage != null)
+            {
+                <div class="message">@ViewBag.SaveMessage</div>
+            }
+            @if (Request.Params.AllKeys.Contains("message"))
+            {
+                <div class="message">@Request.Params["message"]</div>
+            }
+            @if (ViewBag.ErrorMessage != "" && ViewBag.ErrorMessage != null)
+            {
+                <div class="errormessage">@ViewBag.ErrorMessage</div>
+            }
+            @if (Request.Params.AllKeys.Contains("errormessage"))
+            {
+                <div class="errormessage">@Request.Params["errormessage"]</div>
+            }
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.MainCourseId)
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-2">
+                        @Html.Label("Course Name", htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control width100", @required = "required", @onchange = "nameToKeyword()", @onkeyup = "nameToKeyword()" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-2">
+                        @Html.LabelFor(model => model.UrlKeyword, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.UrlKeyword, new { htmlAttributes = new { @class = "form-control width100", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.UrlKeyword, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-2">
+                        @Html.LabelFor(model => model.Logo, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-5" >
+                                <input type="file" name="uploadlogo" class="form-control" />
+                            </div>
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(model => model.Logo, new { @class = "form-control", @readonly = "readonly" })
+                                @Html.ValidationMessageFor(model => model.Logo, "", new { @class = "text-danger" })
+                            </div>
+                            @if (Model != null && Model.Logo != "" && Model.Logo != null)
+                            {
+                                <div class="col-md-1">
+                                    <a href="@ConfigurationManager.AppSettings["CourseLogosPath"] + Model.Logo" target="_blank" title="Click to View Cover Image"><img src="@ConfigurationManager.AppSettings["CourseLogosPath"] + Model.Logo" alt="" class="img-thumbnail" /></a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-2">
+                        @Html.LabelFor(model => model.Syllabus, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.Syllabus, new { @class = "form-control width100 texttoolbox" })
+                        @Html.ValidationMessageFor(model => model.Syllabus, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-2">
+                        @Html.LabelFor(model => model.Eligibility, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.Eligibility, new { @class = "form-control width100 texttoolbox" })
+                        @Html.ValidationMessageFor(model => model.Eligibility, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-2">
+                        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control width100 texttoolbox" })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-2">
+                        @Html.LabelFor(model => model.Stream, "Stream", htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(model => model.Stream, streams, "Select", htmlAttributes: new { @class = "form-control", @required = "required" })
+                        @Html.ValidationMessageFor(model => model.Stream, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-2">
+                        @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(model => model.Status, new List<SelectListItem> {
+                                new SelectListItem { Text = "Active", Value = "ACTIVE" },
+                                new SelectListItem { Text = "InActive", Value = "INACTIVE" }
+                            }, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="row">
+
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        @Html.CheckBox("IsInTopList", new { @class = "" })
+                        @Html.LabelFor(model => model.IsInTopList, htmlAttributes: new { @class = "control-label" })
+                        @Html.ValidationMessageFor(model => model.IsInTopList, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-3">
+                        @Html.CheckBox("IsFeatured", new { @class = "" })
+                        @Html.ValidationMessageFor(model => model.IsFeatured, "", new { @class = "text-danger" })
+                        @Html.LabelFor(model => model.IsFeatured, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-2">
+                        @Html.CheckBox("IsTrending", new { @class = "" })
+                        @Html.ValidationMessageFor(model => model.IsTrending, "", new { @class = "text-danger" })
+                        @Html.LabelFor(model => model.IsTrending, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                </div>
+            </div>
+
+            @*<div class="form-group">
+            @Html.LabelFor(model => model.Logo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Logo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Logo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MetaTitle, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.MetaTitle, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.MetaTitle, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MetaDescription, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.MetaDescription, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.MetaDescription, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+            <hr />
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-offset-8 col-md-1">
+                        @*<input type="reset" value="Reset" class="btn btn-primary" />*@
+                        @Html.ActionLink("Cancel", "SaveCourse", null, new { @class = "btn btn-primary" })
+                    </div>
+                    <div class="col-md-2">
+                        <input type="submit" value="Save Course" class="btn btn-success" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+}
+
+<div>
+    @Html.ActionLink("Back to Courses Manager", "CoursesManager", null, new { @class = "btn btn-default" })
+</div>
+
+@section scripts
+{
+    <script>       
+
+        function deleteMainCourse() {
+
+            if (deleteConfirm("Deleting Course will delete all Course mapped Data \nAre you sure to Delete Course?")) {
+
+                $("#frmDeleteMainCourse").submit();
+            }
+        }
+    </script>    
+}

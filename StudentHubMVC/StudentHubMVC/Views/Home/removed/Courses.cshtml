@@ -1,0 +1,79 @@
+﻿@{
+    ViewBag.Title = "Training Courses - StudentHub.in";
+    Layout = "~/Views/Shared/_LayoutFront.cshtml";
+}
+
+<style>
+    .course a {
+        font-size: small;
+    }
+</style>
+
+@{ 
+    var Streams = new Entities().DropdownTypes.Include("shub_maincourses").Where(s => s.GroupName == "COURSESTREAM");
+}
+
+<section class="our-course section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 nopad">
+                <div class="sectionhomehead" style="padding-top: 50px;">
+                    <h2>Available Courses</h2>
+                    <h6>Get Trained in the Latest Trending and Standard courses. Choose your Course. Register Now!</h6>
+                    @*<hr />*@
+                </div>
+            </div>
+            <div class="col-lg-12" style="padding-bottom: 25px;">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="allcourses">
+                            @foreach (DropdownTypes stream in Streams.OrderBy(s => s.GroupName))
+                            {
+                                if (@stream.shub_maincourses.Count > 0)
+                                {
+                                    <div class="coursestream row" style="padding-bottom: 35px;">
+                                        <div class="sectionhomehead col-md-12" style="padding-bottom: 5px;">
+                                            <h5>@stream.TypeValue</h5>
+                                        </div>
+                                        <div class="courseslist col-md-12">
+                                            <div class="row">
+                                                @{ int index = 1; }
+                                                @foreach (MainCourses course in stream.shub_maincourses.OrderBy(s => s.Name))
+                                                {
+
+                                                    if (index == 25)
+                                                    {
+                                                        @Html.Raw("<div style=\"text-align: right;width: 100%;padding: 10px;\"><a class=\"\" data-toggle=\"collapse\" href=\"#" + @stream.TypeValueUrlKeyword.Replace(" ", "").ToLower() + "\" role=\"button\" aria-expanded=\"false\" ariacontrols=\"collapseExample\">..more</a></div><div class=\"collapse col-md-12\" id=\"" + @stream.TypeValueUrlKeyword.Replace(" ", "").ToLower() + "\"><div class=\"row\">")
+                                                    }
+
+                                                    <div class="col-md-3">
+                                                        <div class="institutionhomename" title="@course.Name">
+                                                            <a href="#" target="_blank"><i class="fa fa-check-square-o" aria-hidden="true"></i>  @course.Name </a>
+                                                        </div>
+                                                    </div>
+
+                                                    if (index >= 25 && index == stream.shub_maincourses.Count)
+                                                    {
+                                                        @Html.Raw("</div></div>")
+                                                    }
+                                                    index++;
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    @*<hr>*@
+                                }
+                            }
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+
+                    </div>
+                </div>
+                </div>
+            </div>
+     </div>
+</section><!--End our-course section --> 

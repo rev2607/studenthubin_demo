@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_LayoutFront.cshtml";
+}
+
+<section class="registraion-form section-padding">
+    <div class="container">
+        <div class="row loginbox" style="margin: auto;">
+            @if (ViewBag.Response != "" && ViewBag.Response != null)
+            {
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12 loginresponsemsg">
+                    <h4>@ViewBag.Response</h4>
+                    <hr />
+                </div>
+            }
+            <div class="text-center col-lg-12 col-md-12 col-sm-12 col-12">
+                <h4>Login </h4>
+            </div>
+            <div class="text-center col-lg-12 col-md-12 col-sm-12 col-12" style="padding: 10px;">
+                <div class="row">
+                    <div id="studentlogin" class="col-md-6 col-sm-6 col-6 logintypeselected">STUDENT</div>
+                    <div id="instructorlogin" class="col-md-6 col-sm-6 col-6 logintype">INSTRUCTOR</div>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12" style="padding: 0px;">
+                <form class="cmxform" id="loginform" method="Post" action="#">
+                    <div class="form-group">
+                        <input type="email" class="form-control" placeholder="Email" id="cemail" name="loginemail" required>
+                        <input type="text" class="form-control" id="logintype" name="logintype" style="display: none;" value="STUDENT">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" placeholder="password" id="cpassword" name="loginpassword" required>
+                    </div>
+                    <div class="login-button">
+                        <button type="submit" class="login-btn">Login</button>
+                    </div>
+                    <div class="login-info form-check text-center" style="padding: 0px;">
+                        <div style="float: left;" class="col-lg-5 col-md-5 col-sm-5 col-5">
+                            <a href="~/studentregistration">Register</a>
+                        </div>
+                        @*<label class="form-check-label" for="exampleCheck1">Remember Me</label>*@
+                        <div style="float: right;" class="col-lg-7 col-md-7 col-sm-7 col-7">
+                            <a href="#">Forgot password</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+

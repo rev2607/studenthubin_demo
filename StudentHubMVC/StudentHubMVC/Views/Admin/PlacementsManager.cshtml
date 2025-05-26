@@ -1,0 +1,173 @@
+﻿@model StudentHubMVC.Liason.EntityLayer.PlacementEN
+
+@{
+    ViewBag.Title = "Placements Manager";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div style="width: 100%;">
+    <div style="padding: 10px 0px 15px 0px; width: 85%; display: inline-block;">
+        <div style="font-size:x-large; display: inline-block;"><u>Placements Manager</u></div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-7">
+            <h4>List</h4>
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.StudentName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CompanyName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Photo)
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (System.Data.DataRow item in ((System.Data.DataTable)ViewBag.Placements).Rows)
+                {
+                    <tr>
+                        <td>
+                            @item["StudentName"]
+                        </td>
+                        <td>
+                            @item["CompanyName"]
+                        </td>
+                        <td style="width: 15%;">
+                            <a href="~/assets/img/placements/@item["Photo"]" target="_blank"><img src="~/assets/img/placements/@item["Photo"]" alt="" style="width: 25px;" /></a>
+                        </td>
+                        <td style="width: 10%;">
+                            @*<a href="/admin/placementsmanager/">Edit</a>*@
+                            @Html.ActionLink("Edit", "SavePlacement", new { id = @item["ID"] }, new { @class = "editsmall" })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+        <div class="col-md-5" style="border-left: solid thin #91cc42;">
+            <h4>Add/Save Placement</h4>
+            <hr />
+            @using (Html.BeginForm("AddSavePlacement", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+
+
+                <div class="form-horizontal">
+                    @if (ViewBag.SaveMessage != "" && ViewBag.SaveMessage != null)
+                    {
+                        <div class="message">@ViewBag.SaveMessage</div>
+                    }
+                    @if (Request.Params.AllKeys.Contains("message"))
+                    {
+                        <div class="message">@Request.Params["message"]</div>
+                    }
+                    @if (ViewBag.ErrorMessage != "" && ViewBag.ErrorMessage != null)
+                    {
+                        <div class="errormessage">@ViewBag.ErrorMessage</div>
+                    }
+                    @if (Request.Params.AllKeys.Contains("errormessage"))
+                    {
+                        <div class="errormessage">@Request.Params["errormessage"]</div>
+                    }
+
+                    @if (ViewBag.ID != null && ViewBag.ID != "")
+                    {
+                        <input class="form-control text-box single-line" id="Sno" name="Sno" type="text" value="@ViewBag.ID" style="display: none;">
+                    }
+
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            @Html.LabelFor(model => model.StudentName, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.StudentName, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-8">
+                            @Html.DropDownListFor(model => model.Gender, new List<SelectListItem>
+                           {
+                               new SelectListItem { Value = "MALE", Text = "Male" },
+                               new SelectListItem { Value = "FEMALE", Text = "Female" }
+                           }, "Select", new { @class = "form-control", @required = "required" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            @Html.LabelFor(model => model.CompanyName, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                            @Html.ValidationMessageFor(model => model.CompanyName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            @Html.LabelFor(model => model.Photo, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-8">
+                            @if (@Model != null)
+                            {
+                                if (Model.Photo != null && Model.Photo != "")
+                                {
+                                    <img src="/assets/img/placements/@Url.Content(@Model.Photo)" alt="Photo" name="Photo" id="Photo" style="width: 50px;" />
+                                }
+                            }
+                            else
+                            {
+                                <img src="../assets/img/noimage.png" alt="Photo" name="Photo" id="Photo" />
+                            }
+                            <input type="file" title="PicUpload" id="PicUpload" name="PicUpload" class="form-control" onchange="show(this)" />
+                            @Html.EditorFor(model => model.Photo, new { htmlAttributes = new { @style = "display: none;" } })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            @Html.LabelFor(model => model.JobPosition, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.JobPosition, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div class="form-group" style="display: none;">
+                        <div class="col-md-4">
+                            @Html.LabelFor(model => model.CompanyLogo, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.CompanyLogo, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-4 col-md-4">
+                            <input type="submit" value="SAVE" class="btn btn-success" />
+                        </div>
+                        <div class="col-md-4">
+                            <a href="/admin/placementsmanager" class="btn btn-success" style="float: right;">RESET</a>
+                        </div>
+                    </div>
+
+                </div>
+            }
+        </div>
+    </div>
+</div>

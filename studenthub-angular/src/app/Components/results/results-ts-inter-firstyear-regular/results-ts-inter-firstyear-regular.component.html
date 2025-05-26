@@ -1,0 +1,79 @@
+                <div class="resultRow">
+                    <p>Hall Ticket No</p>
+                    <div class="stly2">
+                        <span id="lblHTNo">{{result.HallTicketNumber}} </span>
+                    </div>
+                </div>
+                <div class="resultRow">
+                    <p>Name</p>
+                    <div class="stly2">
+                        <span id="lblName">{{result.FullName}}</span>
+                    </div>
+                </div>
+                <div class="resultRow">
+                    <p>Total</p>
+                    <div class="stly2">
+                        <span id="lblTotal">{{result.Total}}</span>
+                    </div>
+                </div>
+                <div class="resultRow">
+                    <p>Result / Grade</p>
+                    <div class="stly2">
+                        <span id="lblResultGrade">{{result.Result}}</span>
+                    </div>
+                </div>
+                <div class="clear"></div>
+
+                <!-- Result Table -->
+                <div class="w-100 table-responsive">
+                    <table bordered="0" class="first-year">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Subject</th>
+                                <th class="text-center">Marks</th>
+                                <th class="text-center">Result</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{result.Yr1Subject1}}</td>
+                                <td>{{result.Yr1Subject1_Marks}}</td>
+                                <td>{{result.Yr1Subject1_Result}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{result.Yr1Subject2}}</td>
+                                <td>{{result.Yr1Subject2_Marks}}</td>
+                                <td>{{result.Yr1Subject2_Result}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{result.Yr1Subject3}}</td>
+                                <td>{{result.Yr1Subject3_Marks}}</td>
+                                <td>{{result.Yr1Subject3_Result}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{result.Yr1Subject4}}</td>
+                                <td>{{result.Yr1Subject4_Marks}}</td>
+                                <td>{{result.Yr1Subject4_Result}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{result.Yr1Subject5}}</td>
+                                <td>{{result.Yr1Subject5_Marks}}</td>
+                                <td>{{result.Yr1Subject5_Result}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="clear"></div>
+
+                <!-- Result Instructions -->
+                <div class="clear"></div>
+                <div class="ad320" style="width:100%; text-align:center; margin-bottom:10px;  margin-top:10px; display:none;"></div>
+                <div class="info">
+                    <div class="details">
+                        <p>
+                            <b>P</b> - PASS, <b>*P</b> - SUPPLEMENTARY PASS, <b>F</b> - FAIL, <b>*F</b> - SUPPLEMENTARY FAIL, <b>COMP</b> - COMPARTMENT PASS, <b>A</b> - ABSENT,
+                            <b>W</b> - WITHHELD, <b>M</b> - MALPRACTICE, <b>N</b> - NOT REGISTERED<br />
+                        </p>
+                    </div>
+                </div>
+                

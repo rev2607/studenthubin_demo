@@ -1,0 +1,409 @@
+﻿@model StudentHubMVC.Liason.EntityLayer.SettingsEN
+
+@{
+    ViewBag.Title = "Settings";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Settings</h2>
+
+
+@using (Html.BeginForm("AddSaveSetting", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <hr />
+
+        @if (ViewBag.SaveMessage != "" && ViewBag.SaveMessage != null)
+        {
+            <div class="message">@ViewBag.SaveMessage</div>
+        }
+
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @if (ViewBag.ID != null && ViewBag.ID != "")
+        {
+            <input class="form-control text-box single-line" id="Sno" name="Sno" type="text" value="@ViewBag.ID" style="display: none;">
+        }
+
+        <h4>GENERAL SETTINGS</h4>
+
+        <div class="form-group">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.Logo, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                <input type="file" title="LogoUpload" id="LogoUpload" name="LogoUpload" class="form-control" onchange="show(this)" />
+                @Html.EditorFor(model => model.Logo, new { htmlAttributes = new { @class = "form-control", @style = "display: none;"} })
+            </div>
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.Website, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Website, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                <input class="form-control text-box single-line" id="WebsiteOld" name="WebsiteOld" type="text" value="@Model.Website" style="display: none;">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.Phone1, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Phone1, new { htmlAttributes = new { @class = "form-control" } })
+                <input class="form-control text-box single-line" id="Phone1Old" name="Phone1Old" type="text" value="@Model.Phone1" style="display: none;">
+            </div>
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.Phone2, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Phone2, new { htmlAttributes = new { @class = "form-control" } })
+                <input class="form-control text-box single-line" id="Phone2Old" name="Phone2Old" type="text" value="@Model.Phone2" style="display: none;">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.Email1, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Email1, new { htmlAttributes = new { @class = "form-control" } })
+                <input class="form-control text-box single-line" id="Email1Old" name="Email1Old" type="text" value="@Model.Email1" style="display: none;">
+            </div>
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.Email2, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Email2, new { htmlAttributes = new { @class = "form-control" } })
+                <input class="form-control text-box single-line" id="Email2Old" name="Email2Old" type="text" value="@Model.Email2" style="display: none;">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.FaceBookLink, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.FaceBookLink, new { htmlAttributes = new { @class = "form-control" } })
+                <input class="form-control text-box single-line" id="FaceBookLinkOld" name="FaceBookLinkOld" type="text" value="@Model.FaceBookLink" style="display: none;">
+            </div>
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.TwitterLink, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.TwitterLink, new { htmlAttributes = new { @class = "form-control" } })
+                <input class="form-control text-box single-line" id="TwitterLinkOld" name="TwitterLinkOld" type="text" value="@Model.TwitterLink" style="display: none;">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.LinkedInLink, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.LinkedInLink, new { htmlAttributes = new { @class = "form-control" } })
+                <input class="form-control text-box single-line" id="LinkedInLinkOld" name="LinkedInLinkOld" type="text" value="@Model.LinkedInLink" style="display: none;">
+            </div>
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.YoutubeLink, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.YoutubeLink, new { htmlAttributes = new { @class = "form-control" } })
+                <input class="form-control text-box single-line" id="YoutubeLinkOld" name="YoutubeLinkOld" type="text" value="@Model.YoutubeLink" style="display: none;">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.InstagramLink, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.InstagramLink, new { htmlAttributes = new { @class = "form-control" } })
+                <input class="form-control text-box single-line" id="InstagramLinkOld" name="InstagramLinkOld" type="text" value="@Model.InstagramLink" style="display: none;">
+            </div>
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.GooglePlusLink, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.GooglePlusLink, new { htmlAttributes = new { @class = "form-control" } })
+                <input class="form-control text-box single-line" id="GooglePlusLinkOld" name="GooglePlusLinkOld" type="text" value="@Model.GooglePlusLink" style="display: none;">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.RssFeedLink, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.RssFeedLink, new { htmlAttributes = new { @class = "form-control" } })
+                <input class="form-control text-box single-line" id="RssFeedLinkOld" name="RssFeedLinkOld" type="text" value="@Model.RssFeedLink" style="display: none;">
+            </div>
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.BlogLink, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.BlogLink, new { htmlAttributes = new { @class = "form-control" } })
+                <input class="form-control text-box single-line" id="BlogLinkOld" name="BlogLinkOld" type="text" value="@Model.BlogLink" style="display: none;">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.Address1Name, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Address1Name, new { htmlAttributes = new { @class = "form-control" } })
+                <input class="form-control text-box single-line" id="Address1NameOld" name="Address1NameOld" type="text" value="@Model.Address1Name" style="display: none;">
+            </div>
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.Address2Name, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Address2Name, new { htmlAttributes = new { @class = "form-control" } })
+                <input class="form-control text-box single-line" id="Address2NameOld" name="Address2NameOld" type="text" value="@Model.Address2Name" style="display: none;">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.Address1, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Address1, new { htmlAttributes = new { @class = "form-control" } })
+                <input class="form-control text-box single-line" id="Address1Old" name="Address1Old" type="text" value="@Model.Address1" style="display: none;">
+            </div>
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.Address2, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Address2, new { htmlAttributes = new { @class = "form-control" } })
+                <input class="form-control text-box single-line" id="Address2Old" name="Address2Old" type="text" value="@Model.Address2" style="display: none;">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.ContactUsEmail, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.ContactUsEmail, new { htmlAttributes = new { @class = "form-control" } })
+                <input class="form-control text-box single-line" id="ContactUsEmailOld" name="ContactUsEmailOld" type="text" value="@Model.ContactUsEmail" style="display: none;">
+            </div>
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-4">
+            </div>
+        </div>
+
+        <h4>HOME BANNERS</h4>
+
+        <div class="form-group">
+            <div class="col-md-6" style="padding: 0px;">
+                <div class="col-md-4">
+                    @Html.LabelFor(model => model.Banner1, htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="col-md-8">
+                    <input type="file" title="search image" id="HomeBanner1" name="HomeBanner1" class="form-control" onchange="show(this)" />
+                </div>
+                <div class="col-md-offset-4 col-md-8" style="padding-top: 20px;">
+                    <div>
+
+                        @if (@Model != null)
+                        {
+                            if (Model.Banner1 != null && Model.Banner1 != "")
+                            {
+                                <img src="/assets/img/banners/@Url.Content(@Model.Banner1)" alt="banner1" name="imgBanner1" id="imgBanner1" style="width: 100px;" />
+                            }
+                        }
+                        else
+                        {
+                            <img src="../assets/img/profilepics/noimage.png" alt="Image" name="imgBanner1" id="imgBanner1" />
+                        }
+                        @Html.EditorFor(model => model.Banner1, new { htmlAttributes = new { @style = "display: none;" } })
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6" style="padding: 0px;">
+                <div class="col-md-4">
+                    @Html.LabelFor(model => model.Banner2, htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="col-md-8">
+                    <input type="file" title="search image" id="HomeBanner2" name="HomeBanner2" class="form-control" onchange="show(this)" />
+                </div>
+                <div class="col-md-offset-4 col-md-8" style="padding-top: 20px;">
+                    <div>
+
+                        @if (@Model != null)
+                        {
+                            if (Model.Banner2 != null && Model.Banner2 != "")
+                            {
+                                <img src="/assets/img/banners/@Url.Content(@Model.Banner2)" alt="Banner2" name="imgBanner2" id="imgBanner2" style="width: 100px;" />
+                            }
+                        }
+                        else
+                        {
+                            <img src="../assets/img/profilepics/noimage.png" alt="Image" name="imgBanner2" id="imgBanner2" />
+                        }
+                        @Html.EditorFor(model => model.Banner2, new { htmlAttributes = new { @style = "display: none;" } })
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-6" style="padding: 0px;">
+                <div class="col-md-4">
+                    @Html.LabelFor(model => model.Banner3, htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="col-md-8">
+                    <input type="file" title="search image" id="HomeBanner3" name="HomeBanner3" class="form-control" onchange="show(this)" />
+                </div>
+                <div class="col-md-offset-4 col-md-8" style="padding-top: 20px;">
+                    <div>
+
+                        @if (@Model != null)
+                        {
+                            if (Model.Banner3 != null && Model.Banner3 != "")
+                            {
+                                <img src="/assets/img/banners/@Url.Content(@Model.Banner3)" alt="Banner3" name="imgBanner3" id="imgBanner3" style="width: 100px;" />
+                            }
+                        }
+                        else
+                        {
+                            <img src="../assets/img/profilepics/noimage.png" alt="Image" name="imgBanner3" id="imgBanner3" />
+                        }
+                        @Html.EditorFor(model => model.Banner3, new { htmlAttributes = new { @style = "display: none;" } })
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6" style="padding: 0px;">
+                <div class="col-md-4">
+                    @Html.LabelFor(model => model.Banner4, htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="col-md-8">
+                    <input type="file" title="search image" id="HomeBanner4" name="HomeBanner4" class="form-control" onchange="show(this)" />
+                </div>
+                <div class="col-md-offset-4 col-md-8" style="padding-top: 20px;">
+                    <div>
+
+                        @if (@Model != null)
+                        {
+                            if (Model.Banner4 != null && Model.Banner4 != "")
+                            {
+                                <img src="/assets/img/banners/@Url.Content(@Model.Banner4)" alt="Banner4" name="imgBanner4" id="imgBanner4" style="width: 100px;" />
+                            }
+                        }
+                        else
+                        {
+                            <img src="../assets/img/profilepics/noimage.png" alt="Image" name="imgBanner4" id="imgBanner4" />
+                        }
+                        @Html.EditorFor(model => model.Banner4, new { htmlAttributes = new { @style = "display: none;" } })
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-6" style="padding: 0px;">
+                <div class="col-md-4">
+                    @Html.LabelFor(model => model.Banner5, htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="col-md-8">
+                    <input type="file" title="search image" id="HomeBanner5" name="HomeBanner5" class="form-control" onchange="show(this)" />
+                </div>
+                <div class="col-md-offset-4 col-md-8" style="padding-top: 20px;">
+                    <div>
+
+                        @if (@Model != null)
+                        {
+                            if (Model.Banner5 != null && Model.Banner5 != "")
+                            {
+                                <img src="/assets/img/banners/@Url.Content(@Model.Banner5)" alt="Banner5" name="imgBanner5" id="imgBanner5" style="width: 100px;" />
+                            }
+                        }
+                        else
+                        {
+                            <img src="../assets/img/profilepics/noimage.png" alt="Image" name="imgBanner5" id="imgBanner5" />
+                        }
+                        @Html.EditorFor(model => model.Banner5, new { htmlAttributes = new { @style = "display: none;" } })
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6" style="padding: 0px;">
+               
+            </div>
+        </div>
+
+        <h4>POP-UP BANNERS</h4>
+
+        <div class="form-group">
+            <div class="col-md-6" style="padding: 0px;">
+                <div class="col-md-4">
+                    @Html.LabelFor(model => model.PopUpBanner1, htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="col-md-8">
+                    <input type="file" title="search image" id="HomePopUpBanner1" name="HomePopUpBanner1" class="form-control" onchange="show(this)" />
+                </div>
+                <div class="col-md-offset-4 col-md-8" style="padding-top: 20px;">
+                    <div>
+
+                        @if (@Model != null)
+                        {
+                            if (Model.PopUpBanner1 != null && Model.PopUpBanner1 != "")
+                            {
+                                <img src="/assets/img/banners/@Url.Content(@Model.PopUpBanner1)" alt="PopUpBanner1" name="imgPopUpBanner1" id="imgPopUpBanner1" style="width: 100px;" />
+                            }
+                        }
+                        else
+                        {
+                            <img src="../assets/img/profilepics/noimage.png" alt="PopUpBanner1" name="imgPopUpBanner1" id="imgPopUpBanner1" />
+                        }
+                        @Html.EditorFor(model => model.PopUpBanner1, new { htmlAttributes = new { @style = "display: none;" } })
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6" style="padding: 0px;">
+                <div class="col-md-4">
+                    @Html.LabelFor(model => model.PopUpBanner2, htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="col-md-8">
+                    <input type="file" title="search image" id="HomePopUpBanner2" name="HomePopUpBanner2" class="form-control" onchange="show(this)" />
+                </div>
+                <div class="col-md-offset-4 col-md-8" style="padding-top: 20px;">
+                    <div>
+
+                        @if (@Model != null)
+                        {
+                            if (Model.PopUpBanner2 != null && Model.PopUpBanner2 != "")
+                            {
+                                <img src="/assets/img/banners/@Url.Content(@Model.PopUpBanner2)" alt="PopUpBanner2" name="imgPopUpBanner2" id="imgPopUpBanner2" style="width: 100px;" />
+                            }
+                        }
+                        else
+                        {
+                            <img src="../assets/img/profilepics/noimage.png" alt="PopUpBanner2" name="imgPopUpBanner2" id="imgPopUpBanner2" />
+                        }
+                        @Html.EditorFor(model => model.PopUpBanner2, new { htmlAttributes = new { @style = "display: none;" } })
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-4">
+                <input type="submit" value="SAVE SETTINGS" class="btn btn-success" />
+            </div>
+        </div>
+
+    </div>
+}

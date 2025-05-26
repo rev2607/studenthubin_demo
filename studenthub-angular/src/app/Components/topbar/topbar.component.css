@@ -1,0 +1,39 @@
+.topbar_wrapper{
+    background-color: #272443;
+    width: 100%;
+    height: 80px;
+}
+
+.topbar_wrapper .img_icon{
+    width: 25px;
+    height: 25px;
+}
+
+.topbar_wrapper .img_icon img{
+    width: 100%;
+}
+
+.bdr_Rblue::after{
+    content: "";
+    position: absolute;
+    right: 0;
+    width: 2px;
+    height: 30px;
+    background-color: #4c4972;
+}
+
+.topgreen_bg::before{
+    content: "";
+    position: absolute;
+    background: #8cc542;
+    width: 48%;
+    right: 0;
+    height: 80px;
+    clip-path: polygon(8% 6%, 100% 6%, 100% 100%, 0% 100%);
+}
+
+@media (max-width: 767px) and (orientation: portrait) {
+    .topbar_wrapper{
+        display: none;
+    }
+}

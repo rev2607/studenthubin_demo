@@ -1,0 +1,95 @@
+.search_bar{
+    background-color: #fff;
+    height: 70px;
+    width: 100%;
+    padding: 0;
+    margin: 0 0 40px 0;
+    border-radius: 40px;
+    position: relative;
+}
+
+.search_bar input[type=text]{
+    border: none;
+    outline: none;
+    height: 100%;
+    width: 100%;
+    padding: 0 170px 0 30px;
+    border-radius: 40px;
+}
+
+.input_search_ic{
+    position: absolute;
+    height: 87%;
+    right: 5px;
+    padding: 0 35px;
+    top: 5px;
+    text-align: center;    
+    border-radius: 40px;
+    color: #fff;    
+    background: #8cc542;    
+    width: auto;
+}
+
+.input_search_ic:hover{
+    color: #fff;
+    background: #262443;
+    text-decoration: none;
+}
+
+ul.latest_links{
+    padding: 0;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    width: 50%;
+}
+
+ul.latest_links li{
+    padding: 0 12px;
+    margin: 0;
+    position: relative;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+ul.latest_links li::after{
+    background-color: #ccc;
+    width: 1.5px;
+    height: 12px;
+    right: 0;
+    position: absolute;
+    content:"";
+    right: 0;
+    top: 7px;
+}
+
+ul.latest_links li:last-child::after{
+    display: none;
+}
+
+ul.latest_links li a{
+    color: #ccc;
+    height: 100%;
+    border-bottom: 1px solid;
+}
+
+ul.latest_links li a:hover{
+    text-decoration: none;
+}
+
+
+@media (max-width: 844px) and (orientation: portrait){
+    .search_bar{
+        width: 100%;
+    }
+
+    ul.latest_links{
+        width: 100%;
+    }
+
+    ul.latest_links li{
+        padding: 0 9px;
+    }
+}

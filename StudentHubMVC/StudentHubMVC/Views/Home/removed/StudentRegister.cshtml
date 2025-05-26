@@ -1,0 +1,158 @@
+﻿@{
+    ViewBag.Title = "Student Registration - StudentHub.in";
+    Layout = "~/Views/Shared/_LayoutFront.cshtml";
+}
+
+<!--Start Eduspace banner Section-->
+@*<section class="eduspace-banner" style="padding-top:50px;">
+    <div class="edu-overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="eduspace-banner-header">
+                    <h2>Student Registration</h2>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item active">Student Registration</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>*@<!--End Eduspace banner Section-->
+<!--Start registraion-form Section-->
+<section class="registraion-form section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                    @if (ViewBag.SaveMessage != "" || ViewBag.SaveMessage == null)
+                    {
+                        <div class="edu-title text-center">
+                            <h4>@ViewBag.SaveMessage</h4>
+                            <hr />
+                        </div>
+                    }
+                <div class="edu-title text-center">
+                    <h2>Student Registration</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="registration-form-area">
+                    <form class="row" method="Post" action="#">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="FullName">Full Name</label>
+                                <input type="text" class="form-control" placeholder="Enter Your Name" id="FullName" name="FullName">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="Gender">Gender:</label>
+                                <select class="form-control" id="Gender" name="Gender">
+                                    <option value="">Select Gender</option>
+                                    <option value="MALE">Male</option>
+                                    <option value="FEMALE">Female</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="Email">Email Here</label>
+                                <input type="email" class="form-control" placeholder="Enter Your Email" id="Email" name="Email">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="Phone1">Phone Here</label>
+                                <input type="text" class="form-control" placeholder="Enter Your phone Number" id="Phone1" name="Phone1">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="Password">Password</label>
+                                <input type="password" class="form-control" placeholder="Enter Your Password" id="Password" name="Password">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="R_confirmpassword">Confirm Password</label>
+                                <input type="password" class="form-control" placeholder="Confirm Password" id="R_confirmpassword" >
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="Age">Age Here</label>
+                                <input type="text" class="form-control" placeholder="Enter Your Age" id="Age" name="Age">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="Education">Education Here</label>
+                                <select class="form-control" id="Education" name="Education">
+                                    <option value="">Select Education</option>
+                                    <option value="GRADUATION">Graduation</option>
+                                    <option value="POSTGRADUATION">Post-Graduation</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="WhoReferredUs">How Did You Came to Know About Us?</label>
+                                <select class="form-control" id="WhoReferredUs" name="WhoReferredUs">
+                                    <option value="">Select</option>
+                                    <option value="SOCIALMEDIA">Social Media</option>
+                                    <option value="FRIEND">Friend</option>
+                                    <option value="ADVERTISEMENT">Newspaper/Advertisement</option>
+                                    <option value="JUSTDIAL">Just Dial</option>
+                                    <option value="GOOGLE">Google/Search Engine</option>
+                                    <option value="OTHER">Other Reference</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- <div class="col-md-6">
+                             <div class="form-group">
+                                 <label for="selectgender">Select gender:</label>
+                                 <select class="form-control" id="selectgender">
+                                     <option>Select Gender</option>
+                                     <option>Male</option>
+                                     <option>Female</option>
+                                 </select>
+                             </div>
+                         </div>
+                        <div class="col-md-6">
+                             <div class="form-group">
+                                 <label for="inputdate">Selct Date</label>
+                                 <input type="text" class="form-control" id="inputdate" placeholder="select date">
+                                 <div class="monthly" id="mycalendar2"></div>
+                             </div>
+                         </div>
+                         <div class="col-md-6">
+                             <div class="form-group">
+                                 <label for="r_postal">Postal Code</label>
+                                 <input type="text" class="form-control" placeholder="Enter Your postal code" id="r_postal" name="number" required>
+                             </div>
+                         </div>
+                         <div class="col-md-12">
+                             <div class="form-group">
+                                 <textarea class="form-control" rows="5" placeholder="Write your Message here..." id="r_message" name="comment"></textarea>
+                             </div>
+                         </div> -->
+                        <div class="col-md-12" style="padding: 0px 0px 10px 0px; text-align: center; font-size: 14px;">
+                            By clicking "REGISTER", you agree to the <a href="/termsandconditions" target="_blank">Terms and Conditions</a> (updated) <br>and <a href="/privacypolicy" target="_blank">Privacy Policy</a> (updated)
+                        </div>
+                        <div class="col-md-12">
+                            <div id="studentregvalidationmsg" class="alert alert-danger" style="display: none"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="confirm">
+                                <button type="submit" id="studentregsubmit" class="eduspace-btn submit" value="submit">Register</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!--End regustraion-form Section-->

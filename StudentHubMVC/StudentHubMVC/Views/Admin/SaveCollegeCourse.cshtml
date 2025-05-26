@@ -1,0 +1,440 @@
+﻿@using System.Configuration;
+
+@model CollegeCourses
+
+@{
+    ViewBag.Title = "Save College Course";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+    var coursetypes = new Entities().DropdownTypes.Where(type => type.GroupName == "COLLEGECOURSETYPE").Select(type => new SelectListItem { Text = type.TypeValue, Value = type.DropdownTypeId.ToString() }).ToList();
+
+    var courselevels = new Entities().DropdownTypes.Where(type => type.GroupName == "COLLEGECOURSELEVEL").Select(type => new SelectListItem { Text = type.TypeValue, Value = type.DropdownTypeId.ToString() }).ToList();
+
+    var degreetypes = new Entities().DropdownTypes.Where(type => type.GroupName == "DEGREETYPE").Select(type => new SelectListItem { Text = type.TypeValue, Value = type.DropdownTypeId.ToString() }).ToList();
+}
+
+<div style="width: 100%;">
+    <div style="padding: 10px 0px 15px 0px; width: 80%; display: inline-block;">
+        <div style="font-size:x-large; display: inline-block;"><u>@Html.ActionLink("College Courses Manager", "CollegeCoursesManager")</u></div>
+        &nbsp;>&nbsp;
+        <div style="font-size:larger; display: inline-block; font-weight: bold;">Save College Course</div>
+    </div>
+    <div style="padding-top: 10px; width: 19%; display: inline-block;">
+        @Html.ActionLink("Add College Course", "SaveCollegeCourse", new { id = "" }, new { @class = "newaddbutton", @style = "float: left; width: 80%;" })
+        <form method="post" action="@Url.Action("DeleteCollegeCourse")" id="frmDelete" name="frmDelete">
+            @Html.Hidden("collegeCourseId", Model.colcrs_Id)
+            @if (Model.colcrs_Id > 0)
+            {
+                <img alt="Delete College Course" title="Delete College Course" class="deletesmall" onclick="deleteCollegeCourse();" style="margin: 4px;" />
+            }
+        </form>
+    </div>
+</div>
+
+@using (Html.BeginForm("SaveCollegeCourse", "Admin", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="x_panel">
+        @*<div class="x_title">
+
+            </div>*@
+        <div class="x_content">
+            <div class="form-horizontal form-label-left">
+
+                @{ Html.RenderPartial("pErrorSaveMessages"); }
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.colcrs_Id)
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.colcrs_Name, htmlAttributes: new { @class = "control-label" }) *
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.colcrs_Name, new { @class = "form-control width100", @required = "required", @onchange = "nameToKeyword()", @onkeyup = "nameToKeyword()", @id = "Name" })
+                            @Html.ValidationMessageFor(model => model.colcrs_Name, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.colcrs_UrlKeyword, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.colcrs_UrlKeyword, new { @class = "form-control width100", @required = "required", @id = "UrlKeyword" })
+                            @Html.ValidationMessageFor(model => model.colcrs_UrlKeyword, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.colcrs_Logo, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <input type="file" name="uploadlogo" class="form-control" />
+                                </div>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(model => model.colcrs_Logo, new { @class = "form-control", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(model => model.colcrs_Logo, "", new { @class = "text-danger" })
+                                </div>
+                                @if (Model != null && Model.colcrs_Logo != "" && Model.colcrs_Logo != null)
+                                {
+                                    <div class="col-md-2">
+                                        <a href="@(ConfigurationManager.AppSettings["CollegeCourse"].Replace("~/", "/") + Model.colcrs_Logo)" target="_blank" title="Click to View Cover Image"><img src="@(ConfigurationManager.AppSettings["CollegeCourse"].Replace("~/", "/") + Model.colcrs_Logo)" alt="" class="img-thumbnail" /></a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.colcrs_CoverPic, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <input type="file" name="uploadcoverpic" class="form-control" />
+                                </div>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(model => model.colcrs_CoverPic, new { @class = "form-control", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(model => model.colcrs_CoverPic, "", new { @class = "text-danger" })
+                                </div>
+                                @if (Model != null && Model.colcrs_CoverPic != "" && Model.colcrs_CoverPic != null)
+                                {
+                                    <div class="col-md-2">
+                                        <a href="@(ConfigurationManager.AppSettings["CollegeCourse"].Replace("~/", "/") + Model.colcrs_CoverPic)" target="_blank" title="Click to View Cover Image"><img src="@(ConfigurationManager.AppSettings["CollegeCourse"].Replace("~/", "/") + Model.colcrs_CoverPic)" alt="" class="img-thumbnail" /></a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.colcrs_CourseType, htmlAttributes: new { @class = "control-label" }) *
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.colcrs_CourseType, coursetypes, "Select", htmlAttributes: new { @class = "form-control", @required = "required" })
+                            @Html.ValidationMessageFor(model => model.colcrs_CourseType, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.colcrs_CourseLevel, htmlAttributes: new { @class = "control-label" }) *
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.colcrs_CourseLevel, courselevels, "Select", htmlAttributes: new { @class = "form-control", @required = "required" })
+                            @Html.ValidationMessageFor(model => model.colcrs_CourseLevel, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.colcrs_DegreeType, htmlAttributes: new { @class = "control-label" }) *
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.colcrs_DegreeType, degreetypes, "Select", htmlAttributes: new { @class = "form-control", @required = "required" })
+                            @Html.ValidationMessageFor(model => model.colcrs_DegreeType, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+
+                        </div>
+                        <div class="col-md-2">
+                            @Html.CheckBox("colcrs_IsTrending", new { @class = "" })
+                            @Html.LabelFor(model => model.colcrs_IsTrending, htmlAttributes: new { @class = "control-label" })
+                            @Html.ValidationMessageFor(model => model.colcrs_IsTrending, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.CheckBox("colcrs_IsFeatured")
+                            @Html.LabelFor(model => model.colcrs_IsFeatured, htmlAttributes: new { @class = "control-label" })
+                            @Html.ValidationMessageFor(model => model.colcrs_IsFeatured, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.CheckBox("colcrs_IsTop")
+                            @Html.LabelFor(model => model.colcrs_IsTop, htmlAttributes: new { @class = "control-label" })
+                            @Html.ValidationMessageFor(model => model.colcrs_IsTop, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.colcrs_ShortDescription, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.colcrs_ShortDescription, new { @class = "form-control width100", @maxlength = "500" })
+                            @Html.ValidationMessageFor(model => model.colcrs_ShortDescription, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.colcrs_Description, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.colcrs_Description, new { @class = "form-control width100 texttoolbox" })
+                            @Html.ValidationMessageFor(model => model.colcrs_Description, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.colcrs_EligibilityCriteria, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.colcrs_EligibilityCriteria, new { @class = "form-control width100 texttoolbox" })
+                            @Html.ValidationMessageFor(model => model.colcrs_EligibilityCriteria, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.colcrs_Duration, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.colcrs_Duration, new { @class = "form-control width100", @maxlength = "30" })
+                            @Html.ValidationMessageFor(model => model.colcrs_Duration, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.colcrs_ExamType, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.colcrs_ExamType, new { @class = "form-control width100", @maxlength = "100" })
+                            @Html.ValidationMessageFor(model => model.colcrs_ExamType, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.colcrs_FeeDesc, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.colcrs_FeeDesc, new { @class = "form-control width100", @maxlength = "500" })
+                            @Html.ValidationMessageFor(model => model.colcrs_FeeDesc, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.colcrs_FeeMinimum, new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.colcrs_FeeMinimum, new { @class = "form-control width100", @maxlength = "30" })
+                            @Html.ValidationMessageFor(model => model.colcrs_FeeMinimum, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.colcrs_FeeMaximum, new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.colcrs_FeeMaximum, new { @class = "form-control width100", @maxlength = "30" })
+                            @Html.ValidationMessageFor(model => model.colcrs_FeeMaximum, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.colcrs_AdmissionProcess, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.colcrs_AdmissionProcess, new { @class = "form-control width100 texttoolbox" })
+                            @Html.ValidationMessageFor(model => model.colcrs_AdmissionProcess, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.colcrs_TopEntranceTest, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.colcrs_TopEntranceTest, new { @class = "form-control width100" })
+                            @Html.ValidationMessageFor(model => model.colcrs_TopEntranceTest, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.colcrs_SelectionProcess, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.colcrs_SelectionProcess, new { @class = "form-control width100" })
+                            @Html.ValidationMessageFor(model => model.colcrs_SelectionProcess, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.colcrs_LateralEntry, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.colcrs_LateralEntry, new { @class = "form-control width100" })
+                            @Html.ValidationMessageFor(model => model.colcrs_LateralEntry, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.colcrs_AcademicOptions, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.colcrs_AcademicOptions, new { @class = "form-control width100" })
+                            @Html.ValidationMessageFor(model => model.colcrs_AcademicOptions, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.colcrs_SalaryOfferedFreshes, htmlAttributes: new { @class = "" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.colcrs_SalaryOfferedFreshes, new { @class = "form-control width100", @maxlength = "30" })
+                            @Html.ValidationMessageFor(model => model.colcrs_SalaryOfferedFreshes, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.colcrs_JobProfile, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.colcrs_JobProfile, new { @class = "form-control width100" })
+                            @Html.ValidationMessageFor(model => model.colcrs_JobProfile, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.colcrs_JobProspects, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.colcrs_JobProspects, new { @class = "form-control width100" })
+                            @Html.ValidationMessageFor(model => model.colcrs_JobProspects, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.colcrs_Top5Recruiters, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.colcrs_Top5Recruiters, new { @class = "form-control width100" })
+                            @Html.ValidationMessageFor(model => model.colcrs_Top5Recruiters, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.colcrs_Status, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.colcrs_Status, new List<SelectListItem> {
+                                new SelectListItem { Text = "Active", Value = "ACTIVE" },
+                                new SelectListItem { Text = "InActive", Value = "INACTIVE" }
+                            }, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.colcrs_Status, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-offset-8 col-md-1">
+                            @*<input type="reset" value="Reset" class="btn btn-primary" />*@
+                            @Html.ActionLink("Cancel", "SaveCollegeCourse", null, new { @class = "btn btn-primary" })
+                        </div>
+                        <div class="col-md-2">
+                            <input type="submit" value="Save Course" class="btn btn-success" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+<div>
+    @Html.ActionLink("Back to College Courses Manager", "CollegeCoursesManager", null, new { @class = "btn btn-default" })
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        $('#uploadcoverpic').bind('change', function () {
+            var f = this.files[0]
+
+            if (f.size > 3388608 || f.fileSize > 3388608) {
+                //show an alert to the user
+                alert("Allowed file size exceeded. (Max. 3 MB)")
+
+                //reset file upload control
+                this.value = null;
+            }
+        });
+
+        $('#uploadlogo').bind('change', function () {
+            var f = this.files[0]
+
+            if (f.size > 3388608 || f.fileSize > 3388608) {
+                //show an alert to the user
+                alert("Allowed file size exceeded. (Max. 3 MB)")
+
+                //reset file upload control
+                this.value = null;
+            }
+        });
+
+        function deleteCollegeCourse() {
+
+            if (deleteConfirm("Are you sure to Delete College Course?")) {
+
+                $("#frmDelete").submit();
+            }
+        }
+
+    </script>    
+}

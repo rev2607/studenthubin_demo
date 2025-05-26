@@ -1,0 +1,338 @@
+﻿@model NewsAlerts
+
+@using System.Configuration;
+
+@{
+    ViewBag.Title = "details";
+    Layout = "~/Views/Shared/_LayoutFrontOthers.cshtml";
+}
+
+
+<!-- Start main-content -->
+<div class="main-content">
+    <style>
+        body {
+            background-color: #f1f1f1 !important;
+        }
+    </style>
+
+    <!-- Section: inner-header -->
+    <section class="inner-header mt-110 bg-gray-eee">
+        <div class="container pt-5 pb-5">
+            <!-- Section Content -->
+            <div class="section-content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <ol class="breadcrumb text-left text-black mt-10">
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">News</a></li>
+                            <li class="active text-gray-silver">@Model.Title</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container details-width mt-20 mb-30 pt-20 pb-30">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="blog-posts bg-color-details">
+                        <article class="post clearfix mb-30 pb-30">
+                            <div class="media-body">
+                                <div class="event-content pull-left flip mb-10">
+                                    <h2 class="entry-title news text-white">@Model.Title</h2>
+                                </div>
+                            </div>
+                            <div class="entry-header">
+                                @if (Model.CoverImage != null && Model.CoverImage != "")
+                                {
+                                    <img src="@(ConfigurationManager.AppSettings["NewsPath"].Replace("~/", "/") + Model.CoverImage)" style="max-height: 300px !important; width: 100% !important;" class="img-responsive" alt="StudentHub.in" />
+                                }
+                                else
+                                {
+                                    <img src="@(ConfigurationManager.AppSettings["Colleges"].Replace("~/", "/") + "default.jpeg")" style="max-height: 300px !important; width: 100% !important;" class="img-responsive" alt="StudentHub.in" />
+                                }
+                                <div class="post-thumb thumb">
+                                    <img src="images/news/l1.jpg" alt="" class="img-responsive img-fullwidth">
+                                </div>
+                            </div>
+                            <div class="entry-content border-1px p-20 pr-10">
+                                <div class="entry-meta media mt-0 no-bg no-border mb-25">
+                                    <div class="entry-date media-left text-center flip bg-theme-colored pt-5 pr-15 pb-5 pl-15">
+                                        <ul>
+                                            <li class="font-16 text-white font-weight-600">28</li>
+                                            <li class="font-12 text-white text-uppercase">Feb</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                @Html.Raw(Model.Description)
+                                @*<p><strong>Also Read: </strong><a href="#"> Career Guide for Nursing: Courses, Fees and Jobs Opportunities</a></p>*@
+                                <div class="clearfix"></div>
+                            </div>
+                        </article>
+
+
+                        @*<div class="col-md-12">
+                          <nav>
+                            <ul class="pagination theme-colored">
+                              <li> <a aria-label="Previous" href="#"> <span aria-hidden="true">«</span> </a> </li>
+                              <li class="active"><a href="#">1</a></li>
+                              <li><a href="#">2</a></li>
+                              <li><a href="#">3</a></li>
+                              <li><a href="#">4</a></li>
+                              <li><a href="#">5</a></li>
+                              <li><a href="#">...</a></li>
+                              <li> <a aria-label="Next" href="#"> <span aria-hidden="true">»</span> </a> </li>
+                            </ul>
+                          </nav>
+                        </div*@
+
+                    </div>
+
+                    @*<div class="blog-posts bg-color-details mt-20">
+                        <div class="section-content">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h2 class="mt-0 text-uppercase font-22">Related News</h2>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-6 col-md-4 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
+                                    <article class="post clearfix mb-sm-30">
+                                        <div class="entry-header box-hover-effect">
+                                            <div class="effect-wrapper">
+                                                <div class="post-thumb thumb">
+                                                    <img src="images/articles/1.jpg" alt="" class="img-responsive img-fullwidth">
+                                                    <div class="overlay-shade"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="entry-content p-0 pr-10">
+                                            <h4 class="entry-title"><a href="#">New Age Engineering Courses In India</a></h4>
+
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </article>
+                                </div>
+
+                                <div class="col-xs-12 col-sm-6 col-md-4 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
+                                    <article class="post clearfix mb-sm-30">
+                                        <div class="entry-header box-hover-effect">
+                                            <div class="effect-wrapper">
+                                                <div class="post-thumb thumb">
+                                                    <img src="images/articles/2.jpg" alt="" class="img-responsive img-fullwidth">
+                                                    <div class="overlay-shade"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="entry-content p-0 pr-10">
+                                            <h4 class="entry-title"><a href="#">UPTET 2019: Exam Dates, Appilication Form, Eligibility</a></h4>
+
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </article>
+                                </div>
+
+                                <div class="col-xs-12 col-sm-6 col-md-4 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
+                                    <article class="post clearfix mb-sm-30">
+                                        <div class="entry-header box-hover-effect">
+                                            <div class="effect-wrapper">
+                                                <div class="post-thumb thumb">
+                                                    <img src="images/articles/3.jpg" alt="" class="img-responsive img-fullwidth">
+                                                    <div class="overlay-shade"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="entry-content p-0 pr-10">
+                                            <h4 class="entry-title"><a href="#">Latest Engineering Courses That </a></h4>
+
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </article>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+                </div>
+                <div class="col-md-4">
+                    <div class="sidebar sidebar-right mt-sm-30 bg-color-details">
+                        <div class="widget mb-20">
+                            <h3 class="widget-title font-weight-600">Admission Updates for 2019</h3>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <a href="#"><h4 class=" apply-now font-weight-500">Acharya Institute of Health Sciences</h4></a>
+                                    <div class="location-area">
+                                        <p> <i class="fa fa-map-marker"></i> Banglore</p>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="button button-apply">Apply Now</button>
+
+                                </div>
+
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <a href="#"><h4 class=" apply-now font-weight-500">Acharya Institute of Health Sciences</h4></a>
+                                    <div class="location-area">
+                                        <p> <i class="fa fa-map-marker"></i> Banglore</p>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="button button-apply">Apply Now</button>
+
+                                </div>
+
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <a href="#"><h4 class=" apply-now font-weight-500">Acharya Institute of Health Sciences</h4></a>
+                                    <div class="location-area">
+                                        <p> <i class="fa fa-map-marker"></i> Banglore</p>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="button button-apply">Apply Now</button>
+
+                                </div>
+
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <a href="#"><h4 class=" apply-now font-weight-500">Acharya Institute of Health Sciences</h4></a>
+                                    <div class="location-area">
+                                        <p> <i class="fa fa-map-marker"></i> Banglore</p>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="button button-apply">Apply Now</button>
+
+                                </div>
+
+                            </div>
+                            <hr>
+
+
+
+
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="sidebar sidebar-right mt-sm-30 bg-color-details mt-20">
+                        <div class="widget mb-20">
+                            <h3 class="widget-title font-weight-600 text-center">Trending Now</h3>
+                            <hr>
+
+                            <div class="side-img mt-5">
+                                <img src="images/news/1.jpg" width="87" alt="" class="img-responsive">
+
+
+
+                                <p><a href="#">IITGN to Organise JEE Open House in Mumbai, Delhi and Gandhinagar</a></p>
+                            </div>
+
+
+                            <hr>
+
+                            <div class="side-img mt-5">
+                                <img src="images/news/2.jpg" width="87" alt="" class="img-responsive">
+
+
+
+                                <p><a href="#">IITGN to Organise JEE Open House in Mumbai, Delhi and Gandhinagar</a></p>
+                            </div>
+
+
+                            <hr>
+
+                            <div class="side-img mt-5">
+                                <img src="images/news/3.jpg" width="87" alt="" class="img-responsive">
+
+
+
+                                <p><a href="#">IITGN to Organise JEE Open House in Mumbai, Delhi and Gandhinagar</a></p>
+                            </div>
+
+
+                            <hr>
+
+
+
+
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="sidebar sidebar-right mt-sm-30 bg-color-details mt-20">
+                        <div class="widget mb-20">
+                            <h3 class="widget-title font-weight-600 text-center">Recent News</h3>
+                            <hr>
+
+                            <p><a href="#">IITGN to Organise JEE Open House in Mumbai, Delhi and Gandhinagar</a></p>
+
+
+
+
+
+                            <hr>
+                            <p><a href="#">IITGN to Organise JEE Open House in Mumbai, Delhi and Gandhinagar</a></p>
+
+                            <hr>
+                            <p><a href="#">IITGN to Organise JEE Open House in Mumbai, Delhi and Gandhinagar</a></p>
+
+
+
+
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="sidebar sidebar-right mt-sm-30 bg-color-details mt-20">
+                        <div class="widget mb-20">
+                            <h3 class="widget-title font-weight-600 text-center">Recent Articles</h3>
+                            <hr>
+
+                            <p><a href="#">IITGN to Organise JEE Open House in Mumbai, Delhi and Gandhinagar</a></p>
+
+
+
+
+
+                            <hr>
+                            <p><a href="#">IITGN to Organise JEE Open House in Mumbai, Delhi and Gandhinagar</a></p>
+
+                            <hr>
+                            <p><a href="#">IITGN to Organise JEE Open House in Mumbai, Delhi and Gandhinagar</a></p>
+
+
+
+
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end main-content -->
+
+</div>

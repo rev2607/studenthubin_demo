@@ -1,0 +1,65 @@
+﻿
+@model IEnumerable<ExamCourses>
+
+@{
+    ViewBag.Title = "Exam Courses Manager";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div style="width: 100%;">
+    <div style="padding: 10px 0px 15px 0px; width: 85%; display: inline-block;">
+        <div style="font-size:x-large; display: inline-block;"><u>Exam Courses Manager</u></div>
+    </div>
+    <div style="padding-top: 10px; width: 14%; display: inline-block;">
+        @Html.ActionLink("Add Exam Course", "SaveExamCourse", null, new { @class = "newaddbutton" })
+    </div>
+</div>
+
+@if (Model != null)
+{
+    <table class="table">
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Type
+            </th>
+            <th>
+                Stream
+            </th>
+            <th>
+                Level
+            </th>
+            <th>
+                Mode
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.exmcrs_Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExamTypes.TypeValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExamStreams.TypeValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExamLevels.TypeValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExamModes.TypeValue)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "SaveExamCourse", new { examcourseid = item.exmcrs_Id }, new { @class = "editsmall" })
+                </td>
+            </tr>
+        }
+
+    </table>
+}

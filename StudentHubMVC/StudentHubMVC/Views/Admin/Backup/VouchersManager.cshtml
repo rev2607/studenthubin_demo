@@ -1,0 +1,162 @@
+﻿@model StudentHubMVC.Liason.EntityLayer.VoucherEN
+
+@{
+    ViewBag.Title = "Vouchers Manager";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Vouchers Manager</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h4>Vouchers List</h4>
+            <table class="table">
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Code
+                    </th>
+                    <th>
+                        Start Date
+                    </th>
+                    <th>
+                        End Date
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                    <th>
+                        Notes
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (System.Data.DataRow item in ((System.Data.DataTable)ViewBag.Vouchers).Rows)
+                {
+                <tr>
+                    <td>
+                        @item["Name"]
+                    </td>
+                    <td>
+                        @item["Code"]
+                    </td>
+                    <td>
+                        @item["StartDate"]
+                    </td>
+                    <td>
+                        @item["EndDate"]
+                    </td>
+                    <td>
+                        @item["Status"]
+                    </td>
+                    <td>
+                        @*@item["Notes"]*@
+                    </td>
+                    <td>
+                        <a href="/admin/vouchersmanager/@item["ID"]">Edit</a>
+                    </td>
+                </tr>
+                }
+
+            </table>
+        </div>
+        <div class="col-md-4" style="border-left: solid thin #91cc42;">
+            <h4>Add/Save Voucher</h4>
+            <hr />
+            @using (Html.BeginForm("AddSaveVoucher", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+
+
+                <div class="form-horizontal">
+                    @if (ViewBag.SaveMessage != "" && ViewBag.SaveMessage != null)
+                {
+                <div class="message">@ViewBag.SaveMessage</div>
+                }
+
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    @if (ViewBag.ID != null && ViewBag.ID != "")
+                    {
+                    <input class="form-control text-box single-line" id="Sno" name="Sno" type="text" value="@ViewBag.ID" style="display: none;">
+                    }
+
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            @Html.LabelFor(model => model.Code, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                            @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control", @type = "date", @min = "2018-01-01", @required = "required" } })
+                            @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control", @type = "date", @min = "2018-01-01", @required = "required" } })
+                            @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            @Html.LabelFor(model => model.Notes, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-8">
+                            @Html.TextAreaFor(model => model.Notes, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-8">
+                            @Html.DropDownListFor(model => model.Status, new List<SelectListItem>
+                           {
+                               new SelectListItem { Value = "ACTIVE", Text = "Active" },
+                               new SelectListItem { Value = "INACTIVE", Text = "InActive" }
+                           }, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-4 col-md-4">
+                            <input type="submit" value="SAVE VOUCHER" class="btn btn-success" />
+                        </div>
+                        <div class="col-md-4">
+                            <a href="/admin/vouchersmanager" class="btn btn-success" style="float: right;">RESET</a>
+                        </div>
+                    </div>
+
+                </div>
+            }
+        </div>
+    </div>
+</div>

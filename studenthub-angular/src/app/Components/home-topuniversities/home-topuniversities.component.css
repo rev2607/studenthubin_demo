@@ -1,0 +1,18 @@
+.W50{
+    width: 50px;
+}
+
+.w30{
+    width: 30px;
+}
+
+.logo_img{
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    line-height: 75px;
+}
+
+.logo_img img{
+    width: 100%;
+}

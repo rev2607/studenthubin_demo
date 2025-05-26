@@ -1,0 +1,22 @@
+.breadcrumb li {
+  color: #fff;
+  font-weight: 500;
+}
+
+.breadcrumb li a {
+  color: #bbb;
+  font-weight: 400;
+}
+
+.breadcrumb {
+  background: none !important;
+}
+
+#news-list a:hover {
+  color: #a8d371;
+}
+
+#news-list img {
+  width: auto;
+  height: 142px;
+}

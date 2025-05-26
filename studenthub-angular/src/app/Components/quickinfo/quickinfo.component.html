@@ -1,0 +1,12 @@
+<div class="row">
+  <div class="col-12 col-sm-12">
+    <div class="d-flex align-items-center breaking-news">
+      <div class="bg_sh_success text-white news p-3 text-center">
+        <h6 class="p-0 m-0">Latest News</h6>
+      </div>
+      <marquee class="news-scroll" behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();"> 
+        <a href="/news/{{news.UrlKeyWord}}" class="dot" *ngFor="let news of latestNews">{{news.Title}} </a>
+      </marquee>
+    </div>
+  </div>
+</div>

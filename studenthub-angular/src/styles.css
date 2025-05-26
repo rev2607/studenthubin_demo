@@ -1,0 +1,164 @@
+html,
+body {
+  height: 100%;
+  font-weight: 300;
+  /* color: #777; */
+  background: #fff;
+  font-family: sans-serif;
+}
+
+a {
+  color: #333;
+  font-weight: 400;
+}
+
+.main_wrapper {
+  display: block;
+  width: 100%;
+  min-height: 100%;
+  height: auto;
+  padding-bottom: 300px;
+}
+
+.login_btns {
+  position: absolute;
+  z-index: 9;
+  top: 0;
+  right: 0;
+}
+
+.text_lgrey {
+  color: #777;
+}
+
+.breadcrumb {
+  padding: 0;
+  background: none;
+}
+
+.btn-success.focus,
+.btn-success:focus,
+.btn-success:not(:disabled):not(.disabled).active:focus,
+.btn-success:not(:disabled):not(.disabled):active:focus,
+.show > .btn-success.dropdown-toggle:focus {
+  box-shadow: none;
+}
+
+.h100p {
+  height: 100%;
+}
+
+.sh_darkblue_bg {
+  background-color: #262443;
+}
+
+.sh_darkwhite_bg {
+  background-color: white;
+}
+
+.btn.btn-outline-darkblue {
+  border: 1px solid #262443;
+  box-shadow: none;
+  color: #262443;
+}
+
+.btn.btn-outline-darkblue:hover,
+.btn.btn-outline-darkblue:focus {
+  background-color: #262443;
+  box-shadow: none;
+  color: #fff;
+}
+
+.btn.btn-outline-darkblue:focus:active,
+.btn.btn-outline-darkblue:active,
+.btn.btn-outline-darkblue:not(:disabled).active {
+  background-color: #262443;
+  color: #fff;
+}
+
+.text-studenthub {
+  color: #a8d371;
+}
+
+.brand_icon {
+  padding: 0;
+  margin: 0;
+}
+
+a.social_icons {
+  color: #fff;
+  text-align: center;
+  background-color: #6d6c88;
+  border-radius: 50%;
+  padding: 0;
+  margin: 0 10px;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  font-size: 1.3rem;
+}
+
+a.social_icons:last-child {
+  margin-right: 0;
+}
+
+a.social_icons:hover {
+  background-color: #a8d371;
+  text-decoration: none;
+}
+
+.text-lightblue {
+  color: #6d6c88;
+}
+
+.bg_sh_success {
+  background-color: #8dc443;
+}
+
+.bg_sh_blue {
+  background-color: #202c45;
+}
+.bg_sh_white {
+  background-color: white;
+}
+
+@media print {
+  .doNotPrint {
+    display: none !important;
+  }
+}
+
+.banner_wrapper {
+  width: 100%;
+  position: relative;
+  margin: 0;
+  /* background: linear-gradient(109.6deg, rgb(102, 203, 149) 11.2%, rgb(39, 210, 175) 98.7%); */
+  /* background: linear-gradient(114.3deg, rgb(19, 126, 57) 0.2%, rgb(8, 65, 91) 68.5%); */
+  padding: 1rem 0 1rem 0;
+}
+
+.breadcrumb li {
+  color: #fff;
+  font-weight: 500;
+}
+
+.breadcrumb li a {
+  color: #bbb;
+  font-weight: 400;
+}
+
+.text_blue {
+  color: #202c45;
+}
+
+/* Sub Page Result List Related */
+.dataTables_wrapper .dataTables_length {
+  float: right !important;
+  margin-left: 10px;
+}
+
+@media (max-width: 425px) {
+  #result-list_wrapper {
+    display: inline-block;
+  }
+}

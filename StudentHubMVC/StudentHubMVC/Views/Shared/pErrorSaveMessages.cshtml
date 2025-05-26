@@ -1,0 +1,17 @@
+﻿
+@if (ViewBag.SaveMessage != "" && ViewBag.SaveMessage != null)
+{
+    <div class="message">@ViewBag.SaveMessage</div>
+}
+@if (Request.Params.AllKeys.Contains("message"))
+{
+    <div class="message">@Request.Params["message"]</div>
+}
+@if (ViewBag.ErrorMessage != "" && ViewBag.ErrorMessage != null)
+{
+    <div class="errormessage">@ViewBag.ErrorMessage</div>
+}
+@if (Request.Params.AllKeys.Contains("errormessage"))
+{
+    <div class="errormessage">@Request.Params["errormessage"]</div>
+}

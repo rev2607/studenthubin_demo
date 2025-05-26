@@ -1,0 +1,294 @@
+﻿@model StudentHubMVC.Models.ViewModels.VMResultsCoursesMaster
+
+@{
+    ViewBag.Title = "Results Courses Master";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    List<SelectListItem> ExamTypesRef = Model.ResultsExamTypesList.OrderBy(d => d.corseTyp_Name).Select(d => new SelectListItem
+    {
+        Text = d.corseTyp_Name,
+        Value = d.corseTyp_Sno.ToString()
+    }).ToList();
+    List<SelectListItem> ExamTypesRef2 = Model.ResultsExamTypesList.OrderBy(d => d.corseTyp_Name).Select(d => new SelectListItem
+    {
+        Text = d.corseTyp_Name,
+        Value = d.corseTyp_Name
+    }).ToList();
+}
+
+<div style="display: inline-block; width: 100%;">
+    <div style="padding: 10px 0px 15px 0px; float: left; display: inline-block;">
+        <div style="font-size:xx-large; display: inline-block;"><u>Results Courses Master</u></div>
+    </div>
+    <div style="padding-top: 20px; float: right; display: inline-block;">
+        <a class="newaddbutton" href="javasript:void(0);" onclick="UploadResultsCoursesClick()" style="margin: 0px 5px;">Upload Results Courses</a>
+    </div>
+    <div style="padding-top: 20px; float: right; display: inline-block;">
+        <a class="newaddbutton" href="javasript:void(0);" onclick="AddNewResultCourseClick()">Add New Result Course</a>
+    </div>
+</div>
+
+@if (ViewBag.SaveMessage != "" && ViewBag.SaveMessage != null)
+{
+    <div class="message">@ViewBag.SaveMessage</div>
+}
+@if (Request.Params.AllKeys.Contains("message"))
+{
+    <div class="message">@Request.Params["message"]</div>
+}
+@if (ViewBag.ErrorMessage != "" && ViewBag.ErrorMessage != null)
+{
+    <div class="errormessage">@ViewBag.ErrorMessage</div>
+}
+@if (Request.Params.AllKeys.Contains("errormessage"))
+{
+    <div class="errormessage">@Request.Params["errormessage"]</div>
+}
+
+<div id="uploadResultsCourses" style="display: none;" class="x_panel">
+    <div class="x_content">
+        @using (Html.BeginForm("UploadResultsCourses", "Admin", FormMethod.Post, new { id = "frmUploadCourses", enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.Label("Exam Type", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownList("UploadExamTypeID", ExamTypesRef, "Select EXAM TYPE", new { @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.Label("Upload Courses", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBox("CoursesUploadFile", "", new { @type = "file", @class = "form-control", @required = "required" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-offset-8 col-md-1">
+                            <span onclick="CoursesUploadCancel()" class="btn btn-primary">Cancel</span>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="submit" value="Upload Courses" class="btn btn-success" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="x_panel" style="display: none;" id="addEditCourse">
+    <div class="x_content">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-horizontal">
+
+                @Html.HiddenFor(model => model.ResultCourse.corse_Sno)
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.Label("Course Name", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.ResultCourse.corse_Name, new { @class = "form-control", @required = "required", @maxlength = 80 })
+                            @Html.ValidationMessageFor(model => model.ResultCourse.corse_Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.Label("Exam Type", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => Model.ResultCourse.corse_CourseType, ExamTypesRef, "Select EXAM TYPE", new { @class = "form-control", @required = "required" })
+                            @Html.ValidationMessageFor(model => model.ResultCourse.corse_CourseType, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.Label("District ID", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.ResultCourse.corse_ID, new { @class = "form-control", @required = "required", @maxlength = 15 })
+                            @Html.ValidationMessageFor(model => model.ResultCourse.corse_ID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-offset-8 col-md-1">
+                            <span onclick="Cancel()" class="btn btn-primary">Cancel</span>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="submit" value="Save Course" class="btn btn-success" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table">
+        <tr>
+            <th>
+                Course Name
+            </th>
+            <th>
+                Exam Type
+            </th>
+            <th>
+                ID
+            </th>
+            <th style="width: 18%;">
+                @Html.DropDownList("typesFilter", ExamTypesRef2, "ALL", new { @class = "form-control", @onchange = "filterText();", @style = "width: 200px; border: solid;" })
+            </th>
+        </tr>
+        @if (Model.ResultsCoursesMasterList != null && Model.ResultsCoursesMasterList.Any())
+        {
+            foreach (var type in Model.ResultsCoursesMasterList)
+            {
+                <tr class="typeContent">
+                    <td>@type.corse_Name</td>
+                    <td>@Model.ResultsExamTypesList.FirstOrDefault(_ => _.corseTyp_Sno == type.corse_CourseType).corseTyp_Name </td>
+                    <td>@type.corse_ID</td>
+                    <td>
+                        <span class="edittypee editsmall" onclick="EditCourse('@type.corse_Sno', '@type.corse_CourseType', '@type.corse_ID', '@type.corse_Name')"></span>
+                        <div style="cursor: pointer; display: inline-block;" class="deletesmall" title="Delete Group Type" onclick="deleteDropdownType('@type.corse_CourseType', '@type.corse_Sno', this);"></div>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr class="typeContent">
+                <td colspan="4">NO RESULTS COURSES ADDED IN THE SYSTEM</td>
+            </tr>
+        }
+    </table>
+</div>
+
+
+@section scripts
+{
+    <script>
+
+        /* --------------------------------------------------------------- ADD/EDIT COURSE */
+        function AddNewResultCourseClick() {
+            ClearCourseDetails();
+            ShowCourseEdit();
+        }
+
+        function EditCourse(Sno, ExamTypeID, CourseID, Name) {
+            ClearCourseDetails();
+            $("#ResultCourse_corse_Name").val(Name);
+            $("#ResultCourse_corse_CourseType").val(ExamTypeID);
+            $("#ResultCourse_corse_ID").val(CourseID);
+            $("#ResultCourse_corse_Sno").val(Sno);
+            ShowCourseEdit();
+            $("html, body").animate({ scrollTop: 0 }, "slow");
+        }
+
+        function Cancel() {
+            HideCourseEdit();
+            ClearCourseDetails();
+        }
+
+        function ClearCourseDetails() {
+            $("#ResultCourse_corse_Name").val("");
+            $("#ResultCourse_corse_CourseType").val("");
+            $("#ResultCourse_corse_ID").val("");
+            $("#ResultCourse_corse_Sno").val("");
+        }
+
+        function ShowCourseEdit() {
+            $("#addEditCourse").show();
+        }
+
+        function HideCourseEdit() {
+            $("#addEditCourse").hide();
+        }
+
+
+        /* --------------------------------------------------------------- COURSES UPLOAD */
+
+        function UploadResultsCoursesClick() {
+            ShowUploadCourses();
+        }
+
+        function CoursesUploadCancel() {
+            HideUploadCourses();
+            ClearCoursesUpload();
+        }
+
+        function ClearCoursesUpload() {
+            $("#CoursesUploadFile").val("");
+            $("#UploadExamTypeID").val("");
+        }
+
+        function ShowUploadCourses() {
+            $("#uploadResultsCourses").show();
+        }
+
+        function HideUploadCourses() {
+            $("#uploadResultsCourses").hide();
+        }
+
+        /* ------------------------------------------------------------- FILTER COURSES GRID */
+        function filterText() {
+            var rex = new RegExp($('#typesFilter').val());
+
+            if (rex == "/Select GROUP/") { clearFilter() } else {
+                $('.typeContent').hide();
+                $('.typeContent').filter(function () {
+                    return rex.test($(this).text());
+                }).show();
+            }
+        }
+
+        function clearFilter() {
+            $('.typesFilter').val('');
+            $('.typeContent').show();
+        }
+
+        function deleteDropdownType(type, id, ele) {
+
+            if (deleteConfirm("Are You Sure?")) {
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("DeleteDropdownType")',
+                    data: { dropdownType: type, id: id},
+                    error: function (er) {
+                        alert(er);
+                    },
+                    success: function (result) {
+                        if (result == "") {
+                            $(ele).closest("tr").remove();
+                            alert('Type Delete');
+                        }
+                        else {
+                            alert(result);
+                        }
+                    }
+                });
+            }
+            //else {
+            //    alert(type + id);
+            //}
+        }
+
+    </script>
+}

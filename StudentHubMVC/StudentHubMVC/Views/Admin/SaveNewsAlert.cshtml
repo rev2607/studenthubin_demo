@@ -1,0 +1,226 @@
+﻿@model StudentHubMVC.NewsAlerts
+
+@{
+    ViewBag.Title = "SaveNewsAlert";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+    var context = new Entities();
+
+    var NewsTypes = context.DropdownTypes.Where(type => type.GroupName == "NEWS").Select(type => new SelectListItem
+    {
+        Text = type.TypeValue,
+        Value = type.DropdownTypeId.ToString()
+    }).ToList();
+
+    var Courses = context.MainCourses.Select(course => new SelectListItem
+    {
+        Value = course.MainCourseId.ToString(),
+        Text = course.Name
+    }).ToList();
+
+    var Institutions = context.Institutions.Select(institution => new SelectListItem
+    {
+        Value = institution.InstitutionId.ToString(),
+        Text = institution.Name
+    }).ToList();
+}
+
+<div style="width: 100%;">
+    <div style="padding: 10px 0px 15px 0px; width: 80%; display: inline-block;">
+        <div style="font-size:x-large; display: inline-block;"><u>@Html.ActionLink("News Alerts Manager", "NewsAlertsManager")</u></div>
+        &nbsp;>&nbsp;
+        <div style="font-size: larger; display: inline-block; font-weight: bold;">Save News Alert</div>
+    </div>
+    <div style="padding-top: 10px; width: 19%; display: inline-block;">
+        @Html.ActionLink("Add News Alert", "SaveNewsAlert", new { newsid = "" }, new { @class = "newaddbutton", @style = "width: 80%; float: left;" })
+        <form method="post" action="@Url.Action("DeleteNewsAlert")" id="frmDeleteNewsAlert" name="frmDeleteNewsAlert">
+            @Html.Hidden("newsId", Model.NewsId)
+            @if (Model.NewsId > 0)
+            {
+                <img alt="Delete News Alert" title="Delete News Alert" class="deletesmall" onclick="deleteNewsAlert();" style="margin: 4px;" />
+            }
+        </form>
+    </div>
+</div>
+
+@using (Html.BeginForm("SaveNewsAlert", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="x_panel">
+        @*<div class="x_title">
+
+            </div>*@
+        <div class="x_content">
+            <div class="form-horizontal">
+
+                @if (ViewBag.SaveMessage != "" && ViewBag.SaveMessage != null)
+                {
+                    <div class="message">@ViewBag.SaveMessage</div>
+                }
+                @if (Request.Params.AllKeys.Contains("message"))
+                {
+                    <div class="message">@Request.Params["message"]</div>
+                }
+                @if (ViewBag.ErrorMessage != "" && ViewBag.ErrorMessage != null)
+                {
+                    <div class="errormessage">@ViewBag.ErrorMessage</div>
+                }
+                @if (Request.Params.AllKeys.Contains("errormessage"))
+                {
+                    <div class="errormessage">@Request.Params["errormessage"]</div>
+                }
+
+                @Html.HiddenFor(model => model.NewsId)
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label" }) *
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.Title, new { @class = "form-control width100", @required = "required", @maxlength = "200", @onchange = "nameToKeyword()", @onkeyup = "nameToKeyword()", @id = "Name" })
+                            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.NewsTypeId, htmlAttributes: new { @class = "control-label" }) *
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.NewsTypeId, NewsTypes, "Select", new { @class = "form-control", @required = "required" })
+                            @Html.ValidationMessageFor(model => model.NewsTypeId, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.UrlKeyword, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.UrlKeyword, new { @class = "form-control width100", @maxlength = "100", @id = "UrlKeyword" })
+                            @Html.ValidationMessageFor(model => model.UrlKeyword, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label" }) *
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.Description, new { @class = "form-control width100 texttoolbox", @rows = "25", @required = "required" })
+                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.CourseId, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.CourseId, Courses, "Select Course", htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.CourseId, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.InstitutionId, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.InstitutionId, Institutions, "Select Institution", htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.InstitutionId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.CoverImage, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row" style="padding-bottom: 10px;">
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.CoverImage, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                </div>
+                                @if (Model != null)
+                                {
+                                    <div class="col-md-4">
+                                        <a href="~/assets/img/news/@Model.CoverImage" target="_blank" title="Click to View Cover Image"><img src="~/assets/img/news/@Model.CoverImage" alt="" class="img-thumbnail" /></a>
+                                    </div>
+                                }
+                            </div>
+                            <input type="file" name="UploadCoverImage" id="UploadCoverImage" class="form-control" />
+                            @Html.ValidationMessageFor(model => model.CoverImage, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.Keywords, htmlAttributes: new { @class = "control-label col-md-2" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextAreaFor(model => model.Keywords, new { @class = "form-control width100", @maxlength = "200" })
+                            @Html.ValidationMessageFor(model => model.Keywords, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.Status, new List<SelectListItem> {
+                                new SelectListItem { Text = "ACTIVE", Value = "ACTIVE" },
+                                new SelectListItem { Text = "INACTIVE", Value = "INACTIVE" }
+                            }, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.ExpiryDate, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.ExpiryDate, new { @class = "form-control datepicker" })
+                            @Html.ValidationMessageFor(model => model.ExpiryDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-offset-8 col-md-1">
+                            @Html.ActionLink("Cancel", "SaveNewsAlert", null, new { @class = "btn btn-primary" })
+                        </div>
+                        <div class="col-md-2">
+                            <input type="submit" value="Save News Alert" class="btn btn-success" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+<div>
+    @Html.ActionLink("Back to News Alerts Manager", "NewsAlerts", null, new { @class = "btn btn-default" })
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        
+        function deleteNewsAlert() {
+
+            if (deleteConfirm("Are you sure to Delete News Alert?")) {
+
+                $("#frmDeleteNewsAlert").submit();
+            }
+        }
+    </script>
+}

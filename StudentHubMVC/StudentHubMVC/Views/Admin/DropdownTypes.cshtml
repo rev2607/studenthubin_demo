@@ -1,0 +1,207 @@
+﻿@model StudentHubMVC.DropdownTypes
+
+@{
+    /**/
+
+    ViewBag.Title = "Group Types Manager";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    List<SelectListItem> DropdownRefs = new Entities().DropdownTypesRefs.Where(d => d.Status == true).OrderBy(d => d.Text).Select(d => new SelectListItem
+    {
+        Text = d.Text,
+        Value = d.Value
+    }).ToList();
+}
+
+<div style="width: 100%;">
+    <div style="padding: 10px 0px 15px 0px; width: 75%; display: inline-block;">
+        <div style="font-size:xx-large; display: inline-block;"><u>Group Types</u></div>
+        @*&nbsp;>&nbsp;
+            <div style="font-size:larger; display: inline-block; font-weight: bold;">Save Course</div>*@
+    </div>
+    <div style="padding-top: 10px; width: 24%; display: inline-block;">
+        @Html.ActionLink("Add New Group Type", "DropdownTypes", new { id = "" }, new { @class = "newaddbutton" })
+    </div>
+</div>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="x_panel">
+        @*<div class="x_title">
+
+            </div>*@
+        <div class="x_content">
+            <div class="form-horizontal">
+
+                @if (ViewBag.SaveMessage != "" && ViewBag.SaveMessage != null)
+                {
+                    <div class="message">@ViewBag.SaveMessage</div>
+                }
+                @if (Request.Params.AllKeys.Contains("message"))
+                {
+                    <div class="message">@Request.Params["message"]</div>
+                }
+                @if (ViewBag.ErrorMessage != "" && ViewBag.ErrorMessage != null)
+                {
+                    <div class="errormessage">@ViewBag.ErrorMessage</div>
+                }
+                @if (Request.Params.AllKeys.Contains("errormessage"))
+                {
+                    <div class="errormessage">@Request.Params["errormessage"]</div>
+                }
+
+                @Html.HiddenFor(model => model.DropdownTypeId)
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.Label("Group", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(model => Model.GroupName, DropdownRefs, "Select GROUP", new { @class = "form-control", @required = "required" })
+                            @Html.ValidationMessageFor(model => model.GroupName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.Label("Group Type", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.TypeValue, new { htmlAttributes = new { @class = "form-control", @required = "required", @onchange = "nameToKeyword()", @onkeyup = "nameToKeyword()", @maxlength = 30 } })
+                            @Html.ValidationMessageFor(model => model.TypeValue, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.Label("Group Type Keyword", htmlAttributes: new { @class = "control-label", @maxlength = 30 })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.TypeValueUrlKeyword, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.TypeValueUrlKeyword, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-offset-8 col-md-1">
+                            <a href="@Url.Action("DropdownTypes")" class="btn btn-primary">Cancel</a>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="submit" value="Save Group Type" class="btn btn-success" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+
+@{
+    var context = new Entities();
+
+    var Types = context.DropdownTypes.Select(drptype => new
+    {
+        DropdownTypeId = drptype.DropdownTypeId,
+        GroupName = drptype.GroupName,
+        TypeValue = drptype.TypeValue,
+        UrlKeyword = drptype.TypeValueUrlKeyword
+    }).OrderBy(a => new { a.GroupName, a.TypeValue }).AsEnumerable();
+}
+
+@if (Types != null && Types.Count() > 0)
+{
+    <div class="table-responsive">
+        <table class="table">
+            <tr>
+                @*<th>
+                        ID
+                    </th>*@
+                <th>
+                    Group Name
+                </th>
+                <th>
+                    Type Value
+                </th>
+                <th>
+                    URL Keyword
+                </th>
+                <th style="width: 18%;">
+                    @Html.DropDownList("typesFilter", DropdownRefs, "ALL", new { @class = "form-control", @onchange = "filterText();", @style = "width: 200px; border: solid;" })
+                </th>
+            </tr>
+            @foreach (var type in Types)
+            {
+                <tr class="typeContent">
+                    @*<td>@type.DropdownTypeId</td>*@
+                    <td>@type.GroupName</td>
+                    <td>@type.TypeValue</td>
+                    <td>@type.UrlKeyword</td>
+                    <td>
+                        @Html.ActionLink("Edit", "DropdownTypes", new { id = @type.DropdownTypeId }, new { @class = "edittypee editsmall" })
+                        <div style="cursor: pointer; display: inline-block;" class="deletesmall" title="Delete Group Type" onclick="deleteDropdownType('@type.GroupName', '@type.DropdownTypeId', this);"></div>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+
+}
+
+
+@section scripts
+{
+    <script>
+
+        function filterText() {
+            var rex = new RegExp($('#typesFilter').val());
+            
+            if (rex == "/Select GROUP/") { clearFilter() } else {
+                $('.typeContent').hide();
+                $('.typeContent').filter(function () {
+                    return rex.test($(this).text());
+                }).show();
+            }
+        }
+	
+        function clearFilter() {
+            $('.typesFilter').val('');
+            $('.typeContent').show();
+        }
+
+        function deleteDropdownType(type, id, ele) {
+            
+            if (deleteConfirm("Are You Sure?")) {
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("DeleteDropdownType")',
+                    data: { dropdownType: type, id: id},
+                    error: function (er) {
+                        alert(er);
+                    },
+                    success: function (result) {
+                        if (result == "") {
+                            $(ele).closest("tr").remove();
+                            alert('Type Delete');
+                        }
+                        else {
+                            alert(result);
+                        }
+                    }
+                });                
+            }
+            //else {
+            //    alert(type + id);
+            //}
+        }
+
+    </script>
+}

@@ -1,0 +1,67 @@
+                <div id="reqStatus" class="req" style="margin-bottom: 10px;">
+                    <span id="lblStatus"></span>
+                </div>
+                <div class="resultRow">
+                    <p>Hall Ticket No</p>
+                    <div class="stly2">
+                        <span id="lblHTNo">{{result.HallTicketNumber}} </span>
+                    </div>
+                </div>
+                <div class="resultRow">
+                    <p>Name</p>
+                    <div class="stly2">
+                        <span id="lblName">{{result.FullName}}</span>
+                    </div>
+                </div>
+
+                <div class="resultRow">
+                    <p>Father's Name</p>
+                    <div class="stly2">
+                        <span id="lblResultGrade">{{result.FathersName}}</span>
+                    </div>
+                </div>
+                <div class="resultRow">
+                    <p>Mother's Name</p>
+                    <div class="stly2">
+                        <span id="lblResultGrade">{{result.MothersName}}</span>
+                    </div>
+                </div>
+                
+                <div class="clear"></div>
+
+                <!-- Result Table -->
+                <div class="w-100 table-responsive">
+                    <table bordered="0" class="first-year">
+                        <tbody>
+                            <tr>
+                                <th>Rank</th>
+                                <td>{{result.Rank}}</td>
+                            </tr>
+                            <tr>
+                                <th>Status</th>
+                                <td>{{result.Status}}</td>
+                            </tr>
+                            <tr>
+                                <th>Mathematics</th>
+                                <td>{{result.Mathematics}}</td>
+                            </tr>
+                            <tr>
+                                <th>Physics</th>
+                                <td>{{result.Physics}}</td>
+                            </tr>
+                            <tr>
+                                <th>Chemistry</th>
+                                <td>{{result.Chemistry}}</td>
+                            </tr>
+                            <tr>
+                                <th>Total</th>
+                                <td>{{result.Total}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="clear"></div>
+
+                <!-- Result Instructions -->
+                <div class="clear"></div>
+                <div class="ad320" style="width:100%; text-align:center; margin-bottom:10px;  margin-top:10px; display:none;"></div>

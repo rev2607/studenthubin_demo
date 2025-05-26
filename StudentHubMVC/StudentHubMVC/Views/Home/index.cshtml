@@ -1,0 +1,20 @@
+﻿@model StudentHubMVC.Models.ViewModels.Home.VMHomeIndex
+
+@{
+    ViewBag.Title = "index";
+    Layout = "~/Views/Shared/_LayoutFront.cshtml";
+}
+
+
+<!-- Start main-content -->
+<div class="main-content">
+    
+    @Html.Partial("__HomeSliderandSearch")
+    @Html.Partial("__ExploreNow")
+    @Html.Partial("__Notifications")
+    @Html.Partial("__TopFeaturedColleges", Model)
+    @*@Html.Partial("__Articles")*@
+    @Html.Partial("__News", Model)
+    @Html.Partial("__Videos")
+
+</div>

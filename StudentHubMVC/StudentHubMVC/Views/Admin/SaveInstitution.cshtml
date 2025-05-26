@@ -1,0 +1,515 @@
+﻿@using System.Configuration;
+
+@model StudentHubMVC.Institutions
+
+@{
+    ViewBag.Title = "Institution Save";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+    List<SelectListItem> InstitutionTypes = new Entities().DropdownTypes.Where(d => d.GroupName == "INSTITUTIONTYPE").Select(d => new SelectListItem
+    {
+        Text = d.TypeValue,
+        Value = d.TypeValueUrlKeyword
+    }).ToList();
+}
+
+<div style="width: 100%;">
+    <div style="padding: 10px 0px 15px 0px; width: 60%; display: inline-block;">
+        <div style="font-size:x-large; display: inline-block;"><u>@Html.ActionLink("Institutions Manager", "InstitutionsManager")</u></div>
+        &nbsp;>&nbsp;
+        <div style="font-size:larger; display: inline-block; font-weight: bold;">Save Institution</div>
+    </div>
+    <div style="padding-top: 10px; width: 39%; display: inline-block; ">
+        <div style="width: 39%;display: inline-block;float: left; ">
+            @Html.ActionLink("Add Institution", "SaveInstitution", new { institutionid = "" }, new { @class = "newaddbutton" })
+        </div>
+
+        @if (Model != null && Model.InstitutionId > 0)
+        {
+            <div style="width: 50%;display: inline-block; float: left; margin-left: 4px;">
+                @Html.ActionLink("Add Institution Course", "SaveInstitutionCourse", null, new { @class = "newaddbutton" })
+            </div>
+            <div style="width: 8%;display: inline-block; float: left;">
+                <form method="post" action="@Url.Action("DeleteInstitution")" id="frmDeleteInstitution" name="frmDeleteInstitution" style="">
+                    @Html.Hidden("institutionId", Model.InstitutionId)
+                    <img alt="Delete Institution" title="Delete Institution" class="deletesmall" onclick="deleteInstitution();" style="margin: 4px;" />
+                </form>
+            </div>
+        }
+
+    </div>
+</div>
+
+@using (Html.BeginForm("SaveInstitution", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="x_panel">
+        @*<div class="x_title">
+
+            </div>*@
+        <div class="x_content">
+            <div class="form-horizontal">
+
+                @{ Html.RenderPartial("pErrorSaveMessages"); }
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                @Html.HiddenFor(model => model.InstitutionId, new { @style = "display: none;" })
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control width100", @required = "required", @onchange = "nameToKeyword()", @onkeyup = "nameToKeyword()", @maxlength = "150" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.Type, InstitutionTypes, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.UrlKeyword, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.UrlKeyword, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                            @Html.ValidationMessageFor(model => model.UrlKeyword, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.About, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.About, new { @class = "form-control width100 richtexteditor" })
+                            @Html.ValidationMessageFor(model => model.About, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Address, new { htmlattributes = new { @class = "form-control width100", @maxlength = "200" } })
+                            @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.Area, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.Area, new { htmlAttributes = new { @class = "form-control", @required = "required", @maxlength = "50" } })
+                            @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                            @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.Pincode, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.Pincode, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                            @Html.ValidationMessageFor(model => model.Pincode, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                            @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.MapLocation, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.MapLocation, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.MapLocation, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.Phone1, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.Phone1, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Phone1, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.Phone2, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.Phone2, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Phone2, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.LandLine, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.LandLine, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.LandLine, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.Website, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.Website, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Website, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.Email1, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.Email1, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Email1, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.Email2, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.Email2, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Email2, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+
+
+                @if (Model != null && Model.InstitutionId > 0)
+                {
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label class="control-label" for="">Branches</label>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="row">
+                                    <div class="col-md-2 col-md-push-10">
+                                        <!-- Button trigger modal -->
+                                        <span type="button" id="newAddress" class="newaddbutton" data-toggle="modal" data-target="#divAddress" style="font-size: smaller; width: 75%;">
+                                            + Add Branch
+                                        </span>
+                                    </div>
+                                </div>
+                                @if (Model != null && Model.Addresses.Count > 0)
+                                {
+                                    <div class="row" style="padding-bottom: 10px;">
+                                        @foreach (Addresses address in Model.Addresses)
+                                        {
+                                            <div class="col-md-2" style="border-left: solid #8dc642; margin-left: 10px;">
+                                                <label style="display: none;" id="addressId">@address.AddressId</label>
+                                                <span id="addressEdit" type="button" class="editsmall addressEdit" data-toggle="modal" data-target="#divAddress" style="float: right;" title="Edit Address">
+                                                    Edit
+                                                </span>
+                                                <div style="font-size: smaller;">
+                                                    <p style="width: 100%;margin: 0px;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;"><i class="fa fa-university" aria-hidden="true" style="width: 12px;"></i> | <b>@address.Name</b></p>
+                                                    <p style="width: 100%;margin: 0px;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;"><i class="fa fa-street-view" aria-hidden="true" style="width: 12px;"></i> | @address.Area</p>
+                                                    <p style="width: 100%;margin: 0px;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;"><i class="fa fa-map-marker" aria-hidden="true" style="width: 12px;"></i> | @address.City</p>
+                                                    <p style="width: 100%;margin: 0px;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;"><i class="fa fa-phone" aria-hidden="true" style="width: 12px;"></i> | @address.Phone1</p>
+                                                    <p style="width: 100%;margin: 0px;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;"><i class="fa fa-mobile" aria-hidden="true" style="width: 12px;"></i> | @address.Mobile1</p>
+                                                    <p style="width: 100%;margin: 0px;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;"><i class="fa fa-envelope-o" aria-hidden="true" style="width: 12px;"></i> | @address.Email1</p>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.Status, new List<SelectListItem> {
+                                new SelectListItem { Text = "Active", Value = "ACTIVE" },
+                                new SelectListItem { Text = "Inactive", Value = "INACTIVE" }
+                            }, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.CheckBox("IsTop")
+                            @Html.LabelFor(model => model.IsTop, htmlAttributes: new { @class = "control-label" })
+                            @Html.ValidationMessageFor(model => model.IsTop, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.CheckBox("IsFeatured")
+                            @Html.LabelFor(model => model.IsFeatured, htmlAttributes: new { @class = "control-label" })
+                            @Html.ValidationMessageFor(model => model.IsFeatured, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.CheckBox("IsTrending")
+                            @Html.LabelFor(model => model.IsTrending, htmlAttributes: new { @class = "control-label" })
+                            @Html.ValidationMessageFor(model => model.IsTrending, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.Label("Others", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10" style="padding: 15px 10px;">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    @Html.CheckBox("JobAssistance")
+                                    @Html.LabelFor(model => model.JobAssistance, htmlAttributes: new { @class = "control-label" })
+                                    @Html.ValidationMessageFor(model => model.JobAssistance, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-3">
+                                    @Html.CheckBox("TrainingSatisfaction")
+                                    @Html.LabelFor(model => model.TrainingSatisfaction, htmlAttributes: new { @class = "control-label" })
+                                    @Html.ValidationMessageFor(model => model.TrainingSatisfaction, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-3">
+                                    @Html.CheckBox("JobGurarantee")
+                                    @Html.LabelFor(model => model.JobGurarantee, htmlAttributes: new { @class = "control-label" })
+                                    @Html.ValidationMessageFor(model => model.JobGurarantee, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-3">
+                                    @Html.CheckBox("IsVerified")
+                                    @Html.LabelFor(model => model.IsVerified, htmlAttributes: new { @class = "control-label" })
+                                    @Html.ValidationMessageFor(model => model.IsVerified, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.Logo, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.Logo, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                    @Html.ValidationMessageFor(model => model.Logo, "", new { @class = "text-danger" })
+                                </div>
+                                @if (Model != null)
+                                {
+                                    <div class="col-md-4">
+                                        <a href="@ConfigurationManager.AppSettings["InstitutionLogosPath"].Replace("~", "")@Model.Logo" target="_blank" title="Click to View Cover Image"><img src="@ConfigurationManager.AppSettings["InstitutionLogosPath"].Replace("~", "")@Model.Logo" alt="" class="img-thumbnail" /></a>
+                                    </div>
+                                }
+                                <div class="col-md-12" style="padding-top: 5px;">
+                                    <input type="file" name="uploadlogo" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.Broucher, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.Broucher, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                    @Html.ValidationMessageFor(model => model.Broucher, "", new { @class = "text-danger" })
+                                </div>
+                                @if (Model != null && Model.Broucher != null && Model.Broucher != "")
+                                {
+                                    <div class="col-md-4">
+                                        <a href="@ConfigurationManager.AppSettings["BrouchersPath"].Replace("~", "")@Model.Broucher" target="_blank" title="Click to View Broucher File" class="btn btn-dark">File</a>
+                                    </div>
+                                }
+                                <div class="col-md-12" style="padding-top: 5px;">
+                                    <input type="file" name="uploadbroucher" class="form-control" />
+                                </div>
+                            </div>
+
+                            @Html.EditorFor(model => model.Broucher, new { htmlAttributes = new { @class = "form-control", @style = "display: none;" } })
+                            @Html.ValidationMessageFor(model => model.Broucher, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-offset-8 col-md-1">
+                            @Html.ActionLink("Cancel", "SaveInstitution", new { institutionid = "" }, new { @class = "btn btn-primary" })
+                        </div>
+                        <div class="col-md-2">
+                            <input type="submit" value="Save Institution" class="btn btn-success" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+
+<!-- Modal -->
+<div class="modal fade" id="divAddress" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 1000px;">
+        <div class="modal-content">
+            @*<div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                </div>*@
+            <div class="modal-body" id="editAddress">
+
+            </div>
+            @*<div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>*@
+        </div>
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Back to Institutions Manager", "InstitutionsManager", null, new { @class = "btn btn-default" })
+</div>
+
+
+@if (Model != null && Model.MainCourses.Count > 0)
+{
+    <table class="table" style="margin-top: 10px;">
+        <thead>
+            <tr>
+                <th>Course Name</th>
+                @*<th>Fee</th>
+                    <th>Duration</th>*@
+                <th class="text-center">Training Modes</th>
+                <th></th>
+                @*<th class="text-center">Online Training</th>
+                    <th class="text-center">Proxy</th>
+                    <th class="text-center">Corporate Training</th>
+                    <th class="text-center">Internship</th>*@
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (InstitutionCourses course in Model.MainCourses.OrderBy(s => s.MainCourses.Name))
+            {
+                <tr>
+                    <td>@course.MainCourses.Name</td>
+                    <td style="text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">@string.Join(" | ", course.InstitutionCourseTrainingModes.OrderBy(s => s.TrainingModes.TypeValue).Select(s => s.TrainingModes.TypeValue).ToList().ToArray())</td>
+                    @*<td>@course.CourseFee</td>
+                        <td>@course.Duration</td>*@
+                    @*<td class="text-center">@Html.CheckBox("ClassRoomTraining", bool.Parse(@course.ClassRoomTraining), new { @disabled = "disabled" })</td>
+                        <td class="text-center">@Html.CheckBox("OnlineTraining", bool.Parse(@course.OnlineTraining), new { @disabled = "disabled" })</td>
+                        <td class="text-center">@Html.CheckBox("Proxy", bool.Parse(@course.Proxy), new { @disabled = "disabled" })</td>
+                        <td class="text-center">@Html.CheckBox("CorporateTraining", bool.Parse(@course.CorporateTraining), new { @disabled = "disabled" })</td>
+                        <td class="text-center">@Html.CheckBox("Internship", bool.Parse(@course.Internship), new { @disabled = "disabled" })</td>*@
+                    <td>@Html.ActionLink("Edit", "SaveInstitutionCourse", new { InstitutionCourseId = @course.InstitutionCourseId }, new { @class = "editsmall" }) | 
+                    @Html.ActionLink("Delete", "DeleteInstitutionCourse", new { InstitutionCourseId = @course.InstitutionCourseId }, new { @class = "deletesmall" })</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+        });
+
+        $("#newAddress").click(function () {
+            getAddressData(0);
+        });
+
+        $(".addressEdit").click(function () {
+            var addressCurrent = $(this).parent().find("#addressId").text();
+            //alert(addressCurrent);
+            getAddressData(addressCurrent);
+        });
+
+        function getAddressData(addressId) {
+            var URL = '@Url.Action("GetInstituteAddress")';
+            //alert(URL);
+
+            $.ajax({
+                type: 'post',
+                url: URL,
+                data: { id: addressId },
+                error: function (e) {
+                    alert(e.message);
+                },
+                success: function (data) {
+                    $("#editAddress").empty();
+                    $("#editAddress").html(data);
+
+                    if (!addressId > 0) {
+                        $("#editAddress #InstitutionId").val($("#InstitutionId").val());
+                    }
+
+                    $("#divAddress").show();
+                }
+            });
+        }
+
+        function deleteInstitution() {
+
+            if (deleteConfirm("Deleting Institution will delete all Institution related Data \nAre you sure to Delete Institution?")) {
+
+                $("#frmDeleteInstitution").submit();
+            }
+        }
+
+    </script>
+}

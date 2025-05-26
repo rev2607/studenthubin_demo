@@ -1,0 +1,48 @@
+<div class="banner_wrapper bg_sh_blue">
+  <div class="container">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Results</li>
+      </ol>
+    </nav>
+    <div class="col-12 col-sm-12 pl-0 pr-0 pt-3" *ngIf="filterData">
+      <div class="row">
+        <div class="col-12 col-sm-4 form-group">
+          <select class="form-control fc-height50" id="exampleFormControlSelect1" ngDefaultControl [(ngModel)]="selectedState">
+            <option>Select State</option>
+            <option *ngFor="let state of filterData.States" [value]="state">{{state}}</option>
+          </select>
+        </div>
+        <div class="col-12 col-sm-4 form-group">
+          <select class="form-control fc-height50" id="exampleFormControlSelect1" ngDefaultControl [(ngModel)]="selectedExamType">
+            <option>Select Examination</option>
+            <option *ngFor="let examType of filterData.ExamTypes" [value]="examType">{{examType}}</option>
+          </select>
+        </div>
+        <!-- <div class="col-12 col-sm-3 form-group">
+          <select class="form-control fc-height50" id="exampleFormControlSelect1" ngDefaultControl [(ngModel)]="selectedExam">
+            <option>Select Exam</option>
+            <option *ngFor="let exam of exams" [value]="exam">{{exam}}</option>
+          </select>
+        </div> -->
+        <div class="col-12 col-sm-4 form-group" ngDefaultControl [(ngModel)]="selectedYear">
+          <select class="form-control fc-height50" id="exampleFormControlSelect1">
+            <option>Select Year</option>
+            <option *ngFor="let year of filterData.Years" [value]="year">{{year}}</option>
+          </select>
+        </div>
+        <!-- <div class="col-12 col-sm-2 form-group">
+          <button type="button" class="btn btn-success btn-lg btn-block">Search</button>
+        </div> -->
+      </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-sm-12 pt-4 pb-4">
+          <app-searchresults [selectedState]="selectedState" [selectedExamType]="selectedExamType" [selectedYear]="selectedYear"></app-searchresults>
+        </div>
+      </div>
+    </div>

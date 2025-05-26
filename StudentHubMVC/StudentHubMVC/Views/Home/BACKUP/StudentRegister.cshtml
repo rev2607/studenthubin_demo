@@ -1,0 +1,148 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutFront.cshtml";
+}
+
+
+<!--Start Eduspace banner Section-->
+@*<section class="eduspace-banner" style="padding-top:50px;">
+    <div class="edu-overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="eduspace-banner-header">
+                    <h2>Student Registration</h2>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item active">Student Registration</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>*@<!--End Eduspace banner Section-->
+<!--Start registraion-form Section-->
+<section class="registraion-form section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="edu-title text-center">
+                    <h2>Register For a Course</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="registration-form-area">
+                    <form class="row" method="Post" action="#">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="f_name">Full Name</label>
+                                <input type="text" class="form-control" placeholder="Enter Your Name" id="f_name" name="name" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="selectgender">Gender:</label>
+                                <select class="form-control" id="selectgender">
+                                    <option value="">Select Gender</option>
+                                    <option value="MALE">Male</option>
+                                    <option value="FEMALE">Female</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="r_email">Email Here</label>
+                                <input type="email" class="form-control" placeholder="Enter Your Email" id="r_email" name="email" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="R_number">Phone Here</label>
+                                <input type="text" class="form-control" placeholder="Enter Your phone Number" id="R_phonenumber" name="phonenumber" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="r_password">Password</label>
+                                <input type="password" class="form-control" placeholder="Enter Your Password" id="r_password" name="email" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="R_confirmpassword">Confirm Password</label>
+                                <input type="password" class="form-control" placeholder="Confirm Password" id="R_confirmpassword" name="number" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="r_age">Age Here</label>
+                                <input type="text" class="form-control" placeholder="Enter Your Age" id="r_age" name="age" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="R_number">Education Here</label>
+                                <select class="form-control" id="selecteducation">
+                                    <option value="">Select Education</option>
+                                    <option value="GRADUATION">Graduation</option>
+                                    <option value="POSTGRADUATION">Post-Graduation</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="R_number">How Did You Came to Know About Us?</label>
+                                <select class="form-control" id="selectreference">
+                                    <option value="">Select</option>
+                                    <option value="SOCIALMEDIA">Social Media</option>
+                                    <option value="FRIEND">Friend</option>
+                                    <option value="ADVERTISEMENT">Newspaper/Advertisement</option>
+                                    <option value="JUSTDIAL">Just Dial</option>
+                                    <option value="GOOGLE">Google/Search Engine</option>
+                                    <option value="OTHER">Other Reference</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- <div class="col-md-6">
+                             <div class="form-group">
+                                 <label for="selectgender">Select gender:</label>
+                                 <select class="form-control" id="selectgender">
+                                     <option>Select Gender</option>
+                                     <option>Male</option>
+                                     <option>Female</option>
+                                 </select>
+                             </div>
+                         </div>
+                        <div class="col-md-6">
+                             <div class="form-group">
+                                 <label for="inputdate">Selct Date</label>
+                                 <input type="text" class="form-control" id="inputdate" placeholder="select date">
+                                 <div class="monthly" id="mycalendar2"></div>
+                             </div>
+                         </div>
+                         <div class="col-md-6">
+                             <div class="form-group">
+                                 <label for="r_postal">Postal Code</label>
+                                 <input type="text" class="form-control" placeholder="Enter Your postal code" id="r_postal" name="number" required>
+                             </div>
+                         </div>
+                         <div class="col-md-12">
+                             <div class="form-group">
+                                 <textarea class="form-control" rows="5" placeholder="Write your Message here..." id="r_message" name="comment"></textarea>
+                             </div>
+                         </div> -->
+                        <div class="col-md-12">
+                            <div id="studentregvalidationmsg" class="alert alert-danger" style="display: none"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="confirm">
+                                <button type="submit" id="studentregsubmit" class="eduspace-btn submit" value="submit">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!--End regustraion-form Section-->

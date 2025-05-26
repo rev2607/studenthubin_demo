@@ -1,0 +1,200 @@
+﻿@model StudentHubMVC.Liason.EntityLayer.CourseEN
+
+@{
+    ViewBag.Title = Model.Name + " - StudentHub.in";
+    Layout = "~/Views/Shared/_LayoutFront.cshtml";
+}
+
+@*@Html.Raw(ViewBag.Content)*@
+
+ <!--Start banner Section-->
+<section class="coursedetailhead">
+    <!--<div class="edu-overlay"></div>-->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-2 col-md-4 col-sm-12 col-12">
+                <div class="coursedetaillogo">
+                    <img src="../assets/img/logos/@Model.Logo" class="img-fluid" alt="" style="/* width: 200px; */">
+                </div>
+            </div>
+            <div class="col-lg-10 col-md-8 col-sm-12 col-12">
+                <div class="coursedetailinfo">
+                    <h3>@Model.Name</h3>
+                    <hr />
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div style="padding: 0px 0px;">Course Fee: <span class="courseprice">@Model.Fee</span></div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div style="padding: 0px 0px;">Course Duration: <span class="courseprice">@Model.Duration</span></div>
+                        </div>
+                        <div class="col-lg-10">
+                            <div style="padding: 5px 0px;">
+                                <div class="courserating" style="margin-bottom: 0px; padding: 0px;">
+                                    <i class="fa fa-star icon-fa-star-full" aria-hidden="true"></i>
+                                    <i class="fa fa-star icon-fa-star-full" aria-hidden="true"></i>
+                                    <i class="fa fa-star icon-fa-star-full" aria-hidden="true"></i>
+                                    <i class="fa fa-star icon-fa-star-full" aria-hidden="true"></i>
+                                    <i class="fa fa-star-o icon-fa-star-empty" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!--End banner Section-->
+<!--Start course-details Section-->
+<section class="course-details">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-7 col-md-12 col-sm-12 col-12">
+                        <div class="coursecontent">
+                            @Html.Raw(@Model.Curriculum)
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12 col-sm-12 col-12">
+                        <div class="col-md-12 coursebatches">
+                            <div class="coursebatchhead">
+                                <h4>BATCHES</h4>
+                            </div>
+                            <div class="coursebatcheslist">
+                                <div class="coursebatchitem">
+                                    <div class="itemtitle">Batch Start:</div><div class="itemtext">13/09/2018</div><hr>
+                                    <div class="itemtitle">Class Time:</div><div class="itemtext">05:00 PM</div><hr>
+                                    <div class="itemtitle">Instructor:</div><div class="itemtext">X. XXXXXXX</div><hr>
+                                    <div class="itemtitle">Students:</div><div class="itemtext">04/10</div>
+                                </div>
+                                <div class="coursebatchitem">
+                                    <div class="itemtitle">Batch Start:</div><div class="itemtext">13/09/2018</div><hr>
+                                    <div class="itemtitle">Class Time:</div><div class="itemtext">05:00 PM</div><hr>
+                                    <div class="itemtitle">Instructor:</div><div class="itemtext">X. XXXXXXX</div><hr>
+                                    <div class="itemtitle">Students:</div><div class="itemtext">04/10</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 coursebatches">
+                            <div class="coursebatchhead">
+                                <h4>Student Reviews</h4>
+                            </div>
+                            <div class="studentreviewlist">
+                                <div class="studentreviewitem">
+                                    <div class="name">X Xxxxxxx</div>
+                                    <div class="rating">
+                                        <div class="courserating" style="margin-bottom: 0px; padding: 0px;">
+                                            <i class="fa fa-star icon-fa-star-full" aria-hidden="true"></i>
+                                            <i class="fa fa-star icon-fa-star-full" aria-hidden="true"></i>
+                                            <i class="fa fa-star icon-fa-star-full" aria-hidden="true"></i>
+                                            <i class="fa fa-star icon-fa-star-full" aria-hidden="true"></i>
+                                            <i class="fa fa-star-o icon-fa-star-empty" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="studentreviewitem">
+                                    <div class="name">X Xxxxxxx</div>
+                                    <div class="rating">
+                                        <div class="courserating" style="margin-bottom: 0px; padding: 0px;">
+                                            <i class="fa fa-star icon-fa-star-full" aria-hidden="true"></i>
+                                            <i class="fa fa-star icon-fa-star-full" aria-hidden="true"></i>
+                                            <i class="fa fa-star icon-fa-star-full" aria-hidden="true"></i>
+                                            <i class="fa fa-star icon-fa-star-full" aria-hidden="true"></i>
+                                            <i class="fa fa-star-o icon-fa-star-empty" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="studentreviewitem">
+                                    <div class="name">X Xxxxxxx</div>
+                                    <div class="rating">
+                                        <div class="courserating" style="margin-bottom: 0px; padding: 0px;">
+                                            <i class="fa fa-star icon-fa-star-full" aria-hidden="true"></i>
+                                            <i class="fa fa-star icon-fa-star-full" aria-hidden="true"></i>
+                                            <i class="fa fa-star icon-fa-star-full" aria-hidden="true"></i>
+                                            <i class="fa fa-star icon-fa-star-full" aria-hidden="true"></i>
+                                            <i class="fa fa-star-o icon-fa-star-empty" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 coursebatches">
+                            <div class="coursebatchhead">
+                                <h4>Other Courses</h4>
+                            </div>
+                            <div class="coursebatcheslist">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-6">
+                                        <a href="#" class="courseitemhomelink">
+                                            <div class="courseitemhome">
+                                                <img src="../assets/img/AWS.png" class="img-fluid" alt="">
+                                                <div class="">
+                                                    <div class="courserating" style="margin-bottom: 0px; padding: 0px;">
+                                                        <i class="fa fa-star icon-fa-star-full" aria-hidden="true"></i>
+                                                        <i class="fa fa-star icon-fa-star-full" aria-hidden="true"></i>
+                                                        <i class="fa fa-star icon-fa-star-full" aria-hidden="true"></i>
+                                                        <i class="fa fa-star icon-fa-star-full" aria-hidden="true"></i>
+                                                        <i class="fa fa-star-o icon-fa-star-empty" aria-hidden="true"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-6">
+                                        <a href="#" class="courseitemhomelink">
+                                            <div class="courseitemhome">
+                                                <img src="../assets/img/HadoopFinal.png" class="img-fluid" alt="">
+                                                <div class="">
+                                                    <div class="courserating" style="margin-bottom: 0px; padding: 0px;">
+                                                        <i class="fa fa-star icon-fa-star-full" aria-hidden="true"></i>
+                                                        <i class="fa fa-star icon-fa-star-full" aria-hidden="true"></i>
+                                                        <i class="fa fa-star icon-fa-star-full" aria-hidden="true"></i>
+                                                        <i class="fa fa-star icon-fa-star-full" aria-hidden="true"></i>
+                                                        <i class="fa fa-star-o icon-fa-star-empty" aria-hidden="true"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-6">
+                                        <a href="#" class="courseitemhomelink">
+                                            <div class="courseitemhome">
+                                                <img src="../assets/img/DevopsFinal.png" class="img-fluid" alt="">
+                                                <div class="">
+                                                    <div class="courserating" style="margin-bottom: 0px; padding: 0px;">
+                                                        <i class="fa fa-star icon-fa-star-full" aria-hidden="true"></i>
+                                                        <i class="fa fa-star icon-fa-star-full" aria-hidden="true"></i>
+                                                        <i class="fa fa-star icon-fa-star-full" aria-hidden="true"></i>
+                                                        <i class="fa fa-star icon-fa-star-full" aria-hidden="true"></i>
+                                                        <i class="fa fa-star-o icon-fa-star-empty" aria-hidden="true"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-6">
+                                        <a href="#" class="courseitemhomelink">
+                                            <div class="courseitemhome">
+                                                <img src="../assets/img/SalesForceFinal.png" class="img-fluid" alt="">
+                                                <div class="">
+                                                    <div class="courserating" style="margin-bottom: 0px; padding: 0px;">
+                                                        <i class="fa fa-star icon-fa-star-full" aria-hidden="true"></i>
+                                                        <i class="fa fa-star icon-fa-star-full" aria-hidden="true"></i>
+                                                        <i class="fa fa-star icon-fa-star-full" aria-hidden="true"></i>
+                                                        <i class="fa fa-star icon-fa-star-full" aria-hidden="true"></i>
+                                                        <i class="fa fa-star-o icon-fa-star-empty" aria-hidden="true"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!--End course-details Section-->

@@ -1,0 +1,26 @@
+﻿@model StudentHubMVC.Liason.EntityLayer.PageEN
+
+@{
+    ViewBag.Title = Model.MetaTitle;
+    Layout = "~/Views/Shared/_LayoutFront.cshtml";
+}
+
+<!--Start our-course section -->
+<section class="otherpage">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="otherpageheading">
+                    <hr />
+                    <h2>@Model.Heading</h2>
+                    <hr />
+                </div>
+            </div>
+            <div class="col-md-12">
+
+                @Html.Raw(Model.Content)
+
+            </div>
+        </div>
+    </div>
+</section>

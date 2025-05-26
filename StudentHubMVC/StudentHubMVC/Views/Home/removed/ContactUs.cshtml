@@ -1,0 +1,155 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutFront.cshtml";
+}
+
+
+<!--Start Eduspace banner Section-->
+<section class="eduspace-banner" style="padding-top:10px;">
+    <div class="edu-overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="eduspace-banner-header">
+                    <h2>Contact Us</h2>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item active">Contact</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!--End Eduspace banner Section-->
+<!--Start contact-address Section-->
+<section class="contact-address section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="contact-details-area">
+                            <div class="contact-details-icon">
+                                <i class="fa fa-map-marker"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>Bangalore Address</h4>
+                                <ul class="popupcontentbottom">
+                                    <li>2nd floor, #22, 1st Cross,</li>
+                                    <li>Behind State Bank of Mysore,</li>
+                                    <li>Ashwathnagar, Marahahalli</li>
+                                    <li>Bangalore -560037</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="contact-details-area">
+                            <div class="contact-details-icon">
+                                <i class="fa fa-map-marker"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>Hyderabad Address</h4>
+                                <ul class="popupcontentbottom">
+                                    <li>D.No. 7/1/621/53, </li>
+                                    <li>Sri Sai Residency,</li>
+                                    <li>Ground Floor, S.R. NAGAR</li>
+                                    <li>Hyderabad - 500038</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="contact-details-area">
+                            <div class="contact-details-icon">
+                                @*<i class="fa fa-phone"></i>*@
+                                <i class="fa fa-envelope-o"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>Support</h4>
+                                <ul class="popupcontentbottom">
+                                    <li><i class="fa fa-phone"></i>+91 9632277266‬</li>
+                                    <li><i class="fa fa-phone"></i>+91 9963311066</li>
+                                    <hr />
+                                    <li><i class="fa fa-envelope-o"></i>info@studenthub.in</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!--End contact-address Section-->
+<!--Start contact-main-area Section-->
+<section class="contact-main-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="edu-title text-center">
+                    <h2>Enquiry</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 contact-form-area">
+                <div class="contact-form">
+                    <form class="cmxform" id="contact-form1" method="post" action="#">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Enter Your Name" id="contact_name" name="name" maxlength="25" required>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input type="email" class="form-control" placeholder="Enter Your Email" id="contact_email" name="email" maxlength="30" required>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input type="number" class="form-control" placeholder="Enter Your phone Number" id="contact_number" name="pnumber" maxlength="12" required>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <textarea class="form-control" rows="5" placeholder="Write your Message here..." id="contact_message" name="message" maxlength="1000" required></textarea>
+                            </div>
+                        </div>
+                        <div id="error" class="alert alert-danger" style="display: none">Enquiry Sending Failed</div>
+                        <div id="success" class="alert alert-success" style="display: none">Enquiry Submitted</div>
+                        <div class="col-md-6">
+                            <div class="confirm">
+                                <button id="enquirysubmit" type="submit" class="eduspace-btn">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!--End contact-main-area Section-->
+<!--Start map-area Section-->
+<section class="map-area">
+    <div class="container-full">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="contact-locationn">
+                    <div id="map"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!--End map-area Section-->
+<!--Start map-area Section-->
+@*<section class="map-area">
+    <div class="container-full">
+        <div class="row">
+            <div class="col-md-12">
+                <h4>Hyderabad Location</h4>
+                <div class="contact-location">
+                    <div id="map2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>*@<!--End map-area Section-->
+

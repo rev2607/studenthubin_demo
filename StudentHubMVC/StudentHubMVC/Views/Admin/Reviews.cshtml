@@ -1,0 +1,67 @@
+﻿
+@{
+    ViewBag.Title = "Reviews";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Reviews</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            Course
+        </th>
+        <th>
+            BatchDate
+        </th>
+        <th>
+            Instructor
+        </th>
+        <th>
+            Student
+        </th>
+        <th>
+            Comment
+        </th>
+        <th>
+            Rating
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item["Course"]
+            </td>
+            <td>
+                @item["BatchDate"]
+            </td>
+            <td>
+                @item["Student"]
+            </td>
+            <td>
+                @item["Instructor"]
+            </td>
+            <td>
+                @item["Comment"]
+            </td>
+            <td>
+                @item["Rating"]
+            </td>
+            <td>
+                @if (@item["Status"] == "ACTIVE")
+                {
+                    <a href="/admin/review/@item["ID"]/INACTIVE">In-Active</a>
+                }
+                else
+                {
+                    <a href="/admin/review/@item["ID"]/ACTIVE">Active</a>
+                }
+            </td>
+        </tr>
+    }
+
+</table>

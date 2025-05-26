@@ -1,0 +1,362 @@
+﻿@model StudentHubMVC.MockTests
+
+@using StudentHubMVC.Liason;
+
+@{
+    ViewBag.Title = "Mock Test Save";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div style="width: 100%;">
+    <div style="padding: 10px 0px 15px 0px; width: 80%; display: inline-block;">
+        <div style="font-size:x-large; display: inline-block;"><u>@Html.ActionLink("Mock Tests", "MockTestsManager")</u></div>
+        &nbsp;>&nbsp;
+        <div style="font-size: larger; display: inline-block; font-weight: bold;">Save Mock Test</div>
+    </div>
+    <div style="padding-top: 10px; width: 19%; display: inline-block;">
+        @Html.ActionLink("Add Mock Test", "SaveMockTest", new { courseid = "", id = "" }, new { @class = "newaddbutton" })
+    </div>
+</div>
+
+@{
+    var context = new Entities();
+
+    var Courses = context.ExamCourses.Select(course => new SelectListItem { Value = course.exmcrs_Id.ToString(), Text = course.exmcrs_Name }).ToList();
+
+    var MockTests = context.MockTests.Where(test => test.CourseId == Model.CourseId).AsEnumerable<MockTests>();
+
+    var mocktestTypes = context.DropdownTypes.Where(d => d.GroupName == Constants.MockTestType).OrderBy(d => d.TypeValue)
+        .Select(d => new SelectListItem { Value = d.DropdownTypeId.ToString(), Text = d.TypeValue });
+}
+
+<div class="row">
+    <div class="col-md-7">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="x_panel">
+                @*<div class="x_title">
+
+                    </div>*@
+                <div class="x_content">
+                    <div class="form-horizontal">
+
+                        @if (ViewBag.SaveMessage != "" && ViewBag.SaveMessage != null)
+                        {
+                            <div class="message">@ViewBag.SaveMessage</div>
+                        }
+                        @if (Request.Params.AllKeys.Contains("message"))
+                        {
+                            <div class="message">@Request.Params["message"]</div>
+                        }
+                        @if (ViewBag.ErrorMessage != "" && ViewBag.ErrorMessage != null)
+                        {
+                            <div class="errormessage">@ViewBag.ErrorMessage</div>
+                        }
+                        @if (Request.Params.AllKeys.Contains("errormessage"))
+                        {
+                            <div class="errormessage">@Request.Params["errormessage"]</div>
+                        }
+
+                        @Html.HiddenFor(model => model.MockTestId)
+
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.CourseId, "Course", htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.DropDownListFor(model => model.CourseId, Courses, "Select Course", htmlAttributes: new { @class = "form-control mocketestcoursepostback" })
+                                    @Html.ValidationMessageFor(model => model.CourseId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        @*<div class="form-group">
+            <div class="row">
+                <div class="col-md-3">
+                    @Html.LabelFor(model => model.Difficulty, htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="col-md-9">
+                    @Html.DropDownListFor(model => model.Difficulty, new List<SelectListItem>
+                   {
+                        new SelectListItem { Text = "EASY", Value = "EASY" },
+                        new SelectListItem { Text = "MEDIUM", Value = "MEDIUM" },
+                        new SelectListItem { Text = "DIFFICULT", Value = "DIFFICULT" }
+                   },
+                   new { @class = "form-control" } )
+                    @Html.ValidationMessageFor(model => model.Difficulty, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>*@
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(model => model.Title, new { @class = "form-control", @required = "required" })
+                                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.Type, "Test Type", htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.DropDownListFor(model => model.Type, mocktestTypes, "Select Type", htmlAttributes: new { @class = "form-control", @required = "required" })
+                                    @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = "4" })
+                                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.Subject, htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(model => model.Subject, new { @class = "form-control", @required = "required" })
+                                    @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.Chapter, htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(model => model.Chapter, new { @class = "form-control", @required = "required" })
+                                    @Html.ValidationMessageFor(model => model.Chapter, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.Year, htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-md-3">
+                                    @Html.TextBoxFor(model => model.Year, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.MaximumQuestions, "No. Of Questions", htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-md-3">
+                                    @Html.EditorFor(model => model.MaximumQuestions, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.MaximumQuestions, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    @Html.LabelFor(model => model.QuestionMaxTime, "Question Time (mins)", htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-md-3">
+                                    @Html.EditorFor(model => model.QuestionMaxTime, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.QuestionMaxTime, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.TestMaxTime, "Test Time (mins)", htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-md-2">
+                                    @Html.EditorFor(model => model.TestMaxTime, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.TestMaxTime, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-md-3">
+                                    @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.DiscountOfferPrice, htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-md-3">
+                                    @Html.EditorFor(model => model.DiscountOfferPrice, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.DiscountOfferPrice, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.CouponCodeOffer, htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-md-3">
+                                    @Html.EditorFor(model => model.CouponCodeOffer, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.CouponCodeOffer, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.Language, htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-md-3">
+                                    @Html.DropDownListFor(model => model.Language, new List<SelectListItem>
+                                   {
+                                        new SelectListItem { Text = "English", Value = "ENGLISH" },
+                                        new SelectListItem { Text = "Telugu", Value = "TELUGU" }
+                                   }, new { @class = "form-control" } )
+                                    @Html.ValidationMessageFor(model => model.Language, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.FreePaidTest, htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-md-3">
+                                    @Html.DropDownListFor(model => model.FreePaidTest, new List<SelectListItem>
+                                   {
+                                        new SelectListItem { Text = "Free Test", Value = "FREE" },
+                                        new SelectListItem { Text = "Paid Test", Value = "PAID" }
+                                   }, new { @class = "form-control" } )
+                                    @Html.ValidationMessageFor(model => model.FreePaidTest, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.GovtPrivateExam, htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-md-3">
+                                    @Html.DropDownListFor(model => model.GovtPrivateExam, new List<SelectListItem>
+                                   {
+                                        new SelectListItem { Text = "Private Test", Value = "PRIVATE" },
+                                        new SelectListItem { Text = "Govt Test", Value = "GOVERNMENT" }
+                                   }, new { @class = "form-control" } )
+                                    @Html.ValidationMessageFor(model => model.GovtPrivateExam, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr />
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-offset-3 col-md-2">
+                                    @Html.ActionLink("Cancel", "SaveMockTest", new { courseid = Model.CourseId, id = string.Empty }, new { @class = "btn btn-primary" })
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="submit" value="Save Mock Test" class="btn btn-success" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
+
+        @*<div>
+                @Html.ActionLink("Back to List", "Index")
+            </div>*@
+    </div>
+    <div class="col-md-5">
+        @if (MockTests != null && MockTests.Count() > 0)
+        {
+
+            <table class="table" style="margin-top: 1px;">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Questions</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var mocktest in MockTests)
+                    {
+                        <tr>
+                            <td>@mocktest.Title</td>
+                            <td>@mocktest.MaximumQuestions</td>
+                            <td>
+                                @Html.ActionLink("Edit", "SaveMockTest", new { id = mocktest.MockTestId }, new { @class = "editsmall", @title = "Edit Mock Test" })
+
+                                @if (mocktest.Subject.ToLower().Contains("maths") || mocktest.Subject.ToLower().Contains("physics")
+                                    || mocktest.Subject.ToLower().Contains("mathematics"))
+                                {
+                                    @*@Html.ActionLink("Add", "SaveMockTestQuestions2", new { testid = mocktest.MockTestId }, new { @class = "addsmall", @title = "Add Questions to Mock Test" })*@
+                                    @Html.ActionLink("Add", "SaveMockTestQuestions", new { testid = mocktest.MockTestId }, new { @class = "addsmall", @title = "Add Questions to Mock Test" })
+                                }
+                                else
+                                {
+                                    @Html.ActionLink("Add", "SaveMockTestQuestions", new { testid = mocktest.MockTestId }, new { @class = "addsmall", @title = "Add Questions to Mock Test" })
+                                }
+
+                                <div style="cursor: pointer; display: inline-block;" class="deletesmall" title="Delete Mock Test" onclick="DeleteMockTest('@mocktest.MockTestId', this);"></div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <span>NO TESTS ADDED YET..</span>
+        }
+    </div>
+
+    </div>
+
+@section scripts{
+    <script>
+        $(document).ready(function(){
+            $("#CourseId").select2();
+        });
+
+        function DeleteMockTest(mocktestid, ele) {
+
+            if (deleteConfirm("Test Questions will also be Deleted along with the Mock Test. \n Are You Sure to Delete?")) {
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("DeleteMocktest")',
+                    data: { testId: mocktestid},
+                    error: function (er) {
+                        alert(er);
+                    },
+                    success: function (result) {
+                        if (result == "") {
+                            $(ele).closest("tr").remove();
+                            alert('Test Deleted');
+                        }
+                        else {
+                            alert(result);
+                        }
+                    }
+                });   
+            }
+        }
+    </script>    
+}

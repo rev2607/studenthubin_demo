@@ -1,0 +1,58 @@
+.results_search_bar{
+    background-color: #fff;
+    width: 100%;
+    padding: 0;
+    margin: 0 auto;
+    position: relative;
+}
+
+.W320{
+    width: 320px;
+}
+
+.nav-pills .nav-link:hover{
+    background-color: #f1f1f1;
+    color: #333;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link{
+    background-color: #08415b;
+    color: #fff;
+}
+
+/* .results_search_bar .nav-pills .nav-link.active, .results_search_bar .nav-pills .show>.nav-link {
+    background-color: #08415b;
+    color: #fff;
+} */
+
+
+.input_search_ic{
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    right: 0;
+    border-radius: 30px;
+    color: #777;
+    font-size: 20px;
+}
+
+.input_search_ic:hover{
+    color: #000;
+}
+
+
+@media (max-width: 844px) and (orientation: portrait){
+    .results_search_bar{
+        width: 100%;
+    }
+
+    .rounded-right-0{
+        border-top-right-radius: 0 !important;
+    }
+
+    .W320{
+        width: 100%;
+    }
+}

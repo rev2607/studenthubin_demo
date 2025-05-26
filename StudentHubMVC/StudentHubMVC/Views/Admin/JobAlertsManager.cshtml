@@ -1,0 +1,71 @@
+﻿@model IEnumerable<StudentHubMVC.JobAlerts>
+
+@{
+    ViewBag.Title = "Job Alerts Manager";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+    <div style="width: 100%;">
+        <div style="padding: 10px 0px 15px 0px; width: 80%; display: inline-block;">
+            <div style="font-size:x-large; display: inline-block;"><u>Job Alerts Manager</u></div>
+        </div>
+        <div style="padding-top: 10px; width: 19%; display: inline-block;">
+            @Html.ActionLink("Add Job Alert", "SaveJobAlert", null, new { @class = "newaddbutton" })
+        </div>
+
+        <div style="width: 100%;">
+            @{Html.RenderPartial("pErrorSaveMessages"); }
+        </div>
+    </div>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Company)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.City)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Time)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Company)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.City)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Time)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "SaveJobAlert", new { jobid = item.JobId }, new { @class = "editsmall" } )
+            @*@Html.ActionLink("Delete", "Delete", new { jobid = item.JobId }, new { @class = "deletesmall" })*@
+        </td>
+    </tr>
+}
+
+</table>

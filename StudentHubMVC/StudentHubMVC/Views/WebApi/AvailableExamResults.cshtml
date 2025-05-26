@@ -1,0 +1,48 @@
+﻿@model List<StudentHubMVC.Models.ViewModels.ExamResultsAvailable>
+
+@{
+    ViewBag.Title = "Available Exam Results - Studenthub.in";
+    Layout = "~/Views/Shared/_LayoutWebApi.cshtml";
+
+}
+
+<h2 style="text-align: center;">List of Available Exam Results</h2>
+@{
+    var currState = "";
+    var currEducationType = "";
+    var currExamYear = "";
+}
+<table style="padding-left: 15px; margin-left: auto; margin-right: auto; ">
+    <tbody>
+        @foreach (var url in Model.OrderByDescending(_ => _.ExamYear).ThenBy(_ => _.State).ThenBy(_ => _.State).ThenBy(_ => _.EducationType).ThenBy(_ => _.ExamName))
+        {
+            if (currExamYear != url.ExamYear)
+            {
+                <tr><td><h3 style="padding-top: 25px;">@url.ExamYear</h3></td></tr>
+                currState = "";
+                currEducationType = "";
+            }
+            if (currState != url.State)
+            {
+                <tr><td><h4 style="padding-left: 25px; ">@url.State</h4></td></tr>
+                currEducationType = "";
+            }
+            if (currEducationType != url.EducationType)
+            {
+                <tr><td><h4 style="padding-left: 50px;"><u>@url.EducationType</u></h4></td></tr>
+            }
+            currState = url.State;
+            currEducationType = url.EducationType;
+            currExamYear = url.ExamYear;
+            <tr>
+                <td style="padding-left: 50px;">
+                    <div style="padding-left: 10px; margin-bottom: 5px; border-left: solid #8fc942;">
+                        <h5 style="margin-bottom: 10px;">@url.ExamName @url.ExamYear</h5>
+                        <h5 style="margin-top: 10px;"><b>API Ref URL: </b> <i>https://studenthub.in/webapi/GetResultsMain</i></h5>
+                        @*<p>@Html.Raw(url.Description)</p>*@
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

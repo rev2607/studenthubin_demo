@@ -1,0 +1,382 @@
+﻿@using System.Configuration;
+
+@model StudentHubMVC.ExamCourses
+
+@{
+    ViewBag.Title = "Save Exam Course";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+    var types = new Entities().DropdownTypes.Where(stream => stream.GroupName == "EXAMTYPE").OrderBy(c => c.TypeValue).Select(stream => new SelectListItem { Text = stream.TypeValue, Value = stream.DropdownTypeId.ToString() }).ToList();
+
+    var streams = new Entities().DropdownTypes.Where(stream => stream.GroupName == "EXAMSTREAM").OrderBy(c => c.TypeValue).Select(stream => new SelectListItem { Text = stream.TypeValue, Value = stream.DropdownTypeId.ToString() }).ToList();
+
+    var levels = new Entities().DropdownTypes.Where(stream => stream.GroupName == "EXAMLEVEL").OrderBy(c => c.TypeValue).Select(stream => new SelectListItem { Text = stream.TypeValue, Value = stream.DropdownTypeId.ToString() }).ToList();
+
+    var modes = new Entities().DropdownTypes.Where(stream => stream.GroupName == "EXAMMODE").OrderBy(c => c.TypeValue).Select(stream => new SelectListItem { Text = stream.TypeValue, Value = stream.DropdownTypeId.ToString() }).ToList();
+}
+
+<div style="width: 100%;">
+    <div style="padding: 10px 0px 15px 0px; width: 85%; display: inline-block;">
+        <div style="font-size:x-large; display: inline-block;"><u>@Html.ActionLink("Exam Courses Manager", "ExamCoursesManager")</u></div>
+        &nbsp;>&nbsp;
+        <div style="font-size:larger; display: inline-block; font-weight: bold;">Save Course</div>
+    </div>
+    <div style="padding-top: 10px; width: 14%; display: inline-block;">
+        @Html.ActionLink("Add Exam Course", "SaveExamCourse", new { id = "" }, new { @class = "newaddbutton" })
+    </div>
+</div>
+
+@using (Html.BeginForm("SaveExamCourse", "Admin", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="x_panel">
+        @*<div class="x_title">
+
+            </div>*@
+        <div class="x_content">
+            <div class="form-horizontal form-label-left">
+
+                @if (ViewBag.SaveMessage != "" && ViewBag.SaveMessage != null)
+                {
+                    <div class="message">@ViewBag.SaveMessage</div>
+                }
+                @if (Request.Params.AllKeys.Contains("message"))
+                {
+                    <div class="message">@Request.Params["message"]</div>
+                }
+                @if (ViewBag.ErrorMessage != "" && ViewBag.ErrorMessage != null)
+                {
+                    <div class="errormessage">@ViewBag.ErrorMessage</div>
+                }
+                @if (Request.Params.AllKeys.Contains("errormessage"))
+                {
+                    <div class="errormessage">@Request.Params["errormessage"]</div>
+                }
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.exmcrs_Id)
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.Label("Course Name", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.exmcrs_Name, new { @class = "form-control width100", @required = "required", @onchange = "nameToKeyword()", @onkeyup = "nameToKeyword()", @id = "Name" })
+                            @Html.ValidationMessageFor(model => model.exmcrs_Name, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.exmcrs_UrlKeyword, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.exmcrs_UrlKeyword, new { htmlAttributes = new { @class = "form-control width100", @required = "required", @id = "UrlKeyword" } })
+                            @Html.ValidationMessageFor(model => model.exmcrs_UrlKeyword, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.exmcrs_Logo, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <input type="file" name="uploadlogo" class="form-control" />
+                                </div>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(model => model.exmcrs_Logo, new { @class = "form-control", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(model => model.exmcrs_Logo, "", new { @class = "text-danger" })
+                                </div>
+                                @if (Model != null && Model.exmcrs_Logo != "" && Model.exmcrs_Logo != null)
+                                {
+                                    <div class="col-md-1">
+                                        <a href="@(ConfigurationManager.AppSettings["ExamCourseLogosPath"].Replace("~","") + Model.exmcrs_Logo)" target="_blank" title="Click to View Logo"><img src="@(ConfigurationManager.AppSettings["ExamCourseLogosPath"].Replace("~","") + Model.exmcrs_Logo)" alt="" class="img-thumbnail" /></a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.exmcrs_ExamStream, "Stream", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.exmcrs_ExamStream, streams, "Select", htmlAttributes: new { @class = "form-control", @required = "required" })
+                            @Html.ValidationMessageFor(model => model.exmcrs_ExamStream, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.exmcrs_ExamType, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.exmcrs_ExamType, types, "Select", htmlAttributes: new { @class = "form-control", @required = "required" })
+                            @Html.ValidationMessageFor(model => model.exmcrs_ExamType, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.exmcrs_ExamLevel, "Course Level", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.exmcrs_ExamLevel, levels, "Select", htmlAttributes: new { @class = "form-control", @required = "required" })
+                            @Html.ValidationMessageFor(model => model.exmcrs_ExamLevel, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.exmcrs_ExamMode, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.exmcrs_ExamMode, modes, "Select", htmlAttributes: new { @class = "form-control", @required = "required" })
+                            @Html.ValidationMessageFor(model => model.exmcrs_ExamMode, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.Label("Package Price", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.exmcrs_Price, new { @class = "form-control width100", @maxlength = "45" })
+                            @Html.ValidationMessageFor(model => model.exmcrs_Price, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.Label("Offer Price", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.exmcrs_OfferPrice, new { htmlAttributes = new { @class = "form-control width100", @maxlength = "45" } })
+                            @Html.ValidationMessageFor(model => model.exmcrs_OfferPrice, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.Label("Package Validity", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.exmcrs_PackageValidity, new { @class = "form-control width100", @maxlength = "45" })
+                            @Html.ValidationMessageFor(model => model.exmcrs_PackageValidity, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                        </div>
+                        <div class="col-md-4">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.Label("Free Tests", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.exmcrs_FreeTestsCount, new { @class = "form-control width100", @maxlength = "45" })
+                            @Html.ValidationMessageFor(model => model.exmcrs_FreeTestsCount, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.Label("Paid Tests", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.exmcrs_PaidTestsCount, new { htmlAttributes = new { @class = "form-control width100", @maxlength = "45" } })
+                            @Html.ValidationMessageFor(model => model.exmcrs_PaidTestsCount, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.exmcrs_Description, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.exmcrs_Description, new { @class = "form-control width100 texttoolbox" })
+                            @Html.ValidationMessageFor(model => model.exmcrs_Description, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.exmcrs_Registration, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.exmcrs_Registration, new { @class = "form-control width100 texttoolbox" })
+                            @Html.ValidationMessageFor(model => model.exmcrs_Registration, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.exmcrs_Eligibility, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.exmcrs_Eligibility, new { @class = "form-control width100 texttoolbox" })
+                            @Html.ValidationMessageFor(model => model.exmcrs_Eligibility, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.exmcrs_PatternSyllabus, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.exmcrs_PatternSyllabus, new { @class = "form-control width100 texttoolbox" })
+                            @Html.ValidationMessageFor(model => model.exmcrs_PatternSyllabus, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.exmcrs_PreparationTips, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.exmcrs_PreparationTips, new { @class = "form-control width100 texttoolbox" })
+                            @Html.ValidationMessageFor(model => model.exmcrs_PreparationTips, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.exmcrs_AdmitCard, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.exmcrs_AdmitCard, new { @class = "form-control width100 texttoolbox" })
+                            @Html.ValidationMessageFor(model => model.exmcrs_AdmitCard, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.exmcrs_Results, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.exmcrs_Results, new { @class = "form-control width100 texttoolbox" })
+                            @Html.ValidationMessageFor(model => model.exmcrs_Results, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.exmcrs_ImportantDates, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.exmcrs_ImportantDates, new { @class = "form-control width100 texttoolbox" })
+                            @Html.ValidationMessageFor(model => model.exmcrs_ImportantDates, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.exmcrs_Counselling, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.exmcrs_Counselling, new { @class = "form-control width100 texttoolbox" })
+                            @Html.ValidationMessageFor(model => model.exmcrs_Counselling, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.exmcrs_RelatedArticles, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.exmcrs_RelatedArticles, new { @class = "form-control width100 texttoolbox" })
+                            @Html.ValidationMessageFor(model => model.exmcrs_RelatedArticles, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.Label("Application Start Date", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.exmcrs_ApplicationStartDate, "{0:dd-MM-yyyy}", new { @class = "form-control width100 datepicker" })
+                            @Html.ValidationMessageFor(model => model.exmcrs_ApplicationStartDate, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.Label("Application End Date", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.exmcrs_ApplicationEndDate, "{0:dd-MM-yyyy}", new { @class = "form-control width100 datepicker" })
+                            @Html.ValidationMessageFor(model => model.exmcrs_ApplicationEndDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.Label("Exam Date", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.exmcrs_ExamDate, "{0:dd-MM-yyyy}", new { @class = "form-control width100 datepicker" })
+                            @Html.ValidationMessageFor(model => model.exmcrs_ExamDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.exmcrs_Status, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.exmcrs_Status, new List<SelectListItem> {
+                                    new SelectListItem { Text = "Active", Value = "ACTIVE" },
+                                    new SelectListItem { Text = "InActive", Value = "INACTIVE" }
+                                }, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.exmcrs_Status, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-offset-8 col-md-1">
+                            @*<input type="reset" value="Reset" class="btn btn-primary" />*@
+                            @Html.ActionLink("Cancel", "SaveCourse", null, new { @class = "btn btn-primary" })
+                        </div>
+                        <div class="col-md-2">
+                            <input type="submit" value="Save Exam Course" class="btn btn-success" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+<div>
+    @Html.ActionLink("Back to Exam Courses Manager", "ExamCoursesManager", null, new { @class = "btn btn-default" })
+</div>

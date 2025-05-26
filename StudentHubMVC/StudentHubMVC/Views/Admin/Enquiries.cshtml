@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewBag.Title = "Enquiries";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Enquiries</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Date
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            Phone
+        </th>
+        <th>
+            Message
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <div style="min-width: 85px;">@item["Date"]</div>
+            </td>
+            <td>
+                <div style="min-width: 160px;">@item["Name"]</div>
+            </td>
+            <td>
+                <div style="min-width: 10%;">@item["Email"]</div>
+            </td>
+            <td>
+                <div style="min-width: 10%;">@item["Phone"]</div>
+            </td>
+            <td>
+                <div style="max-height: 100px; overflow-y: auto;  font-size: 12px; ">@item["Message"]</div>
+            </td>
+        </tr>
+    }
+
+</table>

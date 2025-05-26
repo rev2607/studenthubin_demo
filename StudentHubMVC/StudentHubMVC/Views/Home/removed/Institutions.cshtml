@@ -1,0 +1,49 @@
+﻿@{
+    ViewBag.Title = "Institutions";
+    Layout = "~/Views/Shared/_LayoutFront.cshtml";
+}
+
+<style>
+    .course a {
+        font-size: small;
+    }
+</style>
+
+@{
+    var Institutions = new Entities().Institutions;
+}
+
+<section class="our-course section-padding" style="min-height: 400px;padding: 30px 0px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12" style="padding-bottom: 25px;">
+                <div class="sectionhomehead" style="margin-bottom: 15px;">
+                    <h2>Institutions</h2>
+                    <h6>Learn courses from the Top Featured Institutions. Choose your Institution. Register Now!</h6>
+                    @*<hr />*@
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row allcourses">
+                            @foreach (Institutions institute in Institutions.OrderBy(s => s.Name))
+                            {
+                                <div class="col-md-3">
+                                    <div class="institutionhomename" style="padding-bottom: 5px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; " title="@institute.Name">
+                                        <a href="#" target="_blank"><i class="fa fa-university" aria-hidden="true"></i> &nbsp; @institute.Name</a>
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!--End our-course section --> 

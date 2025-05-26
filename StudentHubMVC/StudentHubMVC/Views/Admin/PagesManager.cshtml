@@ -1,0 +1,95 @@
+﻿@model StudentHubMVC.Liason.EntityLayer.PageEN
+
+@{
+    ViewBag.Title = "Pages Manager";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>PagesManager</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            <ul>
+                <li><a href="/admin/pagesmanager/termsandconditions">Terms &amp; Conditions</a></li>
+                <li><a href="/admin/pagesmanager/privacypolicy">Privacy Policy</a></li>
+                <li><a href="/admin/pagesmanager/refundpolicy">Refund Policy</a></li>
+                <li><a href="/admin/pagesmanager/disclaimer">Discliamer</a></li>
+            </ul>
+        </div>
+        <div class="col-md-10" style="border-left: solid thin #91cc42;">
+            <h4>Save Page Details</h4>
+            <hr />
+            @using (Html.BeginForm("PageManagerGet", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+
+
+                <div class="form-horizontal">
+                    @if (ViewBag.SaveMessage != "" && ViewBag.SaveMessage != null)
+                    {
+                        <div class="message">@ViewBag.SaveMessage</div>
+                    }
+                    @if (ViewBag.ErrorMessage != "" && ViewBag.ErrorMessage != null)
+                    {
+                        <div class="errormessage">@ViewBag.ErrorMessage</div>
+                    }
+
+
+                    @if (ViewBag.ID != null && ViewBag.ID != "")
+                    {
+                        <input class="form-control text-box single-line" id="Sno" name="Sno" type="text" value="@ViewBag.ID" style="display: none;">
+                    }
+
+                    @*@Html.EditorFor(model => model.Heading, new { htmlAttributes = new { @class = "form-control", @required = "required", @style = "display: none;" } })*@
+
+                    @Html.HiddenFor(model => model.Sno)
+                    <div class="form-group">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.Heading, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Heading, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.MetaTitle, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.MetaTitle, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.MetaDescription, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.MetaDescription, htmlAttributes: new { @class = "form-control", @style = "min-width: 95% !important;" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.Content, htmlAttributes: new { @class = "form-control texttoolbox", @style = "min-width: 95% !important; height: 500px" })
+                        </div>
+                    </div>
+
+                    
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-2">
+                            <input type="submit" value="SAVE PAGE" class="btn btn-success" />
+                        </div>
+                        <div class="col-md-1">
+                            <a href="/admin/pagesmanager" class="btn btn-success" style="float: right;">RESET</a>
+                        </div>
+                    </div>
+
+                </div>
+            }
+        </div>
+    </div>
+</div>

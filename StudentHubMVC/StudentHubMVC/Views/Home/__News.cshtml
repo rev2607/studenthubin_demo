@@ -1,0 +1,60 @@
+﻿@model StudentHubMVC.Models.ViewModels.Home.VMHomeIndex
+@using System.Configuration
+
+<!-- Section: News -->
+<section>
+    @*class="bg-lighter"*@  
+    <div class="container">
+        <div class="section-title mb-10">
+            <div class="row">
+                <div class="col-md-8">
+                    <h2 class="mt-0 text-uppercase font-28 line-bottom line-height-1">News <span class="text-theme-color-2 font-weight-400">Alerts</span></h2>
+                </div>
+            </div>
+        </div>
+        <div class="section-content">
+            <div class="row">
+                @if (Model.News != null)
+                {
+                    foreach (NewsAlerts news in Model.News)
+                    {
+                        <div class="col-xs-12 col-sm-4 col-md-3 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s" style="padding-bottom: 15px;">
+                            <article class="post clearfix mb-sm-30">
+                                <div class="entry-header box-hover-effect">
+                                    <div class="effect-wrapper">
+                                        <div class="post-thumb thumb">
+                                            @if (string.IsNullOrEmpty(news.CoverImage) == false)
+                                            {
+                                                <img src="@(ConfigurationManager.AppSettings["NewsPath"].Replace("~/", "/") + news.CoverImage)" alt="" class="img-responsive img-fullwidth" style="height: 112px !important; width: 100% !important;">
+                                            }
+                                            else
+                                            {
+                                                <img src="@(ConfigurationManager.AppSettings["Colleges"].Replace("~/", "/") + "default.jpeg")" alt="" class="img-responsive img-fullwidth" style="height: 112px !important; width: 100% !important;">
+                                            }
+
+                                            <div class="overlay-shade"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="entry-content p-0 pr-10" style="min-height: 125px;">
+                                    <h4 class="entry-title">
+                                        <a href="@Url.Action("details", "News", new { id = news.NewsId })">
+                                            @news.Title.Substring(0, news.Title.Length > 80 ? 80 : news.Title.Length)<span style="color: #8BC442;"> ...more</span>
+                                        </a>
+                                    </h4>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </article>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div>
+                        NO RESULTS FOUND..
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>

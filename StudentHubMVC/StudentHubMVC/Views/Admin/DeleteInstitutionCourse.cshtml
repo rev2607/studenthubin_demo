@@ -1,0 +1,97 @@
+﻿@model StudentHubMVC.InstitutionCourses
+
+@{
+    ViewBag.Title = "Delete Institution Course";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<div style="width: 100%;">
+    <div style="padding: 10px 0px 15px 0px; width: 60%; display: inline-block;">
+        <div style="font-size:x-large; display: inline-block;"><u>@Html.ActionLink("Institutions Manager", "InstitutionsManager")</u></div>
+        &nbsp;>&nbsp;
+        <div style="font-size:x-large; display: inline-block;"><u>@Html.ActionLink("Institution Details", "SaveInstitution")</u></div>
+        &nbsp;>&nbsp;
+        <div style="font-size:larger; display: inline-block; font-weight: bold;">Delete Institution Course</div>
+    </div>
+</div>
+
+@using (Html.BeginForm("DeleteInstitutionCourse", "Admin", FormMethod.Post))
+{
+    <div class="x_panel">
+        @*<div class="x_title">
+
+            </div>*@
+        <div class="x_content">
+            <div class="form-horizontal">
+
+                @if (ViewBag.SaveMessage != "" && ViewBag.SaveMessage != null)
+                {
+                    <div class="message">@ViewBag.SaveMessage</div>
+                }
+                @if (Request.Params.AllKeys.Contains("message"))
+                {
+                    <div class="message">@Request.Params["message"]</div>
+                }
+                @if (Model.InstitutionId == null || Model.InstitutionCourseId == null)
+                {
+                    <div class="errormessage">NO Institute Course Found.</div>
+                    <a href="@Url.Action("InstitutionsManager")">Back to Institutions Manager</a>
+                }
+                @if (Request.Params.AllKeys.Contains("errormessage"))
+                {
+                    <div class="errormessage">@Request.Params["errormessage"]</div>
+                }
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                @Html.HiddenFor(model => model.InstitutionId)
+                @Html.HiddenFor(model => model.InstitutionCourseId)
+                @Html.HiddenFor(model => model.CourseId)
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <label class="control-label" >Institution Name: </label>
+                        </div>
+                        <div class="col-md-10">
+                            <label class="control-label">@Model.Institutions.Name</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <label class="control-label">Course Name: </label>
+                        </div>
+                        <div class="col-md-10">
+                            <label class="control-label">@Model.MainCourses.Name</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            
+                        </div>
+                        <div class="col-md-10">
+                            <h3>Are you sure ?</h3>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-offset-8 col-md-1">
+                            @Html.ActionLink("Cancel", "SaveInstitution", new { institutionid = @Model.InstitutionId }, new { @class = "btn btn-primary" })
+                        </div>
+                        <div class="col-md-2">
+                            <input type="submit" value="Delete" class="btn btn-success" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

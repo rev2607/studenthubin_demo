@@ -1,0 +1,7 @@
+.breadcrumb {
+  background: none !important;
+}
+
+.breadcrumb-item.active {
+  color: #ffff;
+}

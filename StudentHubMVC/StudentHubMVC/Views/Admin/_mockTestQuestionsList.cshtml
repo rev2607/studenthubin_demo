@@ -1,0 +1,140 @@
+﻿@model IEnumerable<StudentHubMVC.MockTestQuestions>
+
+@{
+    var Questions = new List<StudentHubMVC.MockTestQuestions>();
+    if (Model != null)
+    {
+        Questions = Model.ToList();
+    }
+
+    string path = System.Configuration.ConfigurationManager.AppSettings.Get("MockTestQuestionImages").Replace("~", string.Empty) + "/";
+}
+
+@{
+    if (Questions != null && Questions.Count() > 0)
+    {
+        <a id="MockTestQuestions"></a>
+
+        <div class="x_panel" style="border-left: solid thin #91cc42;">
+            @*<div class="x_title">
+
+                </div>*@
+            <div class="x_content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Questions List</h2>
+                        <hr />
+                    </div>
+                    <div class="col-md-12">
+                        <div class="questionslist" style="    font-size: 0.9em;">
+                            @foreach (var question in Questions)
+                            {
+                                <div class="section fullquestion">
+                                    <div class="question" style="border-bottom: solid #e0e0e0 thin;">
+                                        <div style="width: 4%; display: inline-block; text-align: center;">
+                                            <b>@question.QuestionID</b>
+                                        </div>
+                                        <div style="width: 77%; overflow-wrap: break-word; display: inline-block; border-left: solid #e0e0e0 thin; border-right: solid #e0e0e0 thin; padding: 5px;">
+                                            <div class="questionvalue">@Html.Raw(question.QuestionText)</div>
+                                        </div>
+                                        <div style="width: 10%; display: inline-block; text-align: center;">
+                                            <b>Answer:</b> <div class="answervalue">@question.AnswerOption</div>
+                                        </div>
+                                        <div style="width: 6%; display: inline-block; text-align: center;">
+                                            <div id="editquestion">
+                                                <label class="editsmall" onclick="GetQuestionForEdit('@question.QuestionID');" style="cursor: pointer;"></label>
+                                                <label style="display: none;" class="qid">@question.QuestionID</label>
+                                                <div style="cursor: pointer; display: inline-block; margin-bottom: 5px;" class="deletesmall" title="Delete Question" onclick="DeleteMockTestQuestion(@question.MockTestId, @question.QuestionID, this);"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="questionoptions" style="padding: 5px;">
+                                        <div class="questionoption" style="width: 48%; margin-left: 10px; display: inline-block; padding: 5px;">
+                                            <b>A.</b> <div class="optionavalue">
+                                                @Html.Raw(question.OptionA)
+                                                @if (question.OptionAImage != null && question.OptionAImage != "")
+                                                {
+                                                    <a href="@path@question.OptionAImage" target="_blank"><img src="~/assets/img/imagesmall.png" class="img-responsive" /></a>
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="questionoption" style="width: 48%; margin-left: 10px; display: inline-block; padding: 5px;">
+                                            <b>B.</b> <div class="optionbvalue">
+                                                @Html.Raw(question.OptionB)
+                                                @if (question.OptionBImage != null && question.OptionBImage != "")
+                                                {
+                                                    <a href="@path@question.OptionBImage" target="_blank"><img src="~/assets/img/imagesmall.png" class="img-responsive" /></a>
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="questionoption" style="width: 48%; margin-left: 10px; display: inline-block; padding: 5px;">
+                                            <b>C.</b> <div class="optioncvalue">
+                                                @Html.Raw(question.OptionC)
+                                                @if (question.OptionCImage != null && question.OptionCImage != "")
+                                                {
+                                                    <a href="@path@question.OptionCImage" target="_blank"><img src="~/assets/img/imagesmall.png" class="img-responsive" /></a>
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="questionoption" style="width: 48%; margin-left: 10px; display: inline-block; padding: 5px;">
+                                            <b>D.</b> <div class="optiondvalue">
+                                                @Html.Raw(question.OptionD)
+                                                @if (question.OptionDImage != null && question.OptionDImage != "")
+                                                {
+                                                    <a href="@path@question.OptionDImage" target="_blank"><img src="~/assets/img/imagesmall.png" class="img-responsive" /></a>
+                                                }
+                                            </div>
+                                        </div>
+                                        @if (question.OptionE != "" && question.OptionE != null)
+                                        {
+                                            <div class="questionoption" style="width: 48%; margin-left: 10px; display: inline-block; padding: 5px;">
+                                                <b>E.</b> <div class="optiondvalue">
+                                                    @Html.Raw(question.OptionE)
+                                                    @if (question.OptionEImage != null && question.OptionEImage != "")
+                                                    {
+                                                        <a href="@path@question.OptionEImage" target="_blank"><img src="~/assets/img/imagesmall.png" class="img-responsive" /></a>
+                                                    }
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    }
+}
+
+
+@*@section scripts
+{*@
+    <script>
+        function DeleteMockTestQuestion(testid, questionid, ele) {
+
+            if (deleteConfirm("Are You Sure?")) {
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("DeleteMocktestQuestion")',
+                    data: { testId: testid, questionId: questionid},
+                    error: function (er) {
+                        alert(er);
+                    },
+                    success: function (result) {
+                        if (result == "") {
+                            $(ele).closest(".fullquestion").remove();
+                        }
+                        else {
+                            alert(result);
+                        }
+                    }
+                });
+            }
+        }
+    </script>
+@*}*@

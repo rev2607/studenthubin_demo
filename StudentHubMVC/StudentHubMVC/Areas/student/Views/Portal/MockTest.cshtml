@@ -1,0 +1,129 @@
+﻿@model StudentHubMVC.Areas.student.Models.VM_MockTestQuestion
+
+@{
+    ViewBag.Title = "Mock Test";
+    Layout = "~/Areas/student/Views/Shared/_LayoutStudentPanel.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-8">
+            <div class="questionHeaderItem">
+                <button class="btn btn-cyan cyan-icon-notika waves-effect">
+                    <i class="fa fa-bullseye" aria-hidden="true"></i> &nbsp; @Model.QuestionSNo/@Model.TotalQuestions
+                </button>
+            </div>
+            <div class="questionHeaderItem">
+                <button class="btn btn-success success-icon-notika waves-effect">
+                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i> &nbsp; @Model.Difficulty
+                </button>
+            </div>
+            <div class="questionHeaderItem">
+                <button class="btn btn-gray gray-icon-notika waves-effect">
+                    <i class="fa fa-book" aria-hidden="true"></i> &nbsp; @Model.CourseName
+                </button>
+            </div>
+        </div>
+        <div class="col-md-4 noPad">
+            <div class="col-md-12 timer">
+                <div class="col-md-6">
+                    <div class="timerGreen">
+                        <div class="timerHead">
+                            <i class="fa fa-clock-o" aria-hidden="true"></i> &nbsp; Question Time
+                        </div>
+                        <div class="timerTime" id="questiontime">
+                            25:00
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="timerGreen">
+                        <div class="timerHead">
+                            <i class="fa fa-clock-o" aria-hidden="true"></i> &nbsp; Session Time
+                        </div>
+                        <div class="timerTime" id="sessiontime">
+                            25:00
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <hr />
+    </div>
+</div>
+
+@using (Html.BeginForm("MockTest", "Portal", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.CourseId)
+    @Html.HiddenFor(model => model.MockTestId)
+    @Html.HiddenFor(model => model.QuestionId)
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="questionText">
+                        @Model.QuestionDetails.QuestionText
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <hr />
+                </div>
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="questionOption">
+                                @Html.RadioButton("AnswerSelected", "A", false) @Model.QuestionDetails.OptionA
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="questionOption">
+                                @Html.RadioButton("AnswerSelected", "B", false) @Model.QuestionDetails.OptionB
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="questionOption">
+                                @*<div class="questionOption">
+                                        <div class="fm-checkbox">
+                                            <label class="">
+                                                <div class="iradio_square-green" style="position: relative;">
+                                                    <input type="radio" value="C" name="AnswerSelected" class="i-checks" style="position: absolute; opacity: 0;">
+                                                    <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;">
+                                                    </ins>
+                                                </div>
+                                                <i></i> @Model.QuestionDetails.OptionC
+                                            </label>
+                                        </div>
+                                    </div>*@
+                                @Html.RadioButton("AnswerSelected", "C", false) @Model.QuestionDetails.OptionC
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="questionOption">
+                                @Html.RadioButton("AnswerSelected", "D", false) @Model.QuestionDetails.OptionD
+                            </div>
+                        </div>
+                        @if (Model.QuestionDetails.OptionE != null && Model.QuestionDetails.OptionE != "")
+                        {
+                            <div class="col-md-6">
+                                <div class="questionOption">
+                                    @Html.RadioButton("AnswerSelected", "E", false) @Model.QuestionDetails.OptionE
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <hr />
+                </div>
+                <div class="col-md-12" style="text-align: right;">
+                    <label class="btn btn-teal teal-icon-notika waves-effect" style="margin-right: 10px;"><i class="notika-icon notika-left-arrow"></i> Previous</label>
+                    <label class="btn btn-warning warning-icon-notika waves-effect" style="margin-right: 10px;"><i class="notika-icon notika-right-arrow"></i> Next</label>
+                    <label class="btn btn-lightgreen lightgreen-icon-notika waves-effect" style="margin-right: 10px;"><i class="notika-icon notika-checked"></i> Exit Test</label>
+                </div>
+            </div>
+        </div>
+    </div>
+}

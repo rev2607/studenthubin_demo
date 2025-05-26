@@ -1,0 +1,25 @@
+.table tbody tr td a:hover {
+  color: #8cc542;
+}
+
+button {
+  background: none !important;
+  /*  border: none;
+    padding: 0!important; */
+  /*optional*/
+  font-family: arial, sans-serif;
+  /*input has OS specific font-family*/
+  color: #069;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+button:hover {
+  text-decoration: underline;
+  color: blue;
+}
+
+th {
+  text-align: center !important;
+  font-size: 20px;
+}

@@ -1,0 +1,81 @@
+﻿@model StudentHubMVC.Models.ViewModels.TSPolycet
+
+<div class="x_panel" style="border-color: #26b99a; border-width: 2px; ">
+    <div class="x_content">
+        <h3 style="text-align: center;">TS Polycet Results</h3>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td><b>Hall Ticket Number</b></td>
+                                <td>@Model.HallTicketNumber</td>
+                            </tr>
+                            <tr>
+                                <td><b>Name</b></td>
+                                <td>@Model.FullName</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td><b>MPC Total</b></td>
+                                <td>@Model.MPCTotal</td>
+                            </tr>
+                            <tr>
+                                <td><b>MPC Passed</b></td>
+                                <td>@Model.MPCStatus</td>
+                            </tr>
+                            <tr>
+                                <td><b>MPC Rank</b></td>
+                                <td><b style="color: red;">@Model.MPCRank</b></td>
+                            </tr>
+                            <tr>
+                                <td><b>MBiPC Total</b></td>
+                                <td>@Model.MBiPCTotal</td>
+                            </tr>
+                            <tr>
+                                <td><b>MBiPC Passed</b></td>
+                                <td>@Model.MBiPCStatus</td>
+                            </tr>
+                            <tr>
+                                <td><b>MBiPC Rank</b></td>
+                                <td><b style="color: red;">@Model.MBiPCRank</b></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td><b>Maths</b></td>
+                                <td>@Model.Maths</td>
+                            </tr>
+                            <tr>
+                                <td><b>Physics</b></td>
+                                <td>@Model.Physics</td>
+                            </tr>
+                            <tr>
+                                <td><b>Chemistry</b></td>
+                                <td>@Model.Chemistry</td>
+                            </tr>
+                            <tr>
+                                <td><b>Biology</b></td>
+                                <td>@Model.Biology</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,19 @@
+.breadcrumb li {
+  color: #fff;
+  font-weight: 500;
+}
+
+.breadcrumb li a {
+  color: #bbb;
+  font-weight: 400;
+}
+
+.breadcrumb {
+  background: none !important;
+}
+
+@media only screen and (min-width: 1024px) {
+  #news_details img {
+    height: 500px;
+  }
+}

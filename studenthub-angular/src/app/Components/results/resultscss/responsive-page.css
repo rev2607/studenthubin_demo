@@ -1,0 +1,88 @@
+@charset "utf-8";
+*{ margin:0; padding:0;}
+.clear{ clear:both;}
+
+/* CSS Document */
+/* responsive - Balu */
+/* 
+	Tools used	-	Dreaweaver CS4
+	Technology 
+	Emulator	-	Device Compatible test  ( Tab , Iphone,Android, Ipad ) Studio Press.com
+	Coding		-	Pure CSS3 media queries 
+*/	
+
+@media only screen  and (max-width :980px) {
+/* default styles */
+body {
+	width: 98%!important;
+	margin: auto!important;
+}
+/* default images*/
+*img {
+	max-width: 100%!important;
+	width: auto\9!important;
+	width: 100%!important;
+}
+	#wrapper{ width:100%!important; margin:0 auto!important; height:auto!important; overflow:hidden!important;}
+	#top{ width:100%!important;}
+	#top .logo{ width:98%!important!important; text-align:center!important;}
+	.add728{ display:none!important;}
+	.adds{ display:none!important;}
+	#cnct{ width:100%!important; margin:0 auto!important;}
+	.left-adds{ margin-top:0!important; width:22%!important; float:left!important; padding-left:0!important;}
+	.right-adds{ display:none!important;}
+	#UpdatePanel1{ width:75%!important; float:left!important;}
+	.footer{ width:98%!important; margin:0 auto!important;}
+}
+
+@media only screen  and (max-width :800px) 
+{
+	.left-adds{ display:none!important;}
+	#UpdatePanel1{ width:98%!important; margin:0 auto!important; float:none!important;}
+	.resultscnct{ width:100%!important;}
+	.title{ width:80%!important; margin:0 auto!important;}
+	.title p{ line-height:24px!important; padding-top:10px!important;}
+	.ht{ width:100%!important;}
+	.hall{ width:70%!important;}
+	.hall_tic{ width:30%!important; float:left!important;}
+	.iht{ width:45%!important; float:left!important; margin-top:6px!important;}
+	.rsbt{ width:28%!important; float:left!important;}
+	.rsbt2{ width:23%!important; float:right!important; display:none!important;}
+	.resultRow{
+		 width:50%!important;
+		  float:left!important; margin-right:0px!important; margin-top:16px!important;}
+	.resultRow p{ width:30%!important;}
+	.stly2{ width:53%!important; margin-right:10px!important;}
+	.first-year{ width:100%!important;}
+	.subject1{ width:48%!important!important;}
+	.marks1{ width:48%!important;}
+	.info{ width:100%!important;}
+	/* .info .details{ width:65%!important; float:left!important; margin:0 auto!important;} */
+	/* .print{ width:25%!important; float:right!important;} */
+	#lnk{ width:100%!important;}
+	.ad320{ display:block!important;}
+}
+
+@media only screen  and (max-width :500px) 
+{
+	.resultRow{ width:98%!important; margin:0 auto!important; float:none!important;}
+	.resultRow p{ border-left:none!important;}
+	/* .ht label{ margin-left:15px!important;} */
+	.ad320{ display:block!important;}
+}
+
+@media only screen  and (max-width :400px)
+{
+	.subject1 {width: 65% !important;}
+	.marks1{ margin-left:10px!important; float:left!important; width:30%!important;}
+	.title p {border-bottom: 2px solid #1990a0!important;border-top: 2px solid #1990a0!important;line-height: 24px!important; padding-top:0!important;}
+	.title{ background:none!important; height:auto!important;}
+	.ht{ height:auto!important;}
+	.hall{ width:70%!important;}
+	.hall_tic{ margin-left:0!important; width:40%!important;}
+	.iht{ margin:0!important; margin-top:10px!important; width:56%!important; padding-left:0!important;}
+	.stly2{ height:auto!important;}
+	.info .details{ width:100%!important;}
+	/* #btnPrint{ width:70%!important; margin:0 auto!important;} */
+	.ad320{ display:block!important;}
+}

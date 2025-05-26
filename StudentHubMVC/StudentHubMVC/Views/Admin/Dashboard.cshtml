@@ -1,0 +1,190 @@
+﻿
+@using MySql.Data.MySqlClient
+@using System.Data
+
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+    string query = "CALL GetDashboardStats();";
+
+    Entities db = new Entities();
+    var dashboardStats = db.Database.SqlQuery<string>(query);
+
+    MySqlConnection conn = new MySqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["bntstudenthub_db"].ConnectionString);
+    MySqlDataAdapter da = new MySqlDataAdapter(query, conn);
+    System.Data.DataTable dt = new System.Data.DataTable();
+    da.Fill(dt);
+
+    var result = dt.AsEnumerable();
+    
+}
+
+<div style="font-size:large; display: inline-block;">Dashboard</div>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel-group">
+            <div class="panel panel-info">
+                <div class="panel-heading">College Stats</div>
+                <div class="panel-body">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td>Total Colleges: </td>
+                                <td>@((result.Where(x => x.Field<string>("Field") == "Colleges").FirstOrDefault())["Count"])</td>
+                            </tr>
+                            <tr>
+                                <td>Total States: </td>
+                                <td>@((result.Where(x => x.Field<string>("Field") == "CollegeStates").FirstOrDefault())["Count"])</td>
+                            </tr>
+                            <tr>
+                                <td>Total Cities: </td>
+                                <td>@((result.Where(x => x.Field<string>("Field") == "CollegeCities").FirstOrDefault())["Count"])</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="panel panel-info ">
+                <div class="panel-heading">College Courses Stats</div>
+                <div class="panel-body">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td>Total Courses: </td>
+                                <td>@((result.Where(x => x.Field<string>("Field") == "CollegeCourses").FirstOrDefault())["Count"])</td>
+                            </tr>
+                            <tr>
+                                <td>Total Streams: </td>
+                                <td>@((result.Where(x => x.Field<string>("Field") == "CollegeCourseStreams").FirstOrDefault())["Count"])</td>
+                            </tr>
+                            <tr>
+                                <td>Total Active: </td>
+                                <td>@((result.Where(x => x.Field<string>("Field") == "CollegeCourseLevels").FirstOrDefault())["Count"])</td>
+                            </tr>
+                            <tr>
+                                <td>Total Inactive: </td>
+                                <td>@((result.Where(x => x.Field<string>("Field") == "CollegeCourseDegrees").FirstOrDefault())["Count"])</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="panel panel-info">
+                <div class="panel-heading">Job Alerts Stats</div>
+                <div class="panel-body">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td>Total Jobs: </td>
+                                <td>@((result.Where(x => x.Field<string>("Field") == "JobAlerts").FirstOrDefault())["Count"])</td>
+                            </tr>
+                            @*<tr>
+                                <td>Total Job Categories: </td>
+                                <td>@((result.Where(x => x.Field<string>("Field") == "CollegeCourseDegrees").FirstOrDefault())["Count"])</td>
+                            </tr>*@
+                            <tr>
+                                <td>Total Companies: </td>
+                                <td>@((result.Where(x => x.Field<string>("Field") == "JobCompanies").FirstOrDefault())["Count"])</td>
+                            </tr>
+                            <tr>
+                                <td>Total Cities: </td>
+                                <td>@((result.Where(x => x.Field<string>("Field") == "JobCities").FirstOrDefault())["Count"])</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="panel panel-info">
+                <div class="panel-heading">News Alerts Stats</div>
+                <div class="panel-body">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td>Total News Alerts: </td>
+                                <td>@((result.Where(x => x.Field<string>("Field") == "NewsAlerts").FirstOrDefault())["Count"])</td>
+                            </tr>
+                            <tr>
+                                <td>Total News Categories: </td>
+                                <td>@((result.Where(x => x.Field<string>("Field") == "NewsCategories").FirstOrDefault())["Count"])</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel-group">
+            <div class="panel panel-info">
+                <div class="panel-heading">Training Institutions Stats</div>
+                <div class="panel-body">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td>Total Institutions: </td>
+                                <td>@((result.Where(x => x.Field<string>("Field") == "Institutions").FirstOrDefault())["Count"])</td>
+                            </tr>
+                            <tr>
+                                <td>Total Training Modes: </td>
+                                <td>@((result.Where(x => x.Field<string>("Field") == "InstitutionTrainingMode").FirstOrDefault())["Count"])</td>
+                            </tr>
+                            <tr>
+                                <td>Total Cities: </td>
+                                <td>@((result.Where(x => x.Field<string>("Field") == "InstitutionCities").FirstOrDefault())["Count"])</td>
+                            </tr>
+                            <tr>
+                                <td>Total Courses: </td>
+                                <td>@((result.Where(x => x.Field<string>("Field") == "InstitutionCourses").FirstOrDefault())["Count"])</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="panel panel-info">
+                <div class="panel-heading">Exams Stats</div>
+                <div class="panel-body">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td>Total Courses: </td>
+                                <td>@((result.Where(x => x.Field<string>("Field") == "ExamCourses").FirstOrDefault())["Count"])</td>
+                            </tr>
+                            <tr>
+                                <td>Total Streams: </td>
+                                <td>@((result.Where(x => x.Field<string>("Field") == "ExamStreams").FirstOrDefault())["Count"])</td>
+                            </tr>
+                            <tr>
+                                <td>Total Levels: </td>
+                                <td>@((result.Where(x => x.Field<string>("Field") == "ExamLevels").FirstOrDefault())["Count"])</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="panel panel-info">
+                <div class="panel-heading">Mock Tests Stats</div>
+                <div class="panel-body">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td>Total Tests: </td>
+                                <td>@((result.Where(x => x.Field<string>("Field") == "MockTests").FirstOrDefault())["Count"])</td>
+                            </tr>
+                            <tr>
+                                <td>Total Paid Tests: </td>
+                                <td>@((result.Where(x => x.Field<string>("Field") == "MockTestsPaid").FirstOrDefault())["Count"])</td>
+                            </tr>
+                            <tr>
+                                <td>Total Government Tests: </td>
+                                <td>@((result.Where(x => x.Field<string>("Field") == "MockTestsGovernment").FirstOrDefault())["Count"])</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

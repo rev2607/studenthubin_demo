@@ -1,0 +1,66 @@
+﻿@model IEnumerable<StudentHubMVC.NewsAlerts>
+
+@{
+    ViewBag.Title = "NewsAlerts";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div style="width: 100%;">
+    <div style="padding: 10px 0px 15px 0px; width: 80%; display: inline-block;">
+        <div style="font-size:x-large; display: inline-block;"><u>News Manager</u></div>
+    </div>
+    <div style="padding-top: 10px; width: 19%; display: inline-block;">
+        <div style="width: 100%; display: inline-block; text-align: center; font-weight: bold;border: #8dc642 solid 2px;padding: 5px;">
+            @Html.ActionLink("Add News Alert", "SaveNewsAlert")
+        </div>
+    </div>
+    <div style="width: 100%;">
+        @{Html.RenderPartial("pErrorSaveMessages"); }
+    </div>
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.NewsTypeId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        @*<th>
+                @Html.DisplayNameFor(model => model.CourseId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InstitutionId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Keywords)
+            </th>*@
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DropdownTypes.TypeValue)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.CourseId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InstitutionId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Keywords)
+                </td>*@
+            <td>
+                @Html.ActionLink("Edit", "SaveNewsAlert", new { newsid = item.NewsId }, new { @class = "editsmall", @title = "Edit News Alert" })
+            </td>
+        </tr>
+    }
+
+</table>

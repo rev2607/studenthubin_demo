@@ -1,0 +1,72 @@
+﻿
+@{
+    ViewBag.Title = "Batches Manager";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Batches Manager</h2>
+
+<p>
+    @Html.ActionLink("Add Batch", "addbatch")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Course
+        </th>
+        <th>
+            Date
+        </th>
+        <th>
+            Timings
+        </th>
+        <th>
+            Class Duration
+        </th>
+        <th>
+            Instructor
+        </th>
+        <th>
+            Fee
+        </th>
+        <th>
+            Discount
+        </th>
+        <th></th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item["Course"]
+            </td>
+            <td>
+                @item["Date"]
+            </td>
+            <td>
+                @item["Timings"]
+            </td>
+            <td>
+                @item["Class Duration"]
+            </td>
+            <td>
+                @item["Instructor"]
+            </td>
+            <td>
+                @item["Fee"]
+            </td>
+            <td>
+                @item["Discount"]
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "SaveBatch", new { id = @item["ID"] })
+            </td>
+            <td>
+                @Html.ActionLink("Students", "BatchStudents", new { id = @item["ID"] })
+            </td>
+        </tr>
+    }
+
+</table>

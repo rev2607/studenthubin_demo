@@ -1,0 +1,534 @@
+<!-- START: breadcrumb -->
+<div class="banner_wrapper bg_sh_blue">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="/colleges">Colleges</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{college.Name}}</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<!-- END: breadcrumb -->
+
+
+<!-- START: College Image and Name -->
+<div class="container-fluid" *ngIf="college">
+    <!-- College Image and Name :start -->
+    <div class="row text-center bg_theme_colored">
+        <div class="col-sm-12 p-3">
+            <span>
+                <img loading="eager" alt="IIT Bombay logo" [src]="college.Logo" width="150" height="150" class="size-full aligncenter tie-appear bg-white">
+            </span>
+            <h1 class="title_1 text-white">{{college.Name}}</h1>
+            <p class="title_2 text-white">{{college.Address}}</p>
+        </div>
+    </div>
+    <!-- College Image and Name :end -->
+
+    <!-- Icons Area :start -->
+    <div class="row text-center p-3 bg_color_green link_class">
+        <div class="col">
+            <div>
+                <a (click)="scroll(courses_offered)">
+                    <!-- <div><i class="fa fa-book logo_color"></i></div> -->
+                    <div class="value">Courses</div>
+                </a>
+            </div>
+        </div>
+        <!-- <div class="col">
+            <div>
+                <a href="#">
+                   <div><i class="fa fa-info logo_color"></i></div> 
+                    <div class="value">Seats</div>
+                </a>
+            </div>
+        </div> -->
+        <div class="col">
+            <div>
+                <a (click)="scroll(fees)">
+                    <!-- <div><i class="fa fa-rupee-sign logo_color"></i></div> -->
+                    <div class="value">Fees</div>
+                </a>
+            </div>
+        </div>
+        <!-- <div class="col">
+            <div>
+                <a href="#">
+                     <div><i class="fa fa-th-list logo_color"></i></div> 
+                    <div class="value">Cutoff</div>
+                </a>
+            </div>
+        </div> -->
+        <div class="col">
+            <div>
+                <a (click)="scroll(rank)">
+                    <!-- <div><i class="fa fa-chart-line logo_color" aria-hidden="true"></i></div> -->
+                    <div class="value">Ranking</div>
+                </a>
+            </div>
+        </div>
+        <div class="col">
+            <div>
+                <a (click)="scroll(admission)">
+                    <!-- <div><i class="fa fa-university logo_color"></i></div> -->
+                    <div class="value">Admission</div>
+                </a>
+            </div>
+        </div>
+
+        <div class="col">
+            <div>
+                <a (click)="scroll(placement)">
+                    <!-- <div><i class="fa fa-briefcase logo_color"></i></div> -->
+                    <div class="value">Placements</div>
+                </a>
+            </div>
+        </div>
+        <div class="col">
+            <div>
+                <a (click)="scroll(connectivity)">
+                    <!-- <div><i class="fa fa-map-marker logo_color"></i></div> -->
+                    <div class="value">Connectivity</div>
+                </a>
+            </div>
+        </div>
+        <div class="col">
+            <div>
+                <a (click)="scroll(scholarship)">
+                    <!-- <div> <i class="fa fa-money-bill logo_color" aria-hidden="true"></i></div> -->
+                    <div class="value">Scholarships</div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- Icons Area :end -->
+</div>
+<!-- END: College Image and Name -->
+
+
+
+
+<!-- START: Main Content -->
+<div id="main-content" class="container-fluid">
+    <!-- Advertisement Area :start-->
+    <div class="advertisement_area"></div>
+    <!-- Advertisement Area :end-->
+
+
+    <!-- content sections :start -->
+    <div class="row">
+
+        <!-- collegee details :start -->
+        <div class="col-lg-9 col-md-12 col-sm-12">
+            <div class="container">
+
+                <!-- OVERVIEW , Talk & Apply Buttons Area :start-->
+                <div class="row p-3 bg-white mb-4">
+                    <div class="col-md-12">
+                        <div class="page_sub_header pl-0">
+                            <h2>OVERVIEW</h2>
+                        </div>
+                        <div class="table-responsive pt-2">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <th>Institute Name</th>
+                                        <td>{{college.Name}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Also Known As</th>
+                                        <td>{{college.Knownas}}</td>
+                                    </tr>
+                                    <!-- <tr>
+                                        <th>Location></th>
+                                        <td>{{college.Location}}</td>
+                                    </tr> -->
+                                    <tr>
+                                        <th>Year of Established</th>
+                                        <td>{{college.EstablishedYear}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Type of Institute</th>
+                                        <td>{{college.TypeOfInstitute}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Approved by</th>
+                                        <td>{{college.Approval}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Campus Area</th>
+                                        <td>{{college.CampusSize}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Academic Departments</th>
+                                        <td>{{college.AcademicDepartments}}</td>
+                                    </tr>
+                                    <!-- <tr>
+                                        <th>Academic Centres</th>
+                                        <td>{{college.AcademicCentres}}</td>
+                                    </tr> -->
+                                    <tr>
+                                        <th>No: of Faculties</th>
+                                        <td>{{college.FacultyNo}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Student intake</th>
+                                        <td>{{college.StudentsIntake}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Student diversity</th>
+                                        <td>{{college.StudentsDiversity}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Faculty</th>
+                                        <td>{{college.FacultyNo}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Faculty-to-student ratio</th>
+                                        <td>{{college.FacultytoStudentRatio}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Annual expenditure</th>
+                                        <td>{{college.AnnualExpenditure}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Research details</th>
+                                        <td>{{college.ResearchDetails}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- <div class="col-md-4">
+                        <div class="mt-5 p-3 talk_apply_area text-center">
+                            <p>Are You Interested In This College?</p>
+                            <div class="display-inline-table">
+                                <button class="btn btn-primary mt-1 mb-1">Talk To Experts</button>
+                                <button class="btn btn-danger">Apply Now</button>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+                <!-- OVERVIEW , Talk & Apply Buttons Area :end -->
+
+
+                <!-- Courses offered Area :start-->
+                <div class="row p-3 bg-white mb-4" #courses_offered>
+                    <div class="col-md-12">
+                        <div class="page_sub_header pl-0">
+                            <h2>Courses offered</h2>
+                        </div>
+
+                        <div class="mt-2">
+                            <!-- collapsible sections -->
+                            <div class="accordion" id="">
+                                <div class="card" *ngIf="college.Degree_4Years">
+                                    <div class="card-header p-0 bg-white" id="headingOne">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+                                                aria-controls="collapseOne">
+                                                B.E/B.Tech <sup>4 Years</sup>
+                                            </button>
+                                        </h2>
+                                    </div>
+
+                                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne">
+                                        <div class="card-body">
+                                            <div [innerHTML]="college.Degree_4Years"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card" *ngIf="college.Degree_5Years">
+                                    <div class="card-header p-0 bg-white" id="headingTwo">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
+                                                aria-controls="collapseTwo">
+                                                B.Tech + M.Tech(Dual Degree) <sup>5 Years</sup>
+
+                                            </button>
+                                        </h2>
+                                    </div>
+                                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo">
+                                        <div class="card-body">
+                                            <div [innerHTML]="college.Degree_5Years"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- <div class="text-center">
+                                <select id="" class="form-control custom-select w-75" [(ngModel)]="selectedCourse" (change)="selectChange()">
+                                    <option value="" selected>Courses</option>
+                                    <optgroup label="4 Years">
+                                        <option>B.E/B.Tech</option>
+                                    </optgroup>
+                                    <optgroup label="5 Years">
+                                        <option>B.Tech + M.Tech(Dual Degree)</option>
+                                    </optgroup>
+                                </select>
+                            </div> -->
+                            <!-- <div class="px-3 mt-4 pb-3">
+                                <div class="page_sub_header mb-3">
+                                    <p class=" mb-2">{{selectedCourse}}</p>
+                                </div>
+                                <div [innerHTML]="selectedCourseDetails"></div>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                <!-- Courses offered Area :end-->
+                <!-- Mode of admission Area :start -->
+                <div class="row p-3 bg-white mb-4" #admission>
+                    <div class=" col-md-12">
+                        <div class="page_sub_header pl-0">
+                            <h2>MODE OF ADMISSION</h2>
+                        </div>
+                        <div class="">
+                            <div [innerHTML]="college.ModeOfAdmission"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Mode of admission Area  end -->
+
+                <!-- FEE STRUCTURE Area :start-->
+                <div class="row p-3 bg-white mb-4" #fees>
+                    <div class="col-md-12">
+                        <div class="page_sub_header pl-0">
+                            <h2>FEE STRUCTURE</h2>
+                        </div>
+                        <div [innerHtml]="college.FeesStructure" class="table-responsive pt-2"></div>
+
+                        <!-- HOSTEL FEE -->
+                        <div class="page_sub_header pl-0 mt-2">
+                            <h2>HOSTEL FEE</h2>
+                        </div>
+                        <div [innerHtml]="college.HostelFee" class="table-responsive pt-2"></div>
+
+                        <!-- FEE WAIVERS -->
+                        <!-- <div class="px-3 mt-2 pb-3">
+                            <div class="page_sub_header mb-3">
+                                <p class="">FEE WAIVERS</p>
+                            </div>
+                            <div [innerHtml]="college.FeeWaivers"></div>
+                        </div> -->
+
+                    </div>
+                </div>
+                <!-- FEE STRUCTURE Area :end-->
+
+
+                <!-- Scholarships Area :start-->
+                <div class="row p-3 bg-white mb-4" #scholarship>
+                    <div class="col-md-12">
+                        <div class="page_sub_header pl-0">
+                            <h2 class="">Scholarships</h2>
+                        </div>
+                        <div [innerHtml]="college.Scholarships" class="table-responsive pt-2"></div>
+                    </div>
+                </div>
+                <!-- Scholarships Area :end-->
+
+                <!-- Campus Facilities Area :start-->
+                <div class="row p-3 bg-white mb-4">
+                    <div class="col-md-12">
+                        <div class="page_sub_header pl-0">
+                            <h2 class="">Campus Facilities</h2>
+                        </div>
+
+                        <div class="">
+                            <p class="mt-2">
+                                <strong class="logo_color">{{college.Name}} offers the following facilities:</strong>
+                            </p>
+                            <!-- <div class="row">
+                                <div class="col-md-2 text-center" *ngIf="college.CampusFacilities.indexOf('Lab') > 0">
+                                    <img class="img-responsive pl-30" src="https://studenthub.in/assets/images/facility-icons/it-infra.png">
+                                    <p class="text-center"> Laboratories</p>
+                                </div>
+                                <div class="col-md-2 text-center" *ngIf="college.CampusFacilities.indexOf('Alumni') > 0">
+                                    <img class="img-responsive pl-30" src="https://studenthub.in/assets/images/facility-icons/alumni-icon.png">
+                                    <p class="text-center">Alumni Associations</p>
+                                </div>
+                                <div class="col-md-2 text-center" *ngIf="college.CampusFacilities.indexOf('Auditorium') > 0">
+                                    <img class="img-responsive pl-30" src="https://studenthub.in/assets/images/facility-icons/auditorium.png">
+                                    <p class="text-center">Auditorium</p>
+                                </div>
+                                <div class="col-md-2 text-center" *ngIf="college.CampusFacilities.indexOf('Bank') > 0">
+                                    <img class="img-responsive pl-30" src="https://studenthub.in/assets/images/facility-icons/bank.png">
+                                    <p class="text-center">Bank Facility</p>
+                                </div>
+                                <div class="col-md-2 text-center" *ngIf="college.CampusFacilities.indexOf('Hostel') > 0">
+                                    <img class="img-responsive pl-30" src="https://studenthub.in/assets/images/facility-icons/boys-hostal.png">
+                                    <p class="text-center">Boys Hostel</p>
+                                </div>
+                                <div class="col-md-2 text-center" *ngIf="college.CampusFacilities.indexOf('Cafeteria') > 0">
+                                    <img class="img-responsive pl-30" src="https://studenthub.in/assets/images/facility-icons/cafeteria.png">
+                                    <p class="text-center">Cafeteria</p>
+                                </div>
+
+                                <div class="col-md-2 text-center" *ngIf="college.CampusFacilities.indexOf('Store') > 0">
+                                    <img class="img-responsive pl-30" src="https://studenthub.in/assets/images/facility-icons/store.png">
+                                    <p class="text-center">Convenience Store</p>
+                                </div>
+                                <div class="col-md-2 text-center" *ngIf="college.CampusFacilities.indexOf('Hostel') > 0">
+                                    <img class="img-responsive pl-30" src="https://studenthub.in/assets/images/facility-icons/girls-hostal.png">
+                                    <p class="text-center">Girls Hostel</p>
+                                </div>
+                                <div class="col-md-2 text-center" *ngIf="college.CampusFacilities.indexOf('Guest') > 0">
+                                    <img class="img-responsive pl-30" src="https://studenthub.in/assets/images/facility-icons/guest-room.png">
+                                    <p class="text-center">Guest Rooms</p>
+                                </div>
+                                <div class="col-md-2 text-center" *ngIf="college.CampusFacilities.indexOf('Gym') > 0">
+                                    <img class="img-responsive pl-30" src="https://studenthub.in/assets/images/facility-icons/gym.png">
+                                    <p class="text-center">Gym</p>
+                                </div>
+                                <div class="col-md-2 text-center" *ngIf="college.CampusFacilities.indexOf('IT') > 0">
+                                    <img class="img-responsive pl-30" src="https://studenthub.in/assets/images/facility-icons/it-infra.png">
+                                    <p class="text-center">IT Infrastructure</p>
+                                </div>
+                                <div class="col-md-2 text-center" *ngIf="college.CampusFacilities.indexOf('Library') > 0">
+                                    <img class="img-responsive pl-30" src="https://studenthub.in/assets/images/facility-icons/library.png">
+                                    <p class="text-center">Library</p>
+                                </div>
+
+                                <div class="col-md-2 text-center" *ngIf="college.CampusFacilities.indexOf('Bus') > 0">
+                                    <img class="img-responsive pl-30" src="https://studenthub.in/assets/images/facility-icons/transport.png">
+                                    <p class="text-center">Transportation</p>
+                                </div> -->
+                            <div [innerHtml]="college.CampusFacilities" class="table-responsive pt-2 text-capitalize"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Campus Facilities Area :end-->
+
+                <!-- RANKING Area :start -->
+                <div class="row p-3 bg-white mb-4" #rank>
+                    <div class="col-md-12">
+                        <div class="page_sub_header pl-0">
+                            <h2 class="">RANKING</h2>
+                        </div>
+                        <div [innerHtml]="college.Rankings" class="table-responsive pt-2"></div>
+                    </div>
+                </div>
+                <!-- RANKING Area :end -->
+
+                <!-- CONNECTIVITY  Area :start -->
+                <div class="row p-3 bg-white mb-4" #connectivity>
+                    <div class="col-md-12">
+                        <div class="page_sub_header pl-0">
+                            <h2 class="">CONNECTIVITY </h2>
+                        </div>
+                        <div [innerHtml]="college.Connectivity" class="pt-2"></div>
+                    </div>
+                </div>
+                <!-- CONNECTIVITY  Area :end -->
+
+
+                <!-- Placements Area :start-->
+                <div class="row p-3 bg-white mb-4" #placement>
+                    <div class="col-md-12">
+                        <div class="page_sub_header pl-0">
+                            <h2 class="">TOP RECRUITERS</h2>
+                        </div>
+                        <div [innerHtml]="college.Recruiters" class="pt-2"></div>
+                    </div>
+                </div>
+                <!-- Placements Area :end-->
+
+
+                <!-- Package Offered :start-->
+                <div class="row p-3 bg-white mb-4">
+                    <div class="col-md-12">
+                        <div class="page_sub_header pl-0">
+                            <h2 class="">PACKAGE OFFERED</h2>
+                        </div>
+                        <div [innerHtml]="college.HighestPackage" class="pt-2"></div>
+                    </div>
+                    <!-- <div class="mt-3" *ngIf="college.HighestPackage">
+                        <div [innerHtml]="college.HighestPackage"></div>
+                    </div>
+                    <div class="mt-3" *ngIf="college.AveragePackage">
+                        <p><i class="fa fa-star text-warning"></i>
+                            <b>Average Gross Salary:</b>
+                        </p>
+                        <div [innerHtml]="college.AveragePackage"></div>
+                    </div> -->
+                </div>
+                <!-- Package Offered :end-->
+
+
+
+                <!-- Contact Details  Area :start -->
+                <div class="row p-3 bg-white mb-4">
+                    <div class="col-md-12">
+                        <div class="page_sub_header pl-0">
+                            <h2 class="">Contact Details </h2>
+                        </div>
+                        <div class="mt-3">
+                            <div class="row">
+                                <!-- <div class="col-md-6">
+                                    <iframe
+                                        src="https://maps.google.com/maps?width=100%25&amp;hl=en&amp;q=1%20Grafton%20Street,%20Dublin,%20Ireland+(My%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
+                                        height="400" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0" class="w-100"></iframe> 
+
+                                <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
+                                    <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+                                </agm-map>
+                            </div> -->
+                                <div class="col-md-12">
+                                    <!-- <h4 class="mb-4">Contact Us</h4> -->
+                                    <div class="p-3">
+                                        <p *ngIf="college.Address"> <i class="fa fa-map-marker logo_color" aria-hidden="true"></i>
+                                            {{college.Address}}</p>
+                                        <p *ngIf="college.Phone1"><i class="fa fa-phone logo_color" aria-hidden="true"></i>
+                                            {{college.Phone1}}</p>
+                                        <p *ngIf="college.Email1"><i class="fa fa-envelope logo_color" aria-hidden="true"></i>
+                                            {{college.Email1}}</p>
+                                        <p *ngIf="college.Website"> <i class="fa fa-globe logo_color" aria-hidden="true"></i>
+                                            {{college.Website}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Contact Details  Area :end -->
+
+            </div>
+        </div>
+        <!-- college details : end -->
+
+        <!-- right side :start -->
+        <div class="col-lg-3 col-md-12 col-sm-12">
+            <div class="container">
+                <div class="row p-2 bg-white mb-4">
+                    <div class="col-md-12">
+                        <div class="page_sub_header pl-0">
+                            <h2>EXPLORE COLLEGES </h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row p-2 bg-white mb-4">
+                    <div class="col-md-12">
+                        <div class="page_sub_header pl-0">
+                            <h2>LATEST NEWS </h2>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-lg-12 col-md-12 col-sm-12 mb-1" *ngFor="let x of newsAlerts.slice(0,10)">
+                                <a [routerLink]="['/news',x.UrlKeyWord]" class="text_blue">
+                                    <p class="text-capitalize mb-1">{{x.Title}}</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- right side :end-->
+    </div>
+    <!-- content sections :end -->
+
+</div>
+<!-- END: Main Content -->

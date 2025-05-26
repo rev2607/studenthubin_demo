@@ -1,0 +1,602 @@
+﻿@model StudentHubMVC.Models.ViewModels.Home.VMHomeIndex
+
+@{
+    Layout = "~/Views/Shared/_LayoutFront.cshtml";
+    ViewBag.Title = "Home";
+}
+
+<!-- CAROUSEL BOX START -->
+<section>
+    <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel">
+        <div class="carousel-inner">
+            @foreach (string banner in Model.Banners)
+            {
+                if (banner != null && banner != "")
+                {
+                    <div class="carousel-item active">
+                        <img src="~/assets/img/banners/@banner" class="d-block w-100" alt="...">
+                    </div>
+                }
+            }
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleFade" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleFade" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</section>
+<!-- CAROUSEL BOX END -->
+<!-- SEARCH BOX START -->
+@*<section>
+    <div class="container-fluid no-pad">
+        <div class="search-sec bg-white">
+            <form action="#" method="post" _lpchecked="1">
+                <div class="col-sm-10 col-centered">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                            <input type="text" class="form-control search-slt" placeholder="Find Institution / Course">
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                            <input type="text" class="form-control search-slt" placeholder="Enter Location">
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-12 p-0">
+                            <input type="text" class="form-control search-slt" placeholder="Training Mode">
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-12 p-0">
+                            <input type="text" class="form-control search-slt" placeholder="Area Preferences">
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-12 p-0">
+                            <button type="button" class="btn btn-danger wrn-btn">Search</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>*@
+<!-- SEARCH BOX END -->
+<!-- IMPORTANT NAVIGATION BLOCKS START -->
+<section class="navblockssec">
+    <div class="">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="sectionhomehead">
+                    EXPLORE YOUR OPTIONS
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6 col-6 nopad">
+                <div class="navblock">
+                    <div class="navblocktop">
+                        <i class="fa fa-book" aria-hidden="true"></i>
+                    </div>
+                    <div class="navblockbtm">
+                        Top Institutions
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6 col-6 nopad">
+                <div class="navblock">
+                    <div class="navblocktop">
+                        <i class="fa fa-university" aria-hidden="true"></i>
+                    </div>
+                    <div class="navblockbtm">
+                        Trending Courses
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6 col-6 nopad">
+                <div class="navblock">
+                    <div class="navblocktop">
+                        <i class="fa fa-book" aria-hidden="true"></i>
+                    </div>
+                    <div class="navblockbtm">
+                        Examination Alerts
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6 col-6 nopad">
+                <div class="navblock">
+                    <div class="navblocktop">
+                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                    </div>
+                    <div class="navblockbtm">
+                        Job Alerts
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6 col-6 nopad">
+                <div class="navblock">
+                    <div class="navblocktop">
+                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                    </div>
+                    <div class="navblockbtm">
+                        Education News
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6 col-6 nopad">
+                <div class="navblock">
+                    <div class="navblocktop">
+                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                    </div>
+                    <div class="navblockbtm">
+                        Top Articles
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--<div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6 col-6 nopad">
+                <div class="navblock">
+                    <div class="navblocktop">
+                        <i class="fa fa-book" aria-hidden="true"></i>
+                    </div>
+                    <div class="navblockbtm">
+                        Tutorials
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6 col-6 nopad">
+                <div class="navblock">
+                    <div class="navblocktop">
+                        <i class="fa fa-university" aria-hidden="true"></i>
+                    </div>
+                    <div class="navblockbtm">
+                        Internships
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6 col-6 nopad">
+                <div class="navblock">
+                    <div class="navblocktop">
+                        <i class="fa fa-book" aria-hidden="true"></i>
+                    </div>
+                    <div class="navblockbtm">
+                        Mock Tests
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6 col-6 nopad">
+                <div class="navblock">
+                    <div class="navblocktop">
+                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                    </div>
+                    <div class="navblockbtm">
+                        Scholarships
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6 col-6 nopad">
+                <div class="navblock">
+                    <div class="navblocktop">
+                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                    </div>
+                    <div class="navblockbtm">
+                        Classroom Training
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6 col-6 nopad">
+                <div class="navblock">
+                    <div class="navblocktop">
+                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                    </div>
+                    <div class="navblockbtm">
+                        Online Training
+                    </div>
+                </div>
+            </div>
+        </div>-->
+    </div>
+</section>
+<!-- IMPORTANT NAVIGATION BLOCKS END -->
+<!-- COURSES BLOCK START -->
+<section class="courseshome">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 sectionhomehead">
+                <div>
+                    AVAILABLE COURSES
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="row">
+                    @foreach (DropdownTypes stream in Model.Streams)
+                    {
+                        if (stream.TypeValue == "Software")
+                        {
+                            <div class="col-md-6 nopad">
+                                <div class="coursehomestream">
+                                    <a class="active show" id="id-@stream.TypeValueUrlKeyword.Replace(" ", "-").ToLower()" data-toggle="tab" href="#@stream.TypeValueUrlKeyword.Replace(" ", "").ToLower()" role="tab" aria-controls="home" aria-selected="true">@stream.TypeValue</a>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-6 nopad">
+                                <div class="coursehomestream">
+                                    <a class="" id="id-@stream.TypeValueUrlKeyword.Replace(" ", "-").ToLower()" data-toggle="tab" href="#@stream.TypeValueUrlKeyword.Replace(" ", "").ToLower()" role="tab" aria-controls="home" aria-selected="false">@stream.TypeValue</a>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="courseshomeright">
+                        <div class="tab-content col-md-12" id="myTabContent">
+                            @foreach (DropdownTypes stream in Model.Streams)
+                            {
+                                if (stream.TypeValue == "Software")
+                                {
+                                    <div class="tab-pane fade row active show" id="@stream.TypeValueUrlKeyword.Replace(" ", "").ToLower()" role="tabpanel" aria-labelledby="id-@stream.TypeValueUrlKeyword.Replace(" ", "").ToLower()">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                @foreach (MainCourses course in Model.Courses.Where(c => c.Stream == stream.DropdownTypeId).ToList())
+                                                {
+                                                    <div class="coursehomecourse col-md-4">
+                                                        <i class="fas fa-check-double"></i> &nbsp; @course.Name
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="tab-pane fade row" id="@stream.TypeValueUrlKeyword.Replace(" ", "").ToLower()" role="tabpanel" aria-labelledby="id-@stream.TypeValueUrlKeyword.Replace(" ", "").ToLower()">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                @foreach (MainCourses course in Model.Courses.Where(c => c.Stream == stream.DropdownTypeId).ToList())
+                                                {
+                                                    <div class="coursehomecourse col-md-4">
+                                                        <i class="fas fa-check-double"></i> &nbsp;  @course.Name
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div style="float: right;">
+                    <a href="/courses">..More Courses</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- COURSES BLOCK END -->
+<!-- INSTITUTIONS START -->
+<section class="institutionshome">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 sectionhomehead">
+                TOP INSTITUTIONS
+            </div>
+            <div class="col-md-12">
+                <div class="row">
+                    <!--<div class="institutionshomebox">-->
+                    @foreach (Institutions institution in Model.Institutions)
+                    {
+                        <div class="col-md-3 nopad">
+                            <div class="institutionhomename" title="@institution.Name">
+                                <a href="@Url.Action("courses", new { id = institution.UrlKeyword })">
+                                    <i class="fa fa-university" aria-hidden="true"></i> &nbsp; @institution.Name
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <!--</div>-->
+            </div>
+            <div class="col-md-12">
+                <div style="float: right;">
+                    <a href="@Url.Action("Institutions")">..More Institutions</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- INSTITUTIONS END -->
+<!-- STATS AND CONTACT FORM START -->
+<section class="statscontact">
+    <div class="">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                    <div style="color: #ffffff;     margin-top: 75px;     padding-right: 150px;">
+                        <div class="statcontacthead">
+                            <h1>Register Now..</h1>
+                        </div>
+                        <div class="statcontactdesc">
+                            lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum
+                        </div>
+                        <div class="statitems">
+                            <div class="statitem">
+                                <div class="statcount">
+                                    250
+                                </div>
+                                <div class="stattitle">
+                                    COURSES
+                                </div>
+                            </div>
+                            <div class="statitem">
+                                <div class="statcount">
+                                    250
+                                </div>
+                                <div class="stattitle">
+                                    INSTITUTIONS
+                                </div>
+                            </div>
+                            <div class="statitem">
+                                <div class="statcount">
+                                    250
+                                </div>
+                                <div class="stattitle">
+                                    MOCK TESTS
+                                </div>
+                            </div>
+                            <div class="statitem">
+                                <div class="statcount">
+                                    250
+                                </div>
+                                <div class="stattitle">
+                                    TUTORIALS
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <div class="contact-form-area">
+                        <div class="contact-form">
+                            <div style="padding: 16px 0px 5px 0px">
+                                <h4 style="text-align: center;">GET INFORMATION</h4>
+                            </div>
+                            <form class="cmxform" id="contact-form1" method="post" action="#" style="padding: 10px 0px;">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Enter Your Name" id="contact_name" name="name" maxlength="25" required="">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <input type="email" class="form-control" placeholder="Enter Your Email" id="contact_email" name="email" maxlength="30" required="">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Enter Your phone Number" id="contact_number" name="pnumber" maxlength="12" required="">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <textarea class="form-control" rows="5" placeholder="Write your Message here..." id="contact_message" name="message" maxlength="1000" required=""></textarea>
+                                    </div>
+                                </div>
+                                <div id="error" class="alert alert-danger submitmsg" style="display: none; text-align: center;">Enquiry Sending Failed</div>
+                                <div id="success" class="alert alert-success submitmsg" style="display: none; text-align: center;">Enquiry Submitted</div>
+                                <div class="col-md-12">
+                                    <div class="">
+                                        <button id="enquirysubmit" type="submit" class="submitbutton">SUBMIT</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- STATS AND CONTACT FORM START -->
+<!-- NEWS SECTION START -->
+<section class="newshome">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 sectionhomehead">
+                NEWS ALERTS
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 nopad">
+                <div class="newsitemhome">
+                    <div class="newsitemhomehead">
+                        <img src="/assets/img/teachers-1.jpg" />
+                    </div>
+                    <div class="newsitemhomeoverlay">
+                        <div class="newitemhometitle">
+                            <a href="#">NIOS D.El.Ed Third Semester Results 2018 Out</a>
+                        </div>
+                    </div>
+                    <div class="newsitemhomefoot">
+                        <div class="newitemhomedate">
+                            20 Jun 2019
+                        </div>
+                        <div class="newitemhomecat">
+                            exam dates
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 nopad">
+                <div class="newsitemhome">
+                    <div class="newsitemhomehead">
+                        <img src="/assets/img/teachers-1.jpg" />
+                    </div>
+                    <div class="newsitemhomeoverlay">
+                        <div class="newitemhometitle">
+                            <a href="#">NIOS D.El.Ed Third Semester Results 2018 Out</a>
+                        </div>
+                    </div>
+                    <div class="newsitemhomefoot">
+                        <div class="newitemhomedate">
+                            20 Jun 2019
+                        </div>
+                        <div class="newitemhomecat">
+                            exam dates
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 nopad">
+                <div class="newsitemhome">
+                    <div class="newsitemhomehead">
+                        <img src="/assets/img/teachers-1.jpg" />
+                    </div>
+                    <div class="newsitemhomeoverlay">
+                        <div class="newitemhometitle">
+                            <a href="#">NIOS D.El.Ed Third Semester Results 2018 Out</a>
+                        </div>
+                    </div>
+                    <div class="newsitemhomefoot">
+                        <div class="newitemhomedate">
+                            20 Jun 2019
+                        </div>
+                        <div class="newitemhomecat">
+                            exam dates
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 nopad">
+                <div class="newsitemhome">
+                    <div class="newsitemhomehead">
+                        <img src="/assets/img/teachers-1.jpg" />
+                    </div>
+                    <div class="newsitemhomeoverlay">
+                        <div class="newitemhometitle">
+                            <a href="#">NIOS D.El.Ed Third Semester Results 2018 Out</a>
+                        </div>
+                    </div>
+                    <div class="newsitemhomefoot">
+                        <div class="newitemhomedate">
+                            20 Jun 2019
+                        </div>
+                        <div class="newitemhomecat">
+                            exam dates
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 nopad">
+                <div class="newsitemhome">
+                    <div class="newsitemhomehead">
+                        <img src="/assets/img/teachers-1.jpg" />
+                    </div>
+                    <div class="newsitemhomeoverlay">
+                        <div class="newitemhometitle">
+                            <a href="#">NIOS D.El.Ed Third Semester Results 2018 Out</a>
+                        </div>
+                    </div>
+                    <div class="newsitemhomefoot">
+                        <div class="newitemhomedate">
+                            20 Jun 2019
+                        </div>
+                        <div class="newitemhomecat">
+                            exam dates
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 nopad">
+                <div class="newsitemhome">
+                    <div class="newsitemhomehead">
+                        <img src="/assets/img/teachers-1.jpg" />
+                    </div>
+                    <div class="newsitemhomeoverlay">
+                        <div class="newitemhometitle">
+                            <a href="#">NIOS D.El.Ed Third Semester Results 2018 Out</a>
+                        </div>
+                    </div>
+                    <div class="newsitemhomefoot">
+                        <div class="newitemhomedate">
+                            20 Jun 2019
+                        </div>
+                        <div class="newitemhomecat">
+                            exam dates
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 nopad">
+                <div class="newsitemhome">
+                    <div class="newsitemhomehead">
+                        <img src="/assets/img/teachers-1.jpg" />
+                    </div>
+                    <div class="newsitemhomeoverlay">
+                        <div class="newitemhometitle">
+                            <a href="#">NIOS D.El.Ed Third Semester Results 2018 Out</a>
+                        </div>
+                    </div>
+                    <div class="newsitemhomefoot">
+                        <div class="newitemhomedate">
+                            20 Jun 2019
+                        </div>
+                        <div class="newitemhomecat">
+                            exam dates
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 nopad">
+                <div class="newsitemhome">
+                    <div class="newsitemhomehead">
+                        <img src="/assets/img/teachers-1.jpg" />
+                    </div>
+                    <div class="newsitemhomeoverlay">
+                        <div class="newitemhometitle">
+                            <a href="#">NIOS D.El.Ed Third Semester Results 2018 Out</a>
+                        </div>
+                    </div>
+                    <div class="newsitemhomefoot">
+                        <div class="newitemhomedate">
+                            20 Jun 2019
+                        </div>
+                        <div class="newitemhomecat">
+                            exam dates
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div style="float: right;">
+                    <a href="/news">..More News</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- NEWS SECTION START -->
+<!-- NEWSLETTER SUBSCRIPTION START -->
+<section>
+    <div class="subscribehome">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 nopad">
+                    <div class="subscribehomeleft">
+                        <h1>Subscribe to Our Newsletter</h1>
+                        <h6>For new courses and institutions information along with offers</h6>
+                    </div>
+                </div>
+                <div class="col-md-6 nopad">
+                    <div class="subscribehomeright">
+                        <input class="subscribehometxt" type="email" />
+                        <button class="subscribehomebtn">ENROLL NOW</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- NEWSLETTER SUBSCRIPTION END -->

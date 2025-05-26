@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="82c0c27e850e4ff2920a7b90d96ee4e2" Name="Diagram1" ZoomLevel="40">
+        <EntityTypeShape EntityType="bnt_studenthubModel.shub_chapters" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.shub_coursereviews" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.shub_courses" Width="2" PointX="7.25" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.DropdownTypes" Width="1.5" PointX="2.25" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.shub_enquiries" Width="1.5" PointX="9.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.shub_exceptions" Width="1.5" PointX="9.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.InstitutionCourses" Width="1.5" PointX="5.25" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.Institutions" Width="1.5" PointX="9.75" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.JobAlerts" Width="1.5" PointX="3.875" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.MainCourses" Width="1.5" PointX="3" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.MockTestQuestions" Width="1.75" PointX="7.75" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.MockTests" Width="2.125" PointX="5.25" PointY="11.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.shub_pages" Width="1.5" PointX="11.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.QuestionPapers" Width="1.5" PointX="3.75" PointY="15.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.shub_sectionmaterials" Width="1.5" PointX="18.875" PointY="15.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.shub_sectiontestquestions" Width="2" PointX="13.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.shub_sectiontests" Width="2.25" PointX="13.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.shub_settings" Width="1.5" PointX="17" PointY="17.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.shub_students" Width="1.5" PointX="9.75" PointY="15.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.shub_users" Width="1.5" PointX="15.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.getallstudentslist" Width="1.5" PointX="18.875" PointY="17.5" IsExpanded="true" />
+        <AssociationConnector Association="bnt_studenthubModel.CourseStream" ManuallyRouted="false" />
+        <AssociationConnector Association="bnt_studenthubModel.JobAlertType" ManuallyRouted="false" />
+        <AssociationConnector Association="bnt_studenthubModel.CourseIdForCourse" ManuallyRouted="false" />
+        <AssociationConnector Association="bnt_studenthubModel.CourseQuestionPaper" ManuallyRouted="false" />
+        <AssociationConnector Association="bnt_studenthubModel.MockTestRelation" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.NewsAlerts" Width="1.5" PointX="16.375" PointY="4.75" />
+        <AssociationConnector Association="bnt_studenthubModel.NewsType" />
+        <AssociationConnector Association="bnt_studenthubModel.InstitutionIdForCourse" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.Placements" Width="1.5" PointX="16.75" PointY="9.75" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.Addresses" Width="1.5" PointX="19.125" PointY="9.625" />
+        <AssociationConnector Association="bnt_studenthubModel.FK_shub_addresses_InstitutionId" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.InstitutionCourseTrainingModes" Width="1.5" PointX="7.625" PointY="16.875" />
+        <AssociationConnector Association="bnt_studenthubModel.FK_shub_institutioncoursestrainingmodes_TrainingMode" />
+        <AssociationConnector Association="bnt_studenthubModel.FK_shub_institutioncoursestrainingmodes_Course" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.SectionCourses" Width="1.5" PointX="5.25" PointY="18.125" />
+        <AssociationConnector Association="bnt_studenthubModel.FK_shub_sectionscourse_CourseId" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.VW_TutorialCoursesList" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.VM_MockTestsList" Width="1.5" PointX="12.375" PointY="0.75" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.DropdownTypesRef" Width="1.5" PointX="16.375" PointY="14.75" />
+        <AssociationConnector Association="bnt_studenthubModel.FK_shub_newsalerts_InsituteId" />
+        <AssociationConnector Association="bnt_studenthubModel.FK_shub_newsalerts_CouresId" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.CollegeCourses" Width="2.75" PointX="4.5" PointY="22.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.Colleges" Width="2.625" PointX="4.5" PointY="30.375" />
+        <AssociationConnector Association="bnt_studenthubModel.FK_CollCourse_CourseLevel" />
+        <AssociationConnector Association="bnt_studenthubModel.FK_CollCourse_CourseType" />
+        <AssociationConnector Association="bnt_studenthubModel.FK_CollCourse_DegreeType" />
+        <AssociationConnector Association="bnt_studenthubModel.shub_colleges_CollegeType" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.CollegeCoursesRelation" Width="2.5" PointX="8" PointY="29" />
+        <AssociationConnector Association="bnt_studenthubModel.FK_CollCrsRel_CollCrsId" />
+        <AssociationConnector Association="bnt_studenthubModel.FK_CollCrsRel_CollId" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.CollegeFacilities" Width="2.375" PointX="8.875" PointY="22.875" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.CollegeImages" Width="1.5" PointX="7.875" PointY="37.125" />
+        <AssociationConnector Association="bnt_studenthubModel.FK_CollegeFacility_CollegeId" />
+        <AssociationConnector Association="bnt_studenthubModel.FK_CollegeFacility_FacilityId" />
+        <AssociationConnector Association="bnt_studenthubModel.FK_CollegeImages_CollegeId" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.ExamCourses" Width="3.375" PointX="4.5" PointY="41.5" />
+        <AssociationConnector Association="bnt_studenthubModel.FK_ExamLevel" />
+        <AssociationConnector Association="bnt_studenthubModel.FK_ExamMode" />
+        <AssociationConnector Association="bnt_studenthubModel.FK_ExamStream" />
+        <AssociationConnector Association="bnt_studenthubModel.FK_ExamType" />
+        <AssociationConnector Association="bnt_studenthubModel.FK_MockTestCourse" />
+        <AssociationConnector Association="bnt_studenthubModel.FK_MockTestType" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.ad_mock_register" Width="1.5" PointX="12.375" PointY="17.75" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.his_shub_dropdowntypes" Width="1.5" PointX="0.5" PointY="10.125" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.his_shub_mocktestquestions" Width="1.875" PointX="11.75" PointY="11" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.his_shub_mocktests" Width="1.875" PointX="0.5" PointY="12.75" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.his_shub_collegecourse" Width="1.5" PointX="18.75" PointY="0.75" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.his_shub_collegecoursesrelation" Width="1.5" PointX="0.75" PointY="19.75" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.his_shub_collegefacilities" Width="1.5" PointX="20.75" PointY="0.75" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.his_shub_collegeimages" Width="1.5" PointX="20.75" PointY="4.75" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.his_shub_colleges" Width="2.125" PointX="14.125" PointY="20.75" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.his_shub_institutioncourses" Width="2.25" PointX="17" PointY="20.75" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.his_shub_institutioncoursestrainingmodes" Width="2.125" PointX="0.5" PointY="0.5" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.his_shub_institutions" Width="2.625" PointX="19.75" PointY="20.75" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.his_shub_maincourses" Width="2.25" PointX="21.375" PointY="8.75" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.his_shub_addresses" Width="2" PointX="21.875" PointY="14.75" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.rslt_CourseTypes" Width="1.5" PointX="23.75" PointY="0.75" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.rslt_DistrictsMaster" Width="1.5" PointX="23.75" PointY="3.75" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.rslt_IntermediateYear2Regular" Width="2.875" PointX="23.75" PointY="21.75" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.rslt_IntermediateYear2Voc" Width="2.375" PointX="0.625" PointY="24.25" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.rslt_SubjectsMaster" Width="1.5" PointX="24.75" PointY="6.75" />
+        <EntityTypeShape EntityType="bnt_studenthubModel.rst_CoursesMaster" Width="1.5" PointX="25" PointY="9.75" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,62 @@
+<div class="d-flex flex-column justify-content-center">
+    <div class="bg-white rounded-top p-3 W320">
+      <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <a  [class.active]="resultTabActive" class="nav-link d-flex flex-column justify-content-center align-items-center" id="pills-examSchedule-tab" data-toggle="pill" href="#pills-examSchedule" role="tab" aria-controls="pills-examSchedule" aria-selected="false">
+            <span><i class="fas fa-calendar-alt"></i></span>
+            <span>Exam Results</span>
+          </a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a  [class.active]="examNotificationActive" class="nav-link d-flex flex-column justify-content-center align-items-center" id="pills-examNotifications-tab" data-toggle="pill" href="#pills-examNotifications" role="tab" aria-controls="pills-examNotifications" aria-selected="true">
+            <span><i class="fas fa-bell"></i></span>
+            <span>Exam Notifications</span>
+          </a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a  [class.active]="examScheduleActive" class="nav-link d-flex flex-column justify-content-center align-items-center" id="pills-examSchedule-tab" data-toggle="pill" href="#pills-examSchedule" role="tab" aria-controls="pills-examSchedule" aria-selected="false">
+            <span><i class="fas fa-calendar-alt"></i></span>
+            <span>Exam Schedule</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="results_search_bar p-3 rounded-bottom rounded-right rounded-right-0">        
+          <div class="row">
+            <div class="col-12 col-sm-3 form-group">
+                <select class="form-control" id="exampleFormControlSelect1">
+                    <option>Select State</option>
+                    <option>Andhra Pradesh</option>
+                    <option>Telengana</option>
+                    <option>Tamilnadu</option>
+                    <option>Karnataka</option>
+                </select>
+              </div>
+              <div class="col-12 col-sm-3 form-group">
+                <select class="form-control" id="exampleFormControlSelect1">
+                    <option>Select Examination</option>
+                    <option>Board Examination</option>
+                    <option>Entrance Examination</option>
+                    <option>University Examination</option>
+                </select>
+              </div>
+              <div class="col-12 col-sm-3 form-group">
+                <select class="form-control" id="exampleFormControlSelect1">
+                    <option>Board Examination</option>
+                    <option>SSC / 10th</option>
+                    <option>11th / Intermediate 1st year</option>
+                    <option>12th / Intermediate 2nd year</option>
+                </select>
+              </div>
+              <div class="col-12 col-sm-3 form-group">
+                <select class="form-control" id="exampleFormControlSelect1">
+                    <option>Select Year</option>
+                    <option>2022</option>
+                    <option>2021</option>
+                    <option>2020</option>
+                    <option>2019</option>
+                </select>
+              </div>
+          </div>              
+    </div>
+</div>

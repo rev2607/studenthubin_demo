@@ -1,0 +1,55 @@
+﻿@model IEnumerable<StudentHubMVC.VM_MockTestsList>
+
+@{
+    ViewBag.Title = "Mocktests";
+    Layout = "~/Areas/student/Views/Shared/_LayoutStudentPanel.cshtml";
+}
+
+<div>
+    @*<h2>MockTests</h2>*@
+    @foreach (VM_MockTestsList stream in Model.GroupBy(s => s.Stream).Select(s => s.First()).ToList())
+    {
+        <div class="streamSection">
+            <div class="summernote-clickable">
+                <label class="btn btn-primary btn-sm hec-button waves-effect" style="font-size: large;">
+                    @stream.Stream
+                </label>
+            </div>
+            <hr />
+            @{ var test = Model.Where(m => m.Stream == stream.Stream).FirstOrDefault(); }
+            <div>
+                <!--foreach (VM_MockTestsList mocktest in Model.Where(m => m.Stream == stream.Stream && m.Status == "ACTIVE"))-->
+                @for (int i = 0; i < 25; i++)
+                {
+                    <div class="courseButton">
+                        @*<a class="btn btn-default btn-icon-notika waves-effect" href="#@mocktest.CourseId">@mocktest.Name (@mocktest.TotalTests)</a>*@
+                        <a class="btn btn-default btn-icon-notika waves-effect" href="@Url.Action("MockTestDetails", new { id = test.CourseId })">@test.Name (@(test.TotalTests + i))</a>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+
+    @foreach (VM_MockTestsList stream in Model.GroupBy(s => s.Stream).Select(s => s.First()).ToList())
+    {
+        <div class="streamSection">
+            <div class="summernote-clickable">
+                <label class="btn btn-primary btn-sm hec-button waves-effect" style="font-size: large;">
+                    @stream.Stream
+                </label>
+            </div>
+            <hr />
+            @{ var test = Model.Where(m => m.Stream == stream.Stream).FirstOrDefault(); }
+            <div>
+                <!--foreach (VM_MockTestsList mocktest in Model.Where(m => m.Stream == stream.Stream && m.Status == "ACTIVE"))-->
+                @for (int i = 0; i < 25; i++)
+                {
+                    <div class="courseButton">
+                        @*<a class="btn btn-default btn-icon-notika waves-effect" href="#@mocktest.CourseId">@mocktest.Name (@mocktest.TotalTests)</a>*@
+                        <a class="btn btn-default btn-icon-notika waves-effect" href="@Url.Action("MockTestDetails", new { id = test.CourseId })">@test.Name (@(test.TotalTests + i))</a>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>

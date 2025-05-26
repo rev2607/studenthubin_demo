@@ -1,0 +1,136 @@
+﻿@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="images/favicon.ico" type="image/ico">
+    <title>Admin Login - Studenthub.in</title>
+
+    <!-- Font Awesome -->
+    <link href="~/assets/gentelella/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+
+    <!-- Custom CSS -->
+    <link href="~/assets/css/bntcustomizeAdmin.css" rel="stylesheet" type="text/css" />
+
+    <!-- Bootstrap -->
+    <link href="~/assets/gentelella/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Custom Theme Style -->
+    <link href="~/assets/gentelella/build/css/custom.min.css" rel="stylesheet" />
+</head>
+<body style="background-color: #292f43; color: #b3b3b3;">
+
+    <style>
+        h1, h2, h3, h4, h5 {
+            text-shadow: none !important;
+        }
+        .login_content {
+            text-shadow: none !important;
+        }
+        .login_content form input[type=submit] {
+            float: none !important;
+            margin-left: 0px !important;
+        }
+        body a {
+            color: #8ec742;
+        }
+    </style>
+
+    <div>
+        <div class="login_wrapper">
+            <div class="animate form login_form">
+                <section class="login_content">
+                    <form id="loginform" method="Post">
+                        <h1>Admin Login</h1>
+                        <div style="padding-bottom: 25px;">
+                            <img src="~/assets/img/StudenthubMenuLogo.png" alt="">
+                        </div>
+                        @if (ViewBag.LoginMessage != "" && ViewBag.LoginMessage != null)
+                        {
+                            <div class="message">@ViewBag.LoginMessage</div>
+                        }
+                        <div>
+                            <input type="email" class="form-control" id="adminemail" name="adminemail" placeholder="Email" required="required" />
+                        </div>
+                        <div>
+                            <input type="password" class="form-control" id="adminpassword" name="adminpassword" placeholder="Password" required="required" />
+                        </div>
+                        <div style="padding-bottom: 25px;">
+                            <input type="submit" id="adminlogin" name="adminlogin" value="LOGIN" class="btn btn-default" />
+                        </div>
+                        @*<div>
+                                <a class="btn btn-default submit" href="index.html">Log in</a>
+                                <a class="reset_pass" href="#">Lost your password?</a>
+                            </div>*@
+                        <div class="clearfix"></div>
+                        <div class="separator">
+                            @*<p class="change_link">
+                                    New to site?
+                                    <a href="#signup" class="to_register"> Create Account </a>
+                                </p>*@
+                            @*<div class="clearfix"></div>
+                                <br />*@
+                            <div>
+                                <p style=" font-size: 14px;">© 2016 - @DateTime.Now.ToString("yyyy") All Rights Reserved Studenthub.in</p>
+                            </div>
+                            <div class="separator">
+                                <p style=" font-size: 14px;">Powered By: <a href="http://www.bracketsntags.com"><u><b>Bracketsntags.com</b></u></a></p>
+                            </div>
+                            <div class="separator">
+                                <p style=" font-size: 11px;">Gentelella - Admin Template by <a href="https://colorlib.com">Colorlib</a></p>
+                            </div>
+                        </div>
+                    </form>
+                </section>
+            </div>
+            @*<div id="register" class="animate form registration_form">
+                    <section class="login_content">
+                        <form>
+                            <h1>Create Account</h1>
+                            <div>
+                                <input type="text" class="form-control" placeholder="Username" required="" />
+                            </div>
+                            <div>
+                                <input type="email" class="form-control"  id="adminemail" name="adminemail" placeholder="Email" required="required" />
+                            </div>
+                            <div>
+                                <input type="password" class="form-control" id="adminpassword" name="adminpassword" placeholder="Password" required="required" />
+                            </div>
+                            <div>
+                                <a class="btn btn-default submit"  id="adminlogin" name="adminlogin" >LOGIN</a>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="separator">
+                                <p class="change_link">
+                                    Already a member ?
+                                    <a href="#signin" class="to_register"> Log in </a>
+                                </p>
+                                <div class="clearfix"></div>
+                                <br />
+                                <div>
+                                    <p>©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
+                                </div>
+                            </div>
+                        </form>
+                    </section>
+                </div>*@
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="~/assets/gentelella/vendors/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="~/assets/gentelella/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <!-- Custom Theme Scripts -->
+    <script src="~/assets/gentelella/build/js/custom.min.js"></script>
+
+    <script src="~/assets/js/bntcustomizeAdmin.js"></script>
+</body>
+</html>

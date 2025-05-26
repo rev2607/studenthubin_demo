@@ -1,0 +1,135 @@
+﻿@model StudentHubMVC.Areas.student.Models.VM_MockTestTypesList
+@using StudentHubMVC.Helpers
+
+@using StudentHubMVC.Areas.student.Models;
+
+@{
+    ViewBag.Title = Model.CourseName + " Mock Test";
+    Layout = "~/Areas/student/Views/Shared/_LayoutStudentPanel.cshtml";
+}
+
+@Html.HiddenFor(model => model.CourseId)
+
+<h2>@Model.CourseName</h2>
+
+@foreach (string difficulty in Model.DifficultyTypes)
+{
+    string buttonClass = "";
+    string testClass = "";
+
+    switch (difficulty)
+    {
+        case "EASY":
+            buttonClass = "btn btn-success success-icon-notika waves-effect";
+            testClass = "mockTestEasy";
+            break;
+
+        case "MEDIUM":
+            buttonClass = "btn btn-warning warning-icon-notika waves-effect";
+            testClass = "mockTestMedium";
+            break;
+
+        case "DIFFICULT":
+            buttonClass = "btn btn-danger danger-icon-notika waves-effect";
+            testClass = "mockTestDifficult";
+            break;
+    }
+    <div class="mockTestSection">
+        <div class="summernote-clickable">
+            <label class="@buttonClass" style="font-size: large;">
+                @difficulty
+            </label>
+        </div>
+        <hr />
+        <div class="">
+            <div class="">
+                @foreach (MockTestDetails mockTestDetails in Model.MockTestDetails.Where(m => m.Difficulty == difficulty))
+                {
+                    <div class=" col-md-3">
+                        @*<a href="@Url.Action("MockTest", new { id = mockTestDetails.MockTestId })" target="_blank" title="@Model.CourseName | @mockTestDetails.Difficulty">*@
+                        <div class="mockTestDetails @testClass">
+                            <div class="row">
+                                <div class="col-md-6 noPadRight">
+                                    @Html.ProgressCircle(mockTestDetails.PercentCompleted.ToString(), "", "")
+                                    @*<div class="email-round-pro">
+                                        <div class="email-signle-gp">
+                                            <input type="text" class="knob" value="0" data-rel="75" data-linecap="round" data-width="@mockTestDetails.PercentCompleted" data-bgcolor="#E4E4E4" data-fgcolor="#00c292" data-thickness=".10" data-readonly="true" disabled>
+                                        </div>
+                                        <div class="email-ctn-nock">
+                                    <p>Bounce Rate</p>
+                                </div>
+                                    </div>*@
+                                </div>
+                                <div class="col-md-6 noPadLeft noPadRight" style="font-size: smaller;">
+                                    <div class="col-md-12">
+                                        @if (mockTestDetails.DateStarted == "" || mockTestDetails.DateStarted == null)
+                                        {
+                                            <label class="btn notika-btn-blue waves-effect">NEW</label>
+                                        }
+                                        else
+                                        {
+                                            <label><i class="fa fa-calendar" aria-hidden="true"></i> &nbsp; | &nbsp; @mockTestDetails.DateStarted</label>
+                                        }
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label><i class="fa fa-check-circle-o" aria-hidden="true"></i> &nbsp; | &nbsp; @mockTestDetails.AnsweredQuestions / @mockTestDetails.TotalQuestions</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label>&nbsp;<i class="fa fa-info" aria-hidden="true"></i> &nbsp;&nbsp; | &nbsp; @mockTestDetails.Status</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div style="float: right; padding-right: 10px; font-size: 19px; cursor: pointer;" title="Start Test">
+                                            <a href="@Url.Action("MockTest", new { id = mockTestDetails.MockTestId })" class="@testClass noBorder" target="_blank" title="@Model.CourseName | @mockTestDetails.Difficulty"><i class="fa fa-play-circle" aria-hidden="true"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*</a>*@
+                    </div>
+
+                }
+                @foreach (MockTestDetails mockTestDetails in Model.MockTestDetails.Where(m => m.Difficulty == difficulty))
+                {
+                    <div class=" col-md-3">
+                        @*<a href="@Url.Action("MockTest", new { id = mockTestDetails.MockTestId })" target="_blank" title="@Model.CourseName | @mockTestDetails.Difficulty">*@
+                        <div class="mockTestDetails @testClass">
+                            <div class="row">
+                                <div class="col-md-6 noPadRight">                                    
+                                    @Html.ProgressCircle(mockTestDetails.PercentCompleted.ToString(), "", "")
+                                </div>
+                                <div class="col-md-6 noPadLeft noPadRight" style="font-size: smaller;">
+                                    <div class="col-md-12">
+                                        @if (mockTestDetails.DateStarted == "" || mockTestDetails.DateStarted == null)
+                                        {
+                                            <label class="btn notika-btn-blue waves-effect">NEW</label>
+                                        }
+                                        else
+                                        {
+                                            <label><i class="fa fa-calendar" aria-hidden="true"></i> &nbsp; | &nbsp; @mockTestDetails.DateStarted</label>
+                                        }
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label><i class="fa fa-check-circle-o" aria-hidden="true"></i> &nbsp; | &nbsp; @mockTestDetails.AnsweredQuestions / @mockTestDetails.TotalQuestions</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label>&nbsp;<i class="fa fa-info" aria-hidden="true"></i> &nbsp;&nbsp; | &nbsp; @mockTestDetails.Status</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div style="float: right; padding-right: 10px; font-size: 19px; cursor: pointer;" title="Start Test">
+                                            <a href="@Url.Action("MockTest", new { id = mockTestDetails.MockTestId })" class="@testClass noBorder" target="_blank" title="@Model.CourseName | @mockTestDetails.Difficulty"><i class="fa fa-play-circle" aria-hidden="true"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*</a>*@
+                    </div>
+
+                }
+            </div>
+        </div>
+                
+    </div>
+
+}

@@ -1,0 +1,94 @@
+﻿
+@{
+    ViewBag.Title = "index";
+    Layout = "~/Views/Shared/_LayoutFrontOthers.cshtml";
+}
+
+<style>
+    body {
+        background-color: #f1f1f1 !important;
+    }
+</style>
+
+<!-- Start main-content -->
+<div class="main-content">
+
+    <!-- Section: inner-header -->
+    <section class="inner-header mt-110 bg-gray-eee">
+
+        <div class="container pt-5 pb-5">
+            <!-- Section Content -->
+            <div class="section-content">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <ol class="breadcrumb text-left text-black mt-10">
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">Pages</a></li>
+                            <li class="active text-gray-silver">Page Title</li>
+
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="border-1px apply-form p-30 mb-0">
+                        <h3 class="text-theme-colored mt-0 pt-5 font-weight-900">ENTER YOUR DETAILS</h3>
+                        <p class="font-weight-600">Please register to get more information</p>
+                        <hr>
+
+                        <form name="apply_form" action="#" method="post" enctype="multipart/form-data" novalidate="novalidate">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>FULL NAME <small>*</small></label>
+                                        <input name="form_name" type="text" placeholder="Enter Name" required="" class="form-control" aria-required="true">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Email ID<small>*</small></label>
+                                        <input name="form_email" class="form-control required email" type="email" placeholder="Enter Email" aria-required="true">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>MOBILE NUMBER <small>*</small></label>
+                                        <input name="form_email" class="form-control" type="phone" placeholder="Enter Phone" aria-required="true">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>SELECT A COURSE <small>*</small></label>
+                                        <select name="form_post" class="form-control required" aria-required="true">
+                                            <option value="BE/B.Tech - Bachelors (Technology">BE/B.Tech - Bachelors (Technology)</option>
+                                            <option value="MBA/PGDM - Masters (Business Administration">MBA/PGDM - Masters (Business Administration)</option>
+                                            <option value="BBA/BBM - Bachelors (Business Administration)">BBA/BBM - Bachelors (Business Administration)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <input name="form_botcheck" class="form-control" type="hidden" value="">
+                                <button type="submit" class="btn btn-block btn-dark btn-theme-colored btn-sm mt-20 pt-10 pb-10 font-weight-600" data-loading-text="Please wait...">submit</button>
+                            </div>
+                            <p class="aleady-reg">Already registered? <a href="#">Click Here to login</a></p>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<!-- end main-content -->

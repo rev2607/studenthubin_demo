@@ -1,0 +1,159 @@
+﻿.width100{
+    width:100% !important;
+    max-width:100% !important;
+}
+
+.message{
+    color: white;
+    font-size: 18px;
+    background-color: #90cb42;
+    text-align: center;
+    padding: 5px;
+    margin: 15px 15px 20px 15px;
+}
+
+.errormessage {
+    color: white;
+    font-size: 18px;
+    background-color: #ec1b1b;
+    text-align: center;
+    padding: 5px;
+    margin: 15px 15px 20px 15px;
+}
+
+.menuenvelope{
+    background-color: #292f43 !important;
+    border-color: #8dc742 !important;
+}
+
+.menulogo{
+
+}
+
+.menu{
+    padding-top: 10px;  
+}
+
+.menu a{
+    color: #ffffff;
+}
+
+.menu>li>a:hover, 
+.menu>li>a:focus{
+    text-decoration: none !important;
+    background-color: #8dc642  !important;
+}
+
+.profilepic{
+    float: right; 
+}
+.profilepic img{
+    width: 50px; 
+    margin: 10px;
+}
+
+.menudropdown{
+   
+}
+
+.nav .open>a, .nav .open>a:hover, .nav .open>a:focus {
+    background-color: #292f43;
+    border-color: #8dc742 ;
+}
+
+.submenu{
+    background-color: #292f43;
+    padding: 10px 10px 10px 15px;
+}
+
+
+.section {
+    -moz-box-shadow:    0px 1px 4px 1px #e0e0e0;
+    -webkit-box-shadow: 0px 1px 4px 1px #e0e0e0;
+    box-shadow:         0px 1px 4px 1px #e0e0e0;
+    margin-bottom: 20px;
+}
+.sectionhead {
+    padding: 10px 5px 10px 15px;
+    font-size: 1.3em;
+    font-weight: bold;
+}
+.sectionheadtitle {
+    width: 90%;
+    display: inline-block;
+    text-overflow: ellipsis;
+}
+.sectionheadedit {
+    width: 9%;
+    display: inline-block;
+}
+.chapterslist {
+
+}
+.chapteritem {
+    border-top: #ededed solid 1px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.chaptertitle {
+    width: 85%;
+    display: inline-block;
+    padding: 5px 5px 5px 50px;
+    text-overflow: ellipsis;
+}
+.chapterduration {
+    width: 5%;
+    display: inline-block;
+}
+.chapteredit {
+    width: 9%;
+    display: inline-block;
+}
+
+.newaddbutton {
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+    font-weight: bold;
+    border: #8dc642 solid 2px;
+    padding: 5px;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.add {
+    content: url(../../assets/img/add.png);
+    cursor: pointer;
+}
+.addsmall {
+    content: url(../../assets/img/add.png);
+    width: 20px;
+    cursor: pointer;
+}
+.edit {
+    content: url(../../assets/img/Edit.png);
+    cursor: pointer;
+}
+.editsmall {
+    content: url(../../assets/img/Edit.png);
+    width: 20px;
+    cursor: pointer;
+}
+.delete {
+    content: url(../../assets/img/delete.png);
+    cursor: pointer;
+}
+.deletesmall {
+    content: url(../../assets/img/delete.png);
+    width: 20px;
+    cursor: pointer;
+}
+.quizsmall {
+    content: url(../../assets/img/quiz.png);
+    width: 20px;
+}
+
+/* bootstrap classes */
+.table {
+    background-color: #fff !important;
+}

@@ -1,0 +1,57 @@
+﻿@model IEnumerable<StudentHubMVC.VM_MockTestsList>
+
+@{
+    ViewBag.Title = "Mock Tests Manager";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div style="width: 100%;">
+    <div style="padding: 10px 0px 15px 0px; width: 75%; display: inline-block;">
+        <div style="font-size:x-large; display: inline-block;"><u>Mock Tests Manager</u></div>
+    </div>
+    <div style="padding-top: 10px; width: 24%; display: inline-block;">
+        @Html.ActionLink("Add Mock Test for Course", "SaveMockTest", null, new { @class = "newaddbutton" })
+    </div>
+</div>
+
+@if (Model != null && Model.Count() > 0)
+{
+    <table class="table">
+        <tr>
+            <th>
+                Course Name
+            </th>
+            <th>
+                Total Tests
+            </th>
+            <th>
+                Stream
+            </th>
+            <th>
+                Status
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var test in Model)
+        {
+        <tr>
+            <td>
+                @test.Name
+            </td>
+            <td>
+                @test.TotalTests
+            </td>
+            <td>
+                @test.Stream
+            </td>
+            <td>
+                @test.Status
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "SaveMockTest", new { courseid = test.CourseId }, new { @class = "editsmall" })
+            </td>
+        </tr>
+        }
+    </table>
+}

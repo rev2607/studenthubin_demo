@@ -1,0 +1,111 @@
+﻿
+@{
+    ViewBag.Title = "Tutorials Manager";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+    int courseId = ViewBag.CourseID;
+
+    var courses = new Entities().MainCourses.OrderBy(course => course.Name).Select(course => new SelectListItem { Text = course.Name, Value = course.MainCourseId.ToString(), Selected = (course.MainCourseId == courseId ? true : false) });
+
+    var courseName = "";
+
+    if (courseId > 0)
+    {
+        courseName = new Entities().MainCourses.Where(course => course.MainCourseId == courseId).Select(course => course.Name).SingleOrDefault();
+    }
+}
+
+@using System.Data;
+
+<div class="x_panel">
+    <div class="x_content">
+        <div class="row">
+            <div class="col-md-4">
+                <b>@Html.Label("Select Course to Display Tutorials List", new { @class = "control-label" })</b>
+            </div>
+            <div class="col-md-8">
+                @Html.DropDownList("TutorialCourses", courses, "Select Course", new { @class = "form-control width100" })
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@if (ViewBag.CourseID > 0)
+{
+    <div style="width: 100%;">
+        <div style="padding: 10px 0px 15px 0px; width: 85%; display: inline-block;">
+            <div style="font-size:large; display: inline-block; font-weight: bold;"><u>@courseName</u></div>
+            &nbsp;>&nbsp;
+            <div style="font-size:large; display: inline-block;"><u>Sections Manager</u></div>
+        </div>
+        <div style="padding-top: 10px; width: 14%; display: inline-block;">
+            <div style="width: 100%; display: inline-block; ">
+                @*<img class="add" />*@ @Html.ActionLink("Add New Section", "addsection", null, new { @class = "newaddbutton" })
+            </div>
+            @*<div style="width: 49%; display: inline-block;">
+                    @Html.ActionLink("Add Chapter", "addchapter")
+                </div>*@
+        </div>
+    </div>
+}
+
+
+@if (ViewBag.Sections != null && ((DataTable)ViewBag.Sections).Rows.Count > 0)
+{
+    <div class="x_panel">
+        <div class="x_content">
+            <div class="">
+                @foreach (DataRow sect in ((DataTable)ViewBag.Sections).Rows)
+                {
+                    <div class="section">
+                        <div class="sectionhead">
+                            <div class="sectionheadtitle" data-toggle="collapse" data-target="#@sect["Id"]">
+                                @sect["SortId"]. @sect["Title"]
+                            </div>
+                            <div class="sectionheadedit">
+                                @Html.ActionLink("Edit", "SaveSection", new { sectionid = @sect["Id"] }, new { @class = "edit", title = "Edit Section" }) <!-- , new { id = item["ID"] } -->
+                                @Html.ActionLink("Add", "AddChapter", new { sectionid = @sect["Id"] }, new { @class = "add", title = "Add Chapter" })
+                            </div>
+                        </div>
+
+                        @{ DataRow[] Chapters = ((DataTable)ViewBag.Chapters).Select("SectionId = " + @sect["Id"]);
+                        }
+                        <div class="collapse in" id=@sect["Id"]>
+                            @foreach (DataRow chapter in Chapters)
+                            {
+                                <div class="chapterslist">
+                                    <div class="chapteritem">
+                                        <div class="chaptertitle">
+                                            @chapter["SortId"]. @chapter["Title"]
+                                        </div>
+                                        <div class="chapterduration">
+                                            @chapter["Video1Duration"]
+                                        </div>
+                                        <div class="chapteredit">
+                                            @Html.ActionLink("Edit", "SaveChapter", new { sectionid = @sect["Id"], chapterid = @chapter["ChapterId"] }) |
+                                            @Html.ActionLink("Delete", "DeleteChapter", new { sectionid = @sect["Id"], chapterid = @chapter["ChapterId"] })
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+
+}
+
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            // Initialize select2
+            $("#TutorialCourses").select2();
+        });
+    </script>
+}

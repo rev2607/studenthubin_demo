@@ -1,0 +1,811 @@
+﻿@using System.Configuration;
+
+@model Colleges
+
+@{
+    ViewBag.Title = "Save College";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+    Entities db = new Entities();
+
+    var collegetypes = new Entities().DropdownTypes.Where(type => type.GroupName == "COLLEGETYPE").OrderBy(c => c.TypeValue).Select(type => new SelectListItem { Text = type.TypeValue, Value = type.DropdownTypeId.ToString() }).ToList();
+
+    var collegecourses = new Entities().CollegeCourses.OrderBy(c => c.colcrs_Name).OrderBy(c => c.colcrs_Name).Select(co => new SelectListItem { Text = co.colcrs_Name, Value = co.colcrs_Id.ToString() }).ToList();
+
+    //if (Model.SelectedCourses != null && Model.SelectedCourses.Count() > 0)
+    //{
+    //    foreach (SelectListItem course in collegecourses)
+    //    {
+    //        if (Model.SelectedCourses.Contains(int.Parse(course.Value)))
+    //        {
+    //            course.Selected = true;
+    //        }
+    //    }
+    //}
+
+    var collegefacilities = db.DropdownTypes.OrderBy(c => c.TypeValue).Where(type => type.GroupName == "FACILITIES").Select(type => new SelectListItem { Text = type.TypeValue, Value = type.DropdownTypeId.ToString() }).ToList();
+
+    var degreetypes = new Entities().DropdownTypes.OrderBy(c => c.TypeValue).Where(type => type.GroupName == "DEGREETYPE").Select(type => new SelectListItem { Text = type.TypeValue, Value = type.DropdownTypeId.ToString() }).ToList();
+
+    //var selectedCollegeCourses = collegecourses;
+    //if(Model.SelectedCourses.Count() > 0)
+    //{
+    var selectedCollegeCourses = collegecourses.Where(c => Model.SelectedCourses.Contains(int.Parse(c.Value)));
+    //}
+}
+
+<style>
+    .ms-container {
+        width: 100% !important;
+    }
+    .ms-container .ms-list{
+        min-height: 300px !important;
+    }
+    .ms-list li{
+        font-size: 0.9em !important;
+    }
+</style>
+
+<div style="width: 100%;">
+    <div style="padding: 10px 0px 15px 0px; width: 85%; display: inline-block;">
+        <div style="font-size:x-large; display: inline-block;"><u>@Html.ActionLink("Colleges Manager", "CollegesManager")</u></div>
+        &nbsp;>&nbsp;
+        <div style="font-size:larger; display: inline-block; font-weight: bold;">Save College</div>
+    </div>
+    <div style="padding-top: 10px; width: 14%; display: inline-block;">
+        @Html.ActionLink("Add College", "SaveCollege", new { id = "" }, new { @class = "newaddbutton", @style = "float: left; width: 80%;" })
+        <form method="post" action="@Url.Action("DeleteCollege")" id="frmDeleteCollege" name="frmDeleteCollege">
+            @Html.Hidden("collegeId", Model.coll_ID)
+            @if (Model.coll_ID > 0)
+            {
+                <img alt="Delete College" title="Delete College" class="deletesmall" onclick="deleteCollege();" style="margin: 4px;" />
+            }
+        </form>
+    </div>
+</div>
+
+@using (Html.BeginForm("SaveCollege", "Admin", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="x_panel">
+        @*<div class="x_title">
+
+            </div>*@
+        <div class="x_content">
+            <div class="form-horizontal form-label-left">
+
+                @if (ViewBag.SaveMessage != "" && ViewBag.SaveMessage != null)
+                {
+                    <div class="message">@ViewBag.SaveMessage</div>
+                }
+                @if (Request.Params.AllKeys.Contains("message"))
+                {
+                    <div class="message">@Request.Params["message"]</div>
+                }
+                @if (ViewBag.ErrorMessage != "" && ViewBag.ErrorMessage != null)
+                {
+                    <div class="errormessage">@ViewBag.ErrorMessage</div>
+                }
+                @if (Request.Params.AllKeys.Contains("errormessage"))
+                {
+                    <div class="errormessage">@Request.Params["errormessage"]</div>
+                }
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.coll_ID)
+                @Html.HiddenFor(model => model.CoursesIds)
+                @Html.HiddenFor(model => model.FacilitiesIds)
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_Name, htmlAttributes: new { @class = "control-label" }) *
+                        </div>
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(model => model.coll_Name, new { @class = "form-control width100", @required = "required", @onchange = "nameToKeyword()", @onkeyup = "nameToKeyword()", @id = "Name" })
+                            @Html.ValidationMessageFor(model => model.coll_Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_Logo, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input type="file" name="uploadlogo" class="form-control" />
+                                </div>
+                                <div class="col-md-6">
+                                    @Html.TextBoxFor(model => model.coll_Logo, new { @class = "form-control", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(model => model.coll_Logo, "", new { @class = "text-danger" })
+                                </div>
+                                @if (Model != null && Model.coll_Logo != "" && Model.coll_Logo != null)
+                                {
+                                    <div class="col-md-2">
+                                        <a href="@(ConfigurationManager.AppSettings["Colleges"].Replace("~/", "/") + Model.coll_Logo)" target="_blank" title="Click to View Cover Image"><img src="@(ConfigurationManager.AppSettings["Colleges"].Replace("~/", "/") + Model.coll_Logo)" alt="" class="img-thumbnail" /></a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_CoverPic, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input type="file" name="uploadcoverpic" class="form-control" />
+                                </div>
+                                <div class="col-md-6">
+                                    @Html.TextBoxFor(model => model.coll_CoverPic, new { @class = "form-control", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(model => model.coll_CoverPic, "", new { @class = "text-danger" })
+                                </div>
+                                @if (Model != null && Model.coll_CoverPic != "" && Model.coll_CoverPic != null)
+                                {
+                                    <div class="col-md-2">
+                                        <a href="@(ConfigurationManager.AppSettings["Colleges"].Replace("~/", "/") + Model.coll_CoverPic)" target="_blank" title="Click to View Cover Image"><img src="@(ConfigurationManager.AppSettings["Colleges"].Replace("~/", "/") + Model.coll_CoverPic)" alt="" class="img-thumbnail" /></a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_TypeOfInstitute, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.coll_TypeOfInstitute,
+                           new List<SelectListItem>()
+                           {
+                               new SelectListItem() { Text = "Government", Value = "Government" },
+                               new SelectListItem() { Text = "Deemed University", Value = "Deemed University" },
+                               new SelectListItem() { Text = "Autonomous", Value = "Autonomous" },
+                               new SelectListItem() { Text = "Private", Value = "Private" }
+                           }, "Please Select", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.coll_TypeOfInstitute, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_SubType, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.coll_SubType,
+                           new List<SelectListItem>()
+                           {
+                               new SelectListItem() { Text = "IIT", Value = "IIT" },
+                               new SelectListItem() { Text = "NIT", Value = "NIT" },
+                               new SelectListItem() { Text = "IIIT", Value = "IIIT" },
+                               new SelectListItem() { Text = "BITS", Value = "BITS" },
+                               new SelectListItem() { Text = "Other", Value = "Other" }
+                           }, "Please Select", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.coll_SubType, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_Address, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.coll_Address, new { @class = "form-control width100", @maxlength = "150" })
+                            @Html.ValidationMessageFor(model => model.coll_Address, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_Phone1, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.coll_Phone1, new { @class = "form-control width100", @maxlength = "20" })
+                            @Html.ValidationMessageFor(model => model.coll_Phone1, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_Phone2, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.coll_Phone2, new { @class = "form-control width100", @maxlength = "20" })
+                            @Html.ValidationMessageFor(model => model.coll_Phone2, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_Email1, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.coll_Email1, new { @class = "form-control width100", @maxlength = "50" })
+                            @Html.ValidationMessageFor(model => model.coll_Email1, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_Email2, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.coll_Email2, new { @class = "form-control width100", @maxlength = "50" })
+                            @Html.ValidationMessageFor(model => model.coll_Email2, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_Website, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.coll_Website, new { @class = "form-control width100", @maxlength = "100" })
+                            @Html.ValidationMessageFor(model => model.coll_Website, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_Youtube, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.coll_Youtube, new { @class = "form-control width100", @maxlength = "150" })
+                            @Html.ValidationMessageFor(model => model.coll_Youtube, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_Facebook, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.coll_Facebook, new { @class = "form-control width100", @maxlength = "150" })
+                            @Html.ValidationMessageFor(model => model.coll_Facebook, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_Twitter, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.coll_Twitter, new { @class = "form-control width100", @maxlength = "150" })
+                            @Html.ValidationMessageFor(model => model.coll_Twitter, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_City, htmlAttributes: new { @class = "control-label" }) *
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.coll_City, new { @class = "form-control width100", @required = "required", @maxlength = "50" })
+                            @Html.ValidationMessageFor(model => model.coll_City, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_State, htmlAttributes: new { @class = "control-label" }) *
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.coll_State, new { @class = "form-control width100", @required = "required", @maxlength = "50" })
+                            @Html.ValidationMessageFor(model => model.coll_State, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_Pincode, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.coll_Pincode, new { @class = "form-control width100", @maxlength = "15" })
+                            @Html.ValidationMessageFor(model => model.coll_Pincode, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_Country, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.coll_Country, new { @class = "form-control width100", @maxlength = "45" })
+                            @Html.ValidationMessageFor(model => model.coll_Country, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_Location, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.coll_Location, new { @class = "form-control width100" })
+                            @Html.ValidationMessageFor(model => model.coll_Location, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_Knownas, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.coll_Knownas, new { @class = "form-control width100" })
+                            @Html.ValidationMessageFor(model => model.coll_Knownas, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_Approval, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.coll_Approval, new { @class = "form-control width100" })
+                            @Html.ValidationMessageFor(model => model.coll_Location, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_EstablishedYear, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.coll_EstablishedYear, new { @class = "form-control width100" })
+                            @Html.ValidationMessageFor(model => model.coll_EstablishedYear, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_CampusSize, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.coll_CampusSize, new { @class = "form-control width100"})
+                            @Html.ValidationMessageFor(model => model.coll_CampusSize, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_AcademicDepartments, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.coll_AcademicDepartments, new { @class = "form-control width100"})
+                            @Html.ValidationMessageFor(model => model.coll_AcademicDepartments, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_AcademicCentres, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.coll_AcademicCentres, new { @class = "form-control width100" })
+                            @Html.ValidationMessageFor(model => model.coll_AcademicCentres, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_StudentsIntake, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.coll_StudentsIntake, new { @class = "form-control width100" })
+                            @Html.ValidationMessageFor(model => model.coll_StudentsIntake, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_StudentsDiversity, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.coll_StudentsDiversity, new { @class = "form-control width100"})
+                            @Html.ValidationMessageFor(model => model.coll_StudentsDiversity, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_FacultyNo, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.coll_FacultyNo, new { @class = "form-control width100"})
+                            @Html.ValidationMessageFor(model => model.coll_FacultyNo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_FacultytoStudentRatio, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.coll_FacultytoStudentRatio, new { @class = "form-control width100"})
+                            @Html.ValidationMessageFor(model => model.coll_FacultytoStudentRatio, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_AnnualExpenditure, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.coll_AnnualExpenditure, new { @class = "form-control width100"})
+                            @Html.ValidationMessageFor(model => model.coll_AnnualExpenditure, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_ResearchDetails, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.coll_ResearchDetails, new { @class = "form-control width100"})
+                            @Html.ValidationMessageFor(model => model.coll_ResearchDetails, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <h4 style="text-align: center; margin: 30px 0px;"><b>Courses Offered</b></h4>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_3YearsDegree, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.coll_3YearsDegree, new { @class = "form-control width100 richtexteditor" })
+                            @Html.ValidationMessageFor(model => model.coll_3YearsDegree, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_4YearsDegree, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.coll_4YearsDegree, new { @class = "form-control width100 richtexteditor" })
+                            @Html.ValidationMessageFor(model => model.coll_4YearsDegree, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_5YearsDegree, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.coll_5YearsDegree, new { @class = "form-control width100 richtexteditor" })
+                            @Html.ValidationMessageFor(model => model.coll_5YearsDegree, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <h4 style="text-align: center; margin: 25px 0px;"><b></b></h4>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_ModeOfAdmission, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.coll_ModeOfAdmission, new { @class = "form-control width100 richtexteditor" })
+                            @Html.ValidationMessageFor(model => model.coll_ModeOfAdmission, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <h4 style="text-align: center; margin: 30px 0px;"><b>FEES</b></h4>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_FeesStructure, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.coll_FeesStructure, new { @class = "form-control width100 richtexteditor" })
+                            @Html.ValidationMessageFor(model => model.coll_FeesStructure, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_HostelFee, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.coll_HostelFee, new { @class = "form-control width100 richtexteditor" })
+                            @Html.ValidationMessageFor(model => model.coll_HostelFee, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_FeeWaivers, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.coll_FeeWaivers, new { @class = "form-control width100 richtexteditor" })
+                            @Html.ValidationMessageFor(model => model.coll_FeeWaivers, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_Scholarships, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.coll_Scholarships, new { @class = "form-control width100 richtexteditor" })
+                            @Html.ValidationMessageFor(model => model.coll_Scholarships, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <h4 style="text-align: center; margin: 25px 0px;"><b>Other Details</b></h4>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_CampusFacilities, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.coll_CampusFacilities, new { @class = "form-control width100 richtexteditor" })
+                            @Html.ValidationMessageFor(model => model.coll_CampusFacilities, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_Rankings, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.coll_Rankings, new { @class = "form-control width100 richtexteditor" })
+                            @Html.ValidationMessageFor(model => model.coll_Rankings, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_Connectivity, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.coll_Connectivity, new { @class = "form-control width100 richtexteditor" })
+                            @Html.ValidationMessageFor(model => model.coll_Connectivity, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_Recruiters, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.coll_Recruiters, new { @class = "form-control width100 richtexteditor" })
+                            @Html.ValidationMessageFor(model => model.coll_Recruiters, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_HighestPackage, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.coll_HighestPackage, new { @class = "form-control width100"})
+                            @Html.ValidationMessageFor(model => model.coll_HighestPackage, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.coll_LowestPackage, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.coll_LowestPackage, new { @class = "form-control width100"})
+                            @Html.ValidationMessageFor(model => model.coll_LowestPackage, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-2">
+                                @Html.LabelFor(model => model.coll_AveragePackage, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(model => model.coll_AveragePackage, new { @class = "form-control width100"})
+                                @Html.ValidationMessageFor(model => model.coll_AveragePackage, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-2">
+                                @Html.LabelFor(model => model.coll_InternationalPackage, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(model => model.coll_InternationalPackage, new { @class = "form-control width100"})
+                                @Html.ValidationMessageFor(model => model.coll_InternationalPackage, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-offset-8 col-md-1">
+                            @*<input type="reset" value="Reset" class="btn btn-primary" />*@
+                            @Html.ActionLink("Cancel", "SaveCollege", null, new { @class = "btn btn-primary" })                      
+                        </div>
+                        <div class="col-md-2">
+                            <input type="submit" value="Save College" class="btn btn-success" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+                </div>
+            </div>
+
+}
+
+<div>
+    @Html.ActionLink("Back to Colleges Manager", "CollegesManager", null, new { @class = "btn btn-default" })
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $('#SelectedCourses').multiSelect({});
+            
+            if ($("#CoursesIds").val() != "" && $("#CoursesIds").val() != null) {
+                $('#SelectedCourses').multiSelect('select', $("#CoursesIds").val().split(','))
+            }
+
+            $('#SelectedFacilites').multiSelect({});
+
+            if ($("#FacilitiesIds").val() != "" && $("#FacilitiesIds").val() != null) {
+                $('#SelectedFacilites').multiSelect('select', $("#FacilitiesIds").val().split(','))
+            }
+            
+        });
+
+        $('#uploadcoverpic').bind('change', function () {
+            var f = this.files[0]
+
+            if (f.size > 3388608 || f.fileSize > 3388608) {
+                //show an alert to the user
+                alert("Allowed file size exceeded. (Max. 3 MB)")
+
+                //reset file upload control
+                this.value = null;
+            }
+        });
+
+        $('#uploadlogo').bind('change', function () {
+            var f = this.files[0]
+
+            if (f.size > 3388608 || f.fileSize > 3388608) {
+                //show an alert to the user
+                alert("Allowed file size exceeded. (Max. 3 MB)")
+
+                //reset file upload control
+                this.value = null;
+            }
+        });
+
+        function SaveCollegeCoursesDetails() {
+            var CollegeId = $("#coll_ID").val();
+            var CollegeCourseId = $("#CollegeCoursesForDetails").val();
+            var CollegeCourseSeats = $("#CollegeCourseSeats").val();
+            var CollegeCourseMode = $("#CollegeCourseMode").val();
+            var CollegeCourseFees = $("#CollegeCourseFee").val();
+            var CollegeCourseDuration = $("#CollegeCourseDuration").val();
+            var URL = '@Url.Action("SaveCollegeCourseDetails")';
+
+            if (CollegeId > 0 && CollegeCourseId > 0) {
+                
+                $.ajax({
+                    url: URL,
+                    data: { CollegeId: CollegeId, CollegeCourseId: CollegeCourseId, CollegeCourseSeats: CollegeCourseSeats, CollegeCourseMode: CollegeCourseMode, CollegeCourseFees: CollegeCourseFees, CollegeCourseDuration: CollegeCourseDuration },
+                    method: 'POST', 
+                    success:
+                        function (msg) {
+                            $("#CollegeCourseMessage").show();
+                            $("#CollegeCourseMessage").fadeOut(5000);
+                        },
+                    error:
+                        function (textStatus, errorThrown) {
+                            $("#CollegeCourseError").show();
+                            $("#CollegeCourseError").fadeOut(5000);
+                        }
+                })
+            }
+        }
+
+        function GetCollegeCourseDetails() {
+            $("#CollegeCourseDuration").val("");
+            $("#CollegeCourseMode").val("");
+            $("#CollegeCourseSeats").val("");
+            $("#CollegeCourseFee").val("");
+
+            var CollegeId = $("#coll_ID").val();
+            var CollegeCourseId = $("#CollegeCoursesForDetails").val();
+            var URL = '@Url.Action("GetCollegeCourseDetails")';
+            
+            if (CollegeId > 0 && CollegeCourseId > 0) {
+                
+                $.ajax({
+                    url: URL,
+                    data: { CollegeId: CollegeId, CollegeCourseId: CollegeCourseId },
+                    method: 'POST',
+                    success:
+                        function (response) {
+                            
+                            if (response == null || response == "NODATA" || response == "") {
+                                alert("NO DATA FOUND");
+                            }
+                            else {
+                                $("#CollegeCourseDuration").val(response[0]);
+                                $("#CollegeCourseMode").val(response[1]);
+                                $("#CollegeCourseSeats").val(response[2]);
+                                $("#CollegeCourseFee").val(response[3]);
+                            }
+                        },
+                    error: 
+                        function (textStatus, errorThrown) {
+                            alert(errorThrown);
+                            $("#CollegeCourseError").show();
+                        }
+                });
+            }
+            else {
+                alert('INCORRECT SELECTION');
+            }
+        }
+
+        function deleteCollege() {
+
+            if (deleteConfirm("Deleting College will delete all College related Data \nAre you sure to Delete College?")) {
+
+                $("#frmDeleteCollege").submit();
+            }
+        }
+    </script>
+}

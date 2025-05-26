@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewBag.Title = "Batch Students";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Batch Students</h2>
+
+
+<p>
+    @Html.ActionLink("<- - Batches Manager", "batchesmanager")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Payment
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            Phone
+        </th>
+        <th>
+            Batch Status
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item["Name"]
+            </td>
+            <td>
+                @item["Payment"]
+            </td>
+            <td>
+                @item["Email"]
+            </td>
+            <td>
+                @item["Phone"]
+            </td>
+            <td>
+                @item["BatchStatus"]
+            </td>
+            <td>
+                @if (@item["BatchStatus"] == "ACTIVE")
+                {
+                    <a href="/admin/batchstudentactivate/@item["BatchId"]/@item["StudentId"]/INACTIVATE">In-Activate</a>
+                }
+                else
+                {
+                    <a href="/admin/batchstudentactivate/@item["BatchId"]/@item["StudentId"]/ACTIVATE">Activate</a>
+                }
+            </td>
+        </tr>
+    }
+
+</table>

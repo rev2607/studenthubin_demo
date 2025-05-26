@@ -1,0 +1,421 @@
+﻿@model StudentHubMVC.JobAlerts
+
+@using System.Configuration;
+
+@{
+    Entities db = new Entities();
+
+    ViewBag.Title = "Job Alert Save";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+    var JobTypes = db.DropdownTypes.Where(type => type.GroupName == "JOBS").Select(type => new SelectListItem { Text = type.TypeValue, Value = type.DropdownTypeId.ToString() });
+
+    var JobCompanyLogos = db.JobAlerts.Where(a => a.CompanyLogo != "" && a.CompanyLogo != null && a.Company != "" && a.Company != null)
+        .Select(l => new SelectListItem { Text = l.Company, Value = l.CompanyLogo });
+}
+
+<div style="width: 100%;">
+    <div style="padding: 10px 0px 15px 0px; width: 80%; display: inline-block;">
+        <div style="font-size:x-large; display: inline-block;"><u>@Html.ActionLink("Job Alerts Manager", "JobAlertsManager")</u></div>
+        &nbsp;>&nbsp;
+        <div style="font-size: larger; display: inline-block; font-weight: bold;">Save Job Alert</div>
+    </div>
+    <div style="padding-top: 10px; width: 19%; display: inline-block;">
+        @Html.ActionLink("Add Job Alert", "SaveJobAlert", new { jobid = "" }, new { @class = "newaddbutton", @style = "width: 80%; float: left;" })
+        <form method="post" action="@Url.Action("DeleteJobAlert")" id="frmDeleteJobAlert" name="frmDeleteJobAlert">
+            @Html.Hidden("jobId", Model.JobId)
+            @if (Model.JobId > 0)
+            {
+                <img alt="Delete Job Alert" title="Delete Job Alert" class="deletesmall" onclick="deleteJobAlert();" style="margin: 4px;" />
+            }
+        </form>
+    </div>
+</div>
+
+@using (Html.BeginForm("SaveJobAlert", "Admin", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="x_panel">
+        @*<div class="x_title">
+
+            </div>*@
+        <div class="x_content">
+            <div class="form-horizontal">
+
+                @if (ViewBag.SaveMessage != "" && ViewBag.SaveMessage != null)
+                {
+                    <div class="message">@ViewBag.SaveMessage</div>
+                }
+                @if (Request.Params.AllKeys.Contains("message"))
+                {
+                    <div class="message">@Request.Params["message"]</div>
+                }
+                @if (ViewBag.ErrorMessage != "" && ViewBag.ErrorMessage != null)
+                {
+                    <div class="errormessage">@ViewBag.ErrorMessage</div>
+                }
+                @if (Request.Params.AllKeys.Contains("errormessage"))
+                {
+                    <div class="errormessage">@Request.Params["errormessage"]</div>
+                }
+
+                @Html.HiddenFor(model => model.JobId)
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label" }) *
+                        </div>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control width100", @required = "required", @maxlength = "200" } })
+                            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.JobType, htmlAttributes: new { @class = "control-label" }) *
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownList("JobType", JobTypes, "Select", htmlAttributes: new { @class = "form-control", @required = "required" })
+                            @Html.ValidationMessageFor(model => model.JobType, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.Company, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.Company, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Company, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.Label("CompanyLogo", "Company Logo", new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            <input type="file" name="uploadlogo" class="form-control" />
+                        </div>
+                        <div class="col-md-1">
+                            @Html.HiddenFor(m => m.CompanyLogo)
+                            @if (Model.CompanyLogo != null && Model.CompanyLogo != "")
+                            {
+                                <a href="@(ConfigurationManager.AppSettings["joblogos"].Replace("~/", "/") + Model.CompanyLogo)" target="_blank" title="Click to View Logo" id="logolink">
+                                    <img src="@(ConfigurationManager.AppSettings["joblogos"].Replace("~/", "/") + Model.CompanyLogo)" alt="" class="img-thumbnail" id="logoimg" />
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="#" target="_blank" title="Click to View Logo" id="logolink">
+                                    <img src="#" alt="" class="img-thumbnail" id="logoimg" />
+                                </a>
+                            }
+                        </div>
+                        <div class="col-md-4" style="text-align: left;">
+                            @Html.DropDownList("JobComapnyLogos", JobCompanyLogos, "Select Company Logo", new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.job_Domain, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.job_Domain, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.job_Domain, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.job_Designation, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.job_Designation, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.job_Designation, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.job_CtcAnnum, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.job_CtcAnnum, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.job_CtcAnnum, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.job_Website, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.job_Website, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.job_Website, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.JD, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.JD, new { @class = "form-control width100 texttoolbox", @rows = "3", @maxlength = "500" })
+                            @Html.ValidationMessageFor(model => model.JD, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.Details, htmlAttributes: new { @class = "control-label" }) *
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.Details, new { @class = "form-control width100 texttoolbox", @required = "required", @rows = "3" })
+                            @Html.ValidationMessageFor(model => model.Details, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label" }) *
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.Date, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker", @required = "required" })
+                            @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.Time, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.Time, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Time, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label" }) *
+                        </div>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control width100", @required = "required", @maxlength = "100" } })
+                            @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.Area, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.Area, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label" }) *
+                        </div>
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                            @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.Pincode, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.Pincode, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Pincode, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.Status, new List<SelectListItem> {
+                                    new SelectListItem { Text = "Active", Value = "ACTIVE" },
+                                    new SelectListItem { Text = "Inactive", Value = "INACTIVE" }
+                                }, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.job_EligibilityCriteria, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.job_EligibilityCriteria, new { @class = "form-control width100 texttoolbox", @rows = "3", @maxlength = "500" })
+                            @Html.ValidationMessageFor(model => model.job_EligibilityCriteria, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.job_SkillsRequired, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.job_SkillsRequired, new { @class = "form-control width100 texttoolbox", @rows = "3", @maxlength = "500" })
+                            @Html.ValidationMessageFor(model => model.job_SkillsRequired, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.job_SelectionProcess, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.job_SelectionProcess, new { @class = "form-control width100 texttoolbox", @rows = "3", @maxlength = "500" })
+                            @Html.ValidationMessageFor(model => model.job_SelectionProcess, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.job_AdditionalInformation, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.job_AdditionalInformation, new { @class = "form-control width100 texttoolbox", @rows = "3", @maxlength = "500" })
+                            @Html.ValidationMessageFor(model => model.job_AdditionalInformation, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.job_ContactInfo, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.job_ContactInfo, new { @class = "form-control width100 texttoolbox", @rows = "3", @maxlength = "500" })
+                            @Html.ValidationMessageFor(model => model.job_ContactInfo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.job_BondPeriod, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.job_BondPeriod, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.job_BondPeriod, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.job_LastDateToApply, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.job_LastDateToApply, "{0:dd-MM-yyyy}", new { @class = "form-control datepicker" })
+                            @Html.ValidationMessageFor(model => model.job_LastDateToApply, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-offset-8 col-md-1">
+                            @Html.ActionLink("Cancel", "SaveJobAlert", null, new { @class = "btn btn-primary" })
+                        </div>
+                        <div class="col-md-2">
+                            <input type="submit" value="Save Job Alert" class="btn btn-success" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to Job Alerts Manager", "JobAlertsManager", null, new { @class = "btn btn-default" })
+</div>
+
+@section scripts {
+    
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $("#JobComapnyLogos").select2();
+
+            //function changeCompanyLogo(ele) {
+            $("#JobComapnyLogos").change(function () {
+                var img = $("#JobComapnyLogos option:selected").val();
+                var company = $("#JobComapnyLogos option:selected").text();
+                //alert(img + '-' + company);
+                if (img != "") {
+                    $("#Company").val(company);
+                    $("#logolink").attr("href", "@(ConfigurationManager.AppSettings["joblogos"].Replace("~/", "/"))" + img);
+                    $("#logoimg").attr("src", "@(ConfigurationManager.AppSettings["joblogos"].Replace("~/", "/"))" + img);
+                    $("#CompanyLogo").val(img);
+                }
+                else {
+                    $("#Company").val("");
+                    $("#logolink").attr("href", "#");
+                    $("#logoimg").attr("src", "#");
+                    $("#CompanyLogo").val("");
+                } 
+            }) 
+        });
+        
+        function deleteJobAlert() {
+
+            if (deleteConfirm("Are you sure to Delete Job Alert?")) {
+
+                $("#frmDeleteJobAlert").submit();
+            }
+        }
+    </script>
+}

@@ -1,0 +1,76 @@
+﻿
+@{
+    ViewBag.Title = "Courses Manager";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Courses Manager</h2>
+
+<p>
+    @Html.ActionLink("Add Course", "addcourse")
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Fee
+            </th>
+            @*<th>
+                Duration
+            </th>*@
+            <th>
+                Status
+            </th>
+            <th>
+                Logo
+            </th>
+            <th>
+                Demo Link
+            </th>
+            <th>
+                Course
+            </th>
+            <th>
+                Content
+            </th>
+        </tr>
+    </thead>
+    <tbody id="data-container">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item["Name"]
+                </td>
+                <td>
+                    @item["Fee"]
+                </td>
+                @*<td>
+                    @item["Duration"]
+                </td>*@
+                <td>
+                    @item["Status"]
+                </td>
+                <td>
+                    <img src="~/assets/img/logos/@item["Logo"]" alt="Course Logo" style="width: 25px;" />
+                </td>
+                <td>
+                    @item["DemoLink"]
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "SaveCourse", new { id = @item["ID"] }) @*|*@
+                    @*@Html.ActionLink("Details", "Details", new { id= @item["ID"] }) |
+                    @Html.ActionLink("Delete", "Delete", new { id= @item["ID"] })*@
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "SaveCourseContent", new { course = @item["ID"] })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div id="pagination"></div>

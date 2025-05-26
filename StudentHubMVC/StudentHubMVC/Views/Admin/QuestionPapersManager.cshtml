@@ -1,0 +1,85 @@
+﻿@model IEnumerable<StudentHubMVC.QuestionPapers>
+
+@{
+    ViewBag.Title = "Question Papers Manager";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+    var context = new Entities();
+
+    var Courses = context.MainCourses.Select(course => new SelectListItem { Value = course.MainCourseId.ToString(), Text = course.Name }).ToList();
+}
+
+<div style="width: 100%;">
+    <div style="padding: 10px 0px 15px 0px; width: 80%; display: inline-block;">
+        <div style="font-size:x-large; display: inline-block;"><u>Question Papers Manager</u></div>
+    </div>
+    <div style="padding-top: 10px; width: 19%; display: inline-block;">
+        @Html.ActionLink("Add Question Paper", "SaveQuestionPaper", null, new { @class = "newaddbutton" })
+    </div>
+</div>
+
+
+<div class="x_panel">
+    <div class="x_content">
+        <div class="row">
+            <div class="col-md-4">
+                <label class="control-label">Select Course to Display Question Papers</label>
+            </div>
+            <div class="col-md-8">
+                @Html.DropDownList("QuestionPaperCourse", Courses, "Select", new { @class = "form-control width100 questionpapercoursepostback" })
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (Model != null && Model.Count() > 0)
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Year)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Month)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Filename)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MainCourses.Name)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Year)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Month)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Filename)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MainCourses.Name)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "SaveQuestionPaper", new { questionpaperid = item.QuestionPaperId }, new { @class = "editsmall", @title = "Edit Question Paper" }) |
+                    @Html.ActionLink("Delete", "Delete", new { questionpaperid = item.QuestionPaperId }, new { @class = "deletesmall", @title = "Delete Question Paper" })
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+
+

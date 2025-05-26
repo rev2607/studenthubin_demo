@@ -1,0 +1,165 @@
+﻿@model StudentHubMVC.Models.ViewModels.VMInstitutionCourse
+
+@{
+    ViewBag.Title = "SaveInstitutionCourse";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+    var context = new Entities();
+
+    var Institutions = context.Institutions.Select(institution => new SelectListItem { Text = institution.Name, Value = institution.InstitutionId.ToString(), Selected = (institution.InstitutionId == Model.InstitutionId ? true : false) });
+
+    var Courses = context.MainCourses.OrderBy(s => s.Name).Select(course => new SelectListItem { Text = course.Name, Value = course.MainCourseId.ToString() });
+
+    var TrainingModes = context.DropdownTypes.Where(d => d.GroupName == "TRAININGMODE").OrderBy(d => d.TypeValue).ToList();
+}
+
+<div style="width: 100%;">
+    <div style="padding: 10px 0px 15px 0px; width: 80%; display: inline-block;">
+        <div style="font-size:x-large; display: inline-block;"><u>@Html.ActionLink("Institution Details", "SaveInstitution")</u></div>
+        &nbsp;>&nbsp;
+        <div style="font-size:larger; display: inline-block; font-weight: bold;">Save Course</div>
+    </div>
+    <div style="padding-top: 10px; width: 19%; display: inline-block;">
+        @Html.ActionLink("Add Institution Course", "SaveInstitutionCourse", new { InstitutionCourseId = string.Empty }, new { @class = "newaddbutton" })
+    </div>
+</div>
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+
+
+    <div class="x_panel">
+        @*<div class="x_title">
+
+        </div>*@
+        <div class="x_content">
+            <div class="form-horizontal">
+
+                @{ Html.RenderPartial("pErrorSaveMessages"); }
+
+                @Html.HiddenFor(model => model.InstitutionCourseId)
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.InstitutionId, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.InstitutionId, Institutions, "Select", htmlAttributes: new { @class = "form-control width100", @required = "required" })
+                            @Html.ValidationMessageFor(model => model.InstitutionId, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.CourseId, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.CourseId, Courses, "Select", htmlAttributes: new { @class = "form-control width100", @required = "required" })
+                            @Html.ValidationMessageFor(model => model.CourseId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.CourseFee, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.CourseFee, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.CourseFee, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.Duration, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Duration, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.Label("Training Modes", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            <div class="row">
+                                @foreach (DropdownTypes drp in TrainingModes)
+                                {
+                                    <div class="col-md-3">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox"
+                                                       name="TrainingModes"
+                                                       value="@drp.DropdownTypeId"
+                                                       @if (Model.SavedTrainingModes != null && Model.SavedTrainingModes.Where(s => s.TrainingModeId == drp.DropdownTypeId).SingleOrDefault() != null) { <text> checked </text>  } /> @drp.TypeValue
+                                            </label>
+                                        </div>
+                                    </div>
+                                }
+                                @*<div class="col-md-2">
+                                    @Html.CheckBox("ClassRoomTraining", new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.LabelFor(model => model.ClassRoomTraining)
+                                    @Html.ValidationMessageFor(model => model.ClassRoomTraining, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-2">
+                                    @Html.CheckBox("OnlineTraining", new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.LabelFor(model => model.OnlineTraining)
+                                    @Html.ValidationMessageFor(model => model.OnlineTraining, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-2">
+                                    @Html.CheckBox("Proxy", new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.LabelFor(model => model.Proxy)
+                                    @Html.ValidationMessageFor(model => model.Proxy, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-2">
+                                    @Html.CheckBox("CorporateTraining", new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.LabelFor(model => model.CorporateTraining)
+                                    @Html.ValidationMessageFor(model => model.CorporateTraining, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-2">
+                                    @Html.CheckBox("Internship", new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.LabelFor(model => model.Internship)
+                                    @Html.ValidationMessageFor(model => model.Internship, "", new { @class = "text-danger" })
+                                </div>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-offset-8 col-md-1">
+                            @Html.ActionLink("Cancel", "SaveInstitutionCourse", new { courseid = "" }, new { @class = "btn btn-primary" })
+                        </div>
+                        <div class="col-md-2">
+                            <input type="submit" value="Save Institution Course" class="btn btn-success" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+}
+
+<div>
+    @Html.ActionLink("Back to Institution Details", "SaveInstitution", null, new { @class = "btn btn-default" })
+</div>
+
+
+@section scripts{
+    <script>
+        $(document).ready(function(){
+              // Initialize select2
+            $("#CourseId").select2();
+            $("#InstitutionId").select2();
+        });
+    </script>    
+}

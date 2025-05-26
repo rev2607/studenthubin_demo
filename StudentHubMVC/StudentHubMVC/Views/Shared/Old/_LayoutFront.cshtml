@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+    @Html.Partial("__HeadIncludesFront")
+
+</head>
+<body class="">
+    <div id="wrapper" class="clearfix">
+        <!-- preloader -->
+        <div id="preloader">
+            <div id="spinner">
+                <img alt="" src="/images/loader.gif">
+            </div>
+
+        </div>
+
+        <!-- Header Start -->
+        <header id="header" class="header header-floating header-transparent-dark dark-light">
+            @Html.Partial("__TopNavMenuFront")
+            <div class="header-nav navbar-sticky navbar-sticky-animated">
+                <div class="header-nav-wrapper">
+                    <div class="container-fluid">
+                        <nav id="menuzord-right" class="menuzord default no-bg">
+                            <a class="menuzord-brand switchable-logo pull-left flip" href="#">
+                                <img class="logo-default" src="/images/logo-wide-white.png" alt="">
+                                <img class="logo-scrolled-to-fixed" src="/images/logo-wide.png" alt="">
+                            </a>
+                            @Html.Partial("__NavMenu")
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Header End -->
+
+        @RenderBody()
+
+    </div>
+
+    @Html.Partial("__FooterFront")
+    @RenderSection("scripts", false)
+</body>
+
+</html>

@@ -1,0 +1,243 @@
+﻿@model StudentHubMVC.Models.ViewModels.VMResultsTsInterMaster
+
+@{
+    ViewBag.Title = "Telangana Intermediate Results Master";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    List<SelectListItem> ExamTypesRef = Model.ResultsExamTypesList.OrderBy(d => d.corseTyp_Name).Select(d => new SelectListItem
+    {
+        Text = d.corseTyp_Name,
+        Value = d.corseTyp_Sno.ToString()
+    }).ToList();
+
+    List<SelectListItem> ExamYearsRef = new StudentHubMVC.Liason.DropdownTypes().GetExamYears();
+    List<SelectListItem> MonthsRef = new StudentHubMVC.Liason.DropdownTypes().GetMonths();
+
+    var NoResultsHtml = "<div class='x_panel' style='border-color: #26b99a; border-width: 2px;'><div class='x_content'><h3 style = 'text-align: center;' > No Results Found</h3></div></div>";
+}
+
+<div style="display: inline-block; width: 100%;">
+    <div style="padding: 10px 0px 15px 0px; float: left; display: inline-block;">
+        <div style="font-size:xx-large; display: inline-block;"><u>Telangana Results Master</u></div>
+    </div>
+    <div style="padding-top: 20px; float: right; display: inline-block;">
+        <a class="newaddbutton" href="javasript:void(0);" onclick="UploadResultsClick()" style="margin: 0px 5px;">Upload Results</a>
+    </div>
+    @*<div style="padding-top: 20px; float: right; display: inline-block;">
+            <a class="newaddbutton" href="javasript:void(0);" onclick="AddNewDistrictClick()">Add New District</a>
+        </div>*@
+</div>
+
+@if (ViewBag.SaveMessage != "" && ViewBag.SaveMessage != null)
+{
+    <div class="message">@ViewBag.SaveMessage</div>
+}
+@if (Request.Params.AllKeys.Contains("message"))
+{
+    <div class="message">@Request.Params["message"]</div>
+}
+@if (ViewBag.ErrorMessage != "" && ViewBag.ErrorMessage != null)
+{
+    <div class="errormessage">@ViewBag.ErrorMessage</div>
+}
+@if (Request.Params.AllKeys.Contains("errormessage"))
+{
+    <div class="errormessage">@Request.Params["errormessage"]</div>
+}
+
+<div id="uploadResults" style="display: none; border-color: #26b99a; border-width: 2px; " class="x_panel">
+    <div class="x_content">
+        <h4 style="text-align: center; padding-bottom: 15px;"><b>Results Upload</b></h4>
+
+        @using (Html.BeginForm("UploadTsInterResults", "Admin", FormMethod.Post, new { id = "frmUploadResults", enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.Label("Exam Type", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownList("UploadExamTypeID", ExamTypesRef, "Select EXAM TYPE", new { @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.Label("Exam Year", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownList("ExamYear", ExamYearsRef, "Select EXAM YEAR", new { @class = "form-control", @required = "required" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.Label("Exam Month", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownList("ExamMonth", MonthsRef, "Select Month", new { @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.Label("Results Release Date", htmlAttributes: new { @class = "control-label", @placeholder = "dd/mm/yyyy" })
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class='input-group date myDatepicker'>
+                                    <input type='text' class="form-control" id="ResultsReleaseDate" name="ResultsReleaseDate" required="required" />
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                                <span><i>(dd/mm/yyyy)</i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.Label("Upload Results", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBox("ResultsUploadFile", "", new { @type = "file", @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="col-md-offset-2 col-md-1">
+                            <span onclick="ResultsUploadCancel()" class="btn btn-primary">Cancel</span>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="submit" value="Upload Results" class="btn btn-success" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="x_panel" id="getResults">
+    <div class="x_content">
+        <h4 style="text-align: center; padding-bottom: 15px;"><b>Get Results</b></h4>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-horizontal">
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.Label("Hall Ticket", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            <input id="HallTicketNumber" name="HallTicketNumber" type="text" class="form-control" required="required" maxlength="15" placeholder="Enter Hall Ticket Number" />
+                        </div>
+                        <div class="col-md-2">
+                            @Html.Label("Exam Type", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownList("ExamType", ExamTypesRef, "Select EXAM TYPE", new { @class = "form-control", @required = "required" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.Label("Exam Year", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownList("ExamYear", ExamYearsRef, "Select EXAM YEAR", new { @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="col-md-offset-2 col-md-1">
+                            <span onclick="Clear()" class="btn btn-primary">Clear</span>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="submit" value="Get Results" class="btn btn-success" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- TS YEAR 2 REGULAR -->
+@if (Model.TSYr2RegResult.IsResultSet && Model.IsPostRequest)
+{
+    @Html.Partial("~/Views/Shared/Results/_TSInterReg.cshtml", Model.TSYr2RegResult);
+}
+
+<!-- TS VOCATIONAL -->
+@if (Model.TSYr2VocResult.IsResultSet && Model.IsPostRequest)
+{
+    @Html.Partial("~/Views/Shared/Results/_TSInterVoc.cshtml", Model.TSYr2VocResult);
+}
+
+<!-- AP SSC -->
+@if (Model.TSSSCResults.IsResultSet && Model.IsPostRequest)
+{
+    @Html.Partial("~/Views/Shared/Results/_TSSSC.cshtml", Model.TSSSCResults);
+}
+
+<!-- TS EAMCET ENG -->
+@if (Model.TSEamcetEngResult.IsResultSet && Model.IsPostRequest)
+{
+    @Html.Partial("~/Views/Shared/Results/_TSEamcetEng.cshtml", Model.TSEamcetEngResult);
+}
+
+<!-- TS EAMCET AM (AGRICULTURE/MEDICAL) -->
+@if (Model.TSEamcetAMResult.IsResultSet && Model.IsPostRequest)
+{
+    @Html.Partial("~/Views/Shared/Results/_TSEamcetAgriMed.cshtml", Model.TSEamcetAMResult);
+}
+
+<!-- TS POLYCET -->
+@if (Model.TSPolycetResult.IsResultSet && Model.IsPostRequest)
+{
+    @Html.Partial("~/Views/Shared/Results/_TSPolycet.cshtml", Model.TSPolycetResult);
+}
+
+<!-- TS ICET -->
+@if (Model.TSIcetResult.IsResultSet && Model.IsPostRequest)
+{
+    @Html.Partial("~/Views/Shared/Results/_TSIcet.cshtml", Model.TSIcetResult);
+}
+
+@if (Model.IsPostRequest && !Model.TSYr2RegResult.IsResultSet && !Model.TSYr2VocResult.IsResultSet && !Model.TSEamcetEngResult.IsResultSet
+    && !Model.TSEamcetAMResult.IsResultSet && !Model.TSPolycetResult.IsResultSet && !Model.TSIcetResult.IsResultSet)
+{
+    @Html.Raw(NoResultsHtml)
+}
+
+
+
+@section scripts
+{
+    <script>
+        /* --------------------------------------------------------------- RESULTS UPLOAD */
+
+        function UploadResultsClick() {
+            ShowUploadResults();
+        }
+
+        function ResultsUploadCancel() {
+            HideUploadResults();
+            ClearResultsUpload();
+        }
+
+        function ClearResultsUpload() {
+            $("#ResultsUploadFile").val("");
+            $("#UploadExamTypeID").val("");
+        }
+
+        function ShowUploadResults() {
+            $("#uploadResults").slideDown(1000);
+        }
+
+        function HideUploadResults() {
+            $("#uploadResults").slideUp(1000);
+        }
+    </script>
+}

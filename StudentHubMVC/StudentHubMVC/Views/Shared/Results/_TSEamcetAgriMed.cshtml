@@ -1,0 +1,77 @@
+﻿@model StudentHubMVC.Models.ViewModels.TSEamcetAM
+
+<div class="x_panel" style="border-color: #26b99a; border-width: 2px; ">
+    <div class="x_content">
+        <h3 style="text-align: center;">TS EAMCET Agriculture/Medical Results</h3>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td><b>Hall Ticket Number</b></td>
+                                <td>@Model.HallTicketNumber</td>
+                            </tr>
+                            <tr>
+                                <td><b>Name</b></td>
+                                <td>@Model.FullName</td>
+                            </tr>
+                            <tr>
+                                <td><b>Father's Name</b></td>
+                                <td>@Model.FathersName</td>
+                            </tr>
+                            <tr>
+                                <td><b>Gender</b></td>
+                                <td>@Model.Gender</td>
+                            </tr>
+                            <tr>
+                                <td><b>Local Area</b></td>
+                                <td>@Model.LocalArea</td>
+                            </tr>
+                            <tr>
+                                <td><b>Category</b></td>
+                                <td>@Model.Category</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td><b>Rank</b></td>
+                                <td><b style="color: red;">@Model.Rank</b></td>
+                            </tr>
+                            <tr>
+                                <td><b>Result</b></td>
+                                <td>@Model.Result</td>
+                            </tr>
+                            <tr>
+                                <td><b>Botany</b></td>
+                                <td>@Model.Botany</td>
+                            </tr>
+                            <tr>
+                                <td><b>Zoology</b></td>
+                                <td>@Model.Zoology</td>
+                            </tr>
+                            <tr>
+                                <td><b>Physics</b></td>
+                                <td>@Model.Physics</td>
+                            </tr>
+                            <tr>
+                                <td><b>Chemistry</b></td>
+                                <td>@Model.Chemistry</td>
+                            </tr>
+                            <tr>
+                                <td><b>Total</b></td>
+                                <td>@Model.TotalMarks</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

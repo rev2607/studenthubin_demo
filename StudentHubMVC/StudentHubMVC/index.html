@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" href="http://studenthub.in/admin/images/favicon.ico" type="image/ico">
+	<title>Coming Soon - Studenthub.in</title>
+
+	<!-- Bootstrap -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap-grid.min.css" rel="stylesheet" />
+
+</head>
+<body style="background-color: #292f43; color: #b3b3b3;" text-align="center">
+
+	<style>
+		@import url('https://fonts.googleapis.com/css?family=Noto+Sans+HK&display=swap');
+
+		body a {
+			color: #8ec742;
+		}
+
+		body {
+			font-family: 'Noto Sans HK', sans-serif;
+		}
+	</style>
+
+	<div style="padding-bottom: 15px; padding-top: 40px; text-align: center;">
+		<img src="StudenthubMenuLogo.png" alt="">
+	</div>
+
+	<h1 style="margin-top: 150px;font-size: 4em;text-align: center;">COMING SOON</h1>
+
+	<div>
+		<input type="text" name="reg" id="reg" />
+		<span id="getregresult" style="background-color: blue;">GET REG RESULT</span>
+	</div>
+	<br />
+	<div>
+		<input type="text" name="voc" id="voc" />
+		<span id="getvocresult" style="background-color: blue;">GET voc RESULT</span>
+	</div>
+
+	<div style="margin-top: 170px;text-align: center;">
+		<div>
+			<p style=" font-size: 14px;">©2016 All Rights Reserved Studenthub.in</p>
+		</div>
+		<div>
+			<p style=" font-size: 14px;">Powered By: <a href="http://www.bracketsntags.com"><u><b>Bracketsntags.com</b></u></a></p>
+		</div>
+	</div>
+</body>
+</html>
+
+<script src="/assets/gentelella/vendors/jquery/dist/jquery.min.js"></script>
+
+<script>
+	$("#getregresult").click(function () {
+		var roll = $("#reg").val();
+
+        $.ajax({
+            type: "POST",
+            url: 'https://studenthub.in/webapi/GetTSInterYr1RegularResult',
+            data: { HallTicketNumber: roll, ApiKey: "d1p7ltgg54jd7nsl1alf" },
+			success: function (res) {
+				console.log(res);
+			},
+            error: function (xhr, ajaxOptions, thrownError) { alert(xhr.responseText); }
+		});
+	})
+
+    $("#getvocresult").click(function () {
+        var roll = $("#voc").val();
+
+        $.ajax({
+            type: "POST",
+            url: 'https://studenthub.in/webapi/GetTSInterYr1VocationalResult',
+            data: { HallTicketNumber: roll, ApiKey: "d1p7ltgg54jd7nsl1alf" },
+            success: function (res) {
+                console.log(res);
+            },
+            error: function (xhr, ajaxOptions, thrownError) { alert(xhr.responseText); }
+        });
+    })
+</script>

@@ -1,0 +1,65 @@
+﻿@model StudentHubMVC.Models.ViewModels.APEapcetEng
+
+<div class="x_panel" style="border-color: #26b99a; border-width: 2px; ">
+    <div class="x_content">
+        <h3 style="text-align: center;">AP EAPCET ENG. Results</h3>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td><b>Hall Ticket Number</b></td>
+                                <td>@Model.HallTicketNumber</td>
+                            </tr>
+                            <tr>
+                                <td><b>Name</b></td>
+                                <td>@Model.FullName</td>
+                            </tr>
+                            <tr>
+                                <td><b>Father's Name</b></td>
+                                <td>@Model.FathersName</td>
+                            </tr>
+                            <tr>
+                                <td><b>Mother's Name</b></td>
+                                <td>@Model.MothersName</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td><b>Rank</b></td>
+                                <td><b style="color: red;">@Model.Rank</b></td>
+                            </tr>
+                            <tr>
+                                <td><b>Status</b></td>
+                                <td>@Model.Status</td>
+                            </tr>
+                            <tr>
+                                <td><b>Mathematics</b></td>
+                                <td>@Model.Mathematics</td>
+                            </tr>
+                            <tr>
+                                <td><b>Physics</b></td>
+                                <td>@Model.Physics</td>
+                            </tr>
+                            <tr>
+                                <td><b>Chemistry</b></td>
+                                <td>@Model.Chemistry</td>
+                            </tr>
+                            <tr>
+                                <td><b>Total</b></td>
+                                <td>@Model.Total</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

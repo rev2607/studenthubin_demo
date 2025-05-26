@@ -1,0 +1,146 @@
+.menu_wrapper {
+  /* position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9; */
+  margin: 0 auto;
+  padding: 10px 0;
+  /* background: rgba(255,255,255,0.2); */
+}
+
+/* a{
+  color: #fff;
+}
+
+a:hover{
+  color: #8dc642;
+} */
+
+.navbar-brand {
+  width: 80%;
+  padding: 0;
+  margin: 0;
+}
+
+.navbar-brand img {
+  width: 100%;
+}
+
+/*.nav-scroller {
+    position: relative;
+    z-index: 2;
+    overflow-y: hidden;
+  }
+
+  .bg_dark_edit{
+    background-color: #393f4d;
+  }
+  
+  .nav-scroller .nav {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    padding-bottom: 0;
+    margin-top: 0;
+    overflow-x: auto;
+    color: #ccc;
+    text-align: center;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+   .nav-underline .nav-link {
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+    font-size: .8rem;
+    color: #fff;
+    padding: 0.5rem 0.6rem;
+  }
+  
+  .nav-underline .nav-link:hover, .nav-underline .active {
+    color: #fff;
+  } */
+
+li.nav-item {
+  /* font-size: 0.9rem; */
+  font-weight: 400;
+  text-transform: capitalize;
+  position: relative;
+  margin: 0;
+  padding: 0 12px;
+}
+
+li.nav-item a.nav-link {
+  padding: 0 0;
+  /* color: #777; */
+  position: relative;
+  color: #272443;
+  font-weight: 400;
+}
+
+li.nav-item a.nav-link:hover,
+li.nav-item.active a.nav-link,
+li.nav-item a.nav-link.active {
+  color: #8cc542;
+}
+
+/* li.nav-item a.nav-link:hover::after{
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    margin: 0 auto;
+    background-color: #ccc;
+    height: 1px;
+    width: 100%;
+    right: 0;
+  } */
+
+/* @media (max-width: 767px) {    
+  } */
+
+.nav_dropdown_menu {
+  right: 0;
+  left: auto;
+  min-width: 250px;
+}
+
+@media (min-width: 375px) and (max-width: 844px) and (orientation: landscape) {
+  .navbar-brand {
+    width: 220px;
+  }
+  .navbar_collapse_edit {
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin: 0 auto;
+    width: 100%;
+    background-color: #fff;
+    padding: 20px;
+    height: 100%;
+  }
+  li.nav-item a.nav-link {
+    padding: 1rem 1rem;
+  }
+}
+
+@media (max-width: 1024px) and (orientation: portrait) {
+  .navbar-brand {
+    width: 220px;
+  }
+  .navbar_collapse_edit {
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin: 0 auto;
+    width: 100%;
+    background-color: #fff;
+    padding: 20px;
+    height: 100%;
+  }
+  li.nav-item a.nav-link {
+    padding: 1rem 1rem;
+  }
+}

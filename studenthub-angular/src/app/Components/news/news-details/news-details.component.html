@@ -1,0 +1,39 @@
+<div class="banner_wrapper bg_sh_blue">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a [routerLink]="['/news']">News</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{newsDetails.Title}}</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="container mt-5" id="news_details">
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="card mb-4 border-0">
+                <h3 class="card-title text-capitalize text_blue">{{newsDetails.Title}}</h3>
+                <img [src]="newsDetails.CoverImage" alt="" class="img-responsive img-fullwidth" />
+                <div class="card-body px-0">
+                    <p class="font-weight-bold text-studenthub">{{newsDetails.CreatedDate}}</p>
+                    <!-- <p class="text-justify">
+                        The highest package bagged by a student of the batch is Rs. 1.25 crores, which is at a 40 per cent rise from the highest package of last year. The average salary of the batch
+                        graduating this year is Rs. 26.98 lakhs, which is again 10.3 per cent higher than that of last year.
+                    </p> -->
+                    <!-- <p class="text-justify">
+                        The entire unit of 60 students saw a huge 104 per cent increase in the average salary of students relative to their pre-MBA compensation. The statistics were shared by the
+                        institute via an email. Some of the leading recruiters of the MBAEx students at IIM Calcutta this year were Amazon, Oyo, Accenture, Swiggy, Ford, EXL, Zensar, and Sapient.
+                    </p>
+                    <p class="text-justify">
+                        Also Read: IIM Calcutta Will be Launching a Competing on Digital Mindsets (CDM) ProgrammeThe Chairperson of the MBAEx programme at IIM Calcutta, Amit Dhiman, said that MBAEx is
+                        a highly challenging process and the process of job-person matching is experienced in its truest sense in this programme.
+                    </p> -->
+                    <p class="text-justify" [innerHtml]="newsDetails.Description"></p>
+                    <!-- <div [innerHtml]="newsDetails.Description"></div></p> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

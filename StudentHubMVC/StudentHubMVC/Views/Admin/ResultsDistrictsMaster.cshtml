@@ -1,0 +1,297 @@
+﻿@model StudentHubMVC.Models.ViewModels.VMResultsDistrictsMaster
+
+@{
+    ViewBag.Title = "Districts Master";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    List<SelectListItem> ExamTypesRef = Model.ExamTypes.OrderBy(d => d.corseTyp_Name).Select(d => new SelectListItem
+    {
+        Text = d.corseTyp_Name,
+        Value = d.corseTyp_Sno.ToString()
+    }).ToList();
+    List<SelectListItem> ExamTypesRef2 = Model.ExamTypes.OrderBy(d => d.corseTyp_Name).Select(d => new SelectListItem
+    {
+        Text = d.corseTyp_Name,
+        Value = d.corseTyp_Name
+    }).ToList();
+}
+
+<div style="display: inline-block; width: 100%;">
+    <div style="padding: 10px 0px 15px 0px; float: left; display: inline-block;">
+        <div style="font-size:xx-large; display: inline-block;"><u>Districts Master</u></div>
+    </div>
+    <div style="padding-top: 20px; float: right; display: inline-block;">
+        <a class="newaddbutton" href="javasript:void(0);" onclick="UploadDistrictsClick()" style="margin: 0px 5px;">Upload Districts</a>
+    </div>
+    <div style="padding-top: 20px; float: right; display: inline-block;">
+        <a class="newaddbutton" href="javasript:void(0);" onclick="AddNewDistrictClick()">Add New District</a>
+    </div>
+</div>
+
+@if (ViewBag.SaveMessage != "" && ViewBag.SaveMessage != null)
+{
+    <div class="message">@ViewBag.SaveMessage</div>
+}
+@if (Request.Params.AllKeys.Contains("message"))
+{
+    <div class="message">@Request.Params["message"]</div>
+}
+@if (ViewBag.ErrorMessage != "" && ViewBag.ErrorMessage != null)
+{
+    <div class="errormessage">@ViewBag.ErrorMessage</div>
+}
+@if (Request.Params.AllKeys.Contains("errormessage"))
+{
+    <div class="errormessage">@Request.Params["errormessage"]</div>
+}
+
+<div id="uploadDistricts" style="display: none;" class="x_panel">
+    <div class="x_content">
+        @using (Html.BeginForm("UploadDistricts", "Admin", FormMethod.Post, new { id = "frmUploadDistricts", enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.Label("Exam Type", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownList("UploadExamTypeID", ExamTypesRef, "Select EXAM TYPE", new { @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.Label("Upload Districts", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBox("DistrictsUploadFile", "", new { @type = "file", @class = "form-control", @required = "required" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-offset-8 col-md-1">
+                            <span onclick="DistrictsUploadCancel()" class="btn btn-primary">Cancel</span>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="submit" value="Upload Districts" class="btn btn-success" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="x_panel" style="display: none;" id="addEditDistrict">
+    <div class="x_content">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-horizontal">
+
+                @Html.HiddenFor(model => model.District.dstrct_Sno)
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.Label("District Name", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.District.dstrct_Name, new { @class = "form-control", @required = "required", @maxlength = 50 })
+                            @Html.ValidationMessageFor(model => model.District.dstrct_Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.Label("Exam Type", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => Model.District.dstrct_ExamType, ExamTypesRef, "Select EXAM TYPE", new { @class = "form-control", @required = "required" })
+                            @Html.ValidationMessageFor(model => model.District.dstrct_ExamType, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.Label("District ID", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.District.dstrct_ID, new { @class = "form-control", @required = "required", @maxlength = 5 })
+                            @Html.ValidationMessageFor(model => model.District.dstrct_ID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-offset-8 col-md-1">
+                            <span onclick="Cancel()" class="btn btn-primary">Cancel</span>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="submit" value="Save District" class="btn btn-success" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table">
+        <tr>
+            @*<th>
+                    ID
+                </th>*@
+            <th>
+                District
+            </th>
+            <th>
+                Exam Type
+            </th>
+            <th>
+                ID
+            </th>
+            <th style="width: 18%;">
+                @Html.DropDownList("typesFilter", ExamTypesRef2, "ALL", new { @class = "form-control", @onchange = "filterText();", @style = "width: 200px; border: solid;" })
+            </th>
+        </tr>
+        @if (Model.DistrictsList != null && Model.DistrictsList.Count() > 0)
+        {
+            foreach (var type in Model.DistrictsList)
+            {
+                <tr class="typeContent">
+                    @*<td>@type.DropdownTypeId</td>*@
+                    <td>@type.dstrct_Name</td>
+                    <td>@Model.ExamTypes.FirstOrDefault(_ => _.corseTyp_Sno == type.dstrct_ExamType).corseTyp_Name </td>
+                    <td>@type.dstrct_ID</td>
+                    <td>
+                        <span class="edittypee editsmall" onclick="EditDistrict('@type.dstrct_Sno', '@type.dstrct_ExamType', '@type.dstrct_ID', '@type.dstrct_Name')"></span>
+                        <div style="cursor: pointer; display: inline-block;" class="deletesmall" title="Delete Group Type" onclick="deleteDropdownType('@type.dstrct_ExamType', '@type.dstrct_Sno', this);"></div>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr class="typeContent">
+                <td colspan="4">NO DISTRICTS ADDED IN THE SYSTEM</td>
+            </tr>
+        }
+    </table>
+</div>
+
+
+@section scripts
+{
+    <script>
+
+        /* --------------------------------------------------------------- ADD/EDIT DISTRICT */
+        function AddNewDistrictClick() {
+            ClearDistrictDetails();
+            ShowDistrictEdit();
+        }
+
+        function EditDistrict(Sno, ExamTypeID, DistrictID, Name) {
+            ClearDistrictDetails();
+            $("#District_dstrct_Name").val(Name);
+            $("#District_dstrct_ExamType").val(ExamTypeID);
+            $("#District_dstrct_ID").val(DistrictID);
+            $("#District_dstrct_Sno").val(Sno);
+            ShowDistrictEdit();
+            $("html, body").animate({ scrollTop: 0 }, "slow");
+        }
+
+        function Cancel() {
+            HideDistrictEdit();
+            ClearDistrictDetails();
+        }
+
+        function ClearDistrictDetails() {
+            $("#District_dstrct_Name").val("");
+            $("#District_dstrct_ExamType").val("");
+            $("#District_dstrct_ID").val("");
+            $("#District_dstrct_Sno").val("");
+        }
+
+        function ShowDistrictEdit() {
+            $("#addEditDistrict").show();
+        }
+
+        function HideDistrictEdit() {
+            $("#addEditDistrict").hide();
+        }
+
+        function UploadDistrictsClick() {
+            ShowUploadDistricts();
+        }
+
+
+        /* --------------------------------------------------------------- DISTRICTS UPLOAD */
+        function DistrictsUploadCancel() {
+            HideUploadDistricts();
+            ClearDistrictsUpload();
+        }
+
+        function ClearDistrictsUpload() {
+            $("#DistrictsUploadFile").val("");
+            $("#UploadExamTypeID").val("");
+        }
+
+        function ShowUploadDistricts() {
+            $("#uploadDistricts").show();
+        }
+
+        function HideUploadDistricts() {
+            $("#uploadDistricts").hide();
+        }
+
+        /* ------------------------------------------------------------- FILTER DISTRICTS GRID */
+        function filterText() {
+            var rex = new RegExp($('#typesFilter').val());
+
+            if (rex == "/Select GROUP/") { clearFilter() } else {
+                $('.typeContent').hide();
+                $('.typeContent').filter(function () {
+                    return rex.test($(this).text());
+                }).show();
+            }
+        }
+
+        function clearFilter() {
+            $('.typesFilter').val('');
+            $('.typeContent').show();
+        }
+
+        function deleteDropdownType(type, id, ele) {
+
+            if (deleteConfirm("Are You Sure?")) {
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("DeleteDropdownType")',
+                    data: { dropdownType: type, id: id},
+                    error: function (er) {
+                        alert(er);
+                    },
+                    success: function (result) {
+                        if (result == "") {
+                            $(ele).closest("tr").remove();
+                            alert('Type Delete');
+                        }
+                        else {
+                            alert(result);
+                        }
+                    }
+                });
+            }
+            //else {
+            //    alert(type + id);
+            //}
+        }
+
+    </script>
+}

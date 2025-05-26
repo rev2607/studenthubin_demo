@@ -1,0 +1,36 @@
+<div class="banner_wrapper bg_sh_blue">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">News</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="container mt-5" id="news-list">
+    <div class="row">
+        <div class="col-12 col-sm-12">
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-6 mb-4" *ngFor="let x of newsAlerts| paginate: { itemsPerPage: 12, currentPage: p }">
+
+                    <a [routerLink]="['/news',x.UrlKeyWord]" class="text_blue text-decoration-none">
+                        <div class="card">
+                            <img [src]="x.CoverImage" class="card-img-top w-100" width="130" height="130" onerror="this.src='assets/images/dummy_image.png'" />
+                            <div class=" card-body p-2">
+                                <h6 class="card-title text-capitalize">{{x.Title}}</h6>
+                                <!-- <p class="card-text">{{x.Description}}</p> -->
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-12">
+            <div class="d-flex float-right mt-3">
+                <pagination-controls (pageChange)="p = $event" class="float-right"></pagination-controls>
+            </div>
+        </div>
+    </div>
+</div>

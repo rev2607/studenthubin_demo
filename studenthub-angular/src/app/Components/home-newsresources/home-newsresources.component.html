@@ -1,0 +1,47 @@
+<div class="row flex-wrap align-items-center mb-4">
+  <div class="col-12 col-sm-10">
+    <h3>News Alerts</h3>
+    <h6>Get notified for all latest news</h6>
+  </div>
+  <div class="col-12 col-sm-2 text-right">
+    <a [routerLink]="['/news']"><button type="button" class="btn btn-success">Browse All</button></a>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12 col-sm-9">
+    <div class="row big_news_list">
+      <div class="col-12 col-sm-6 mb-4" *ngFor="let x of latestNews.slice(0, 4);">
+        <a href="/news/{{x.UrlKeyWord}}">
+          <div class="card">
+            <img [src]="x.CoverImage" class="card-img-top" alt="...">
+            <div class="card-body p-2">
+              <h6 class="text-success text-uppercase">{{x.NewsType}}</h6>
+              <h5 class="card-title text-capitalize">{{x.Title}}</h5>
+              <!-- <h5 class="card-title text-capitalize">{{x.Description}}</h5> -->
+              <!-- <p class="card-text">{{x.CreatedDate}}</p> -->
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-sm-3">
+    <div class="card mb-3 small_news_list">
+      <div class="row no-gutters border" *ngFor="let x of latestNews.slice(4,7)">
+        <a href="/news/{{x.UrlKeyWord}}">
+          <div class="col-md-12 p-0">
+            <img [src]="x.CoverImage" alt="..." width="130" height="130" class="w-100" onerror="this.src='assets/images/dummy_image.png'">
+          </div>
+          <div class="col-md-12 p-0">
+            <div class="card-body p-2">
+              <h6 class="text-success text-uppercase">{{x.NewsType}}</h6>
+              <h6 class="card-title text-capitalize">{{x.Title}}</h6>
+              <!-- <p class="card-text"><small class="text-muted">{{x.CreatedDate}}</small></p> -->
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

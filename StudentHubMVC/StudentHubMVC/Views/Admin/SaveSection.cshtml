@@ -1,0 +1,299 @@
+﻿
+@model StudentHubMVC.Liason.EntityLayer.SectionEN
+@using System.Data
+
+@{
+    ViewBag.Title = "Add/Save Section";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div style="width: 100%;">
+    <div style="padding: 10px 0px 15px 0px; width: 60%; display: inline-block;">
+        <div style="font-size:x-large; display: inline-block;"><u> @Html.ActionLink((string)ViewBag.CourseName, "SaveCourseContent")</u></div>
+        &nbsp;>&nbsp;
+        <div style="font-size:larger; display: inline-block; font-weight: bold;">Add/Save Section</div>
+    </div>
+    @*<div style="padding-top: 10px; width: 39%; display: inline-block;">
+            <div style="width: 39%;display: inline-block; ">
+                @Html.ActionLink("Add Institution", "SaveInstitution", new { institutionid = "" }, new { @class = "newaddbutton" })
+            </div>
+
+            @if (Model != null && Model.InstitutionId > 0)
+            {
+                <div style="width: 59%;display: inline-block;">
+                    @Html.ActionLink("Add Institution Course", "SaveInstitutionCourse", null, new { @class = "newaddbutton" })
+                </div>
+            }
+
+        </div>*@
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12" style="border-left: solid thin #91cc42; margin-bottom: 25px;">
+
+            @using (Html.BeginForm("AddSaveSection", "Admin", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="x_panel">
+                    @*<div class="x_title">
+
+                        </div>*@
+                    <div class="x_content">
+
+                        <div class="form-horizontal">
+
+                            @if (ViewBag.SaveMessage != "" && ViewBag.SaveMessage != null)
+                            {
+                                <div class="message">@ViewBag.SaveMessage</div>
+                            }
+                            @if (Request.Params.AllKeys.Contains("message"))
+                            {
+                                <div class="message">@Request.Params["message"]</div>
+                            }
+                            @if (ViewBag.ErrorMessage != "" && ViewBag.ErrorMessage != null)
+                            {
+                                <div class="errormessage">@ViewBag.ErrorMessage</div>
+                            }
+                            @if (Request.Params.AllKeys.Contains("errormessage"))
+                            {
+                                <div class="errormessage">@Request.Params["errormessage"]</div>
+                            }
+
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            @if (ViewBag.ID != null && ViewBag.ID != "")
+                            {
+                                <input class="form-control text-box single-line" id="Sno" name="Sno" type="text" value="@ViewBag.ID" style="display: none;">
+                            }
+
+                            @*<div class="form-group row">
+                                    <div class="col-md-2">
+                                        @Html.Label("Course: ", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="col-md-10">
+                                        <label class="control-label">@ViewBag.CourseName</label>
+                                    </div>
+                                </div>*@
+
+                            <div class="form-group row">
+                                <div class="col-md-2">
+                                    @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control width100", @required = "required" } })
+                                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                @*<div class="col-md-2">
+                                        @Html.LabelFor(model => model.CourseId, htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.DropDownList("Courses", (IEnumerable<SelectListItem>)ViewBag.Courses, "Select Course", new { @class = "form-control", @required = "required" })
+                                        @Html.EditorFor(model => model.CourseId, new { htmlAttributes = new { @style = "display: none;" } })
+                                    </div>*@
+                                <div class="col-md-2">
+                                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-md-10">
+                                    @Html.TextAreaFor(model => model.Description, htmlAttributes: new { @class = "form-control width100" })
+                                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-2">
+                                    @Html.LabelFor(model => model.SortId, htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.SortId, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                                    @Html.ValidationMessageFor(model => model.SortId, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-offset-2 col-md-4">
+                                    <input type="submit" value="SAVE SECTION" class="btn btn-success" />
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            }
+
+        </div>
+
+        @{
+            if (ViewBag.Tests != null)
+            {
+                <div class="col-md-6" style="border-left: solid thin #91cc42;">
+                    <h4>Section Tests List</h4>
+                    <div class="row">
+                        <div class="col-md-12">
+                            @using (Html.BeginForm("AddTest", "Admin", FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+
+                                <div class="x_panel">
+                                    @*<div class="x_title">
+
+                                        </div>*@
+                                    <div class="x_content">
+                                        <div class="form-horizontal row">
+                                            <div class="col-md-4">
+                                                <h6>Test Difficulty: </h6>
+                                            </div>
+                                            <div class="col-md-4">
+                                                @Html.DropDownList("Difficulty", new List<SelectListItem>
+                                                   {
+                                                       new SelectListItem { Value = "EASY", Text = "EASY" },
+                                                       new SelectListItem { Value = "MEDIUM", Text = "MEDIUM" },
+                                                       new SelectListItem { Value = "HARD", Text = "HARD" }
+                                                   }, "SELECT", new { @class = "form-control", @required = "required" })
+                                            </div>
+                                            <div class="col-md-2">
+                                                <input id="testdifficultysave" type="submit" value="ADD TEST" class="btn btn-success" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            <table class="table">
+                                <tr>
+                                    <th>
+                                        Difficulty
+                                    </th>
+                                    <th>
+                                        Total Questions
+                                    </th>
+                                    <th>
+                                        Actions
+                                    </th>
+                                </tr>
+                                @foreach (DataRow test in ((DataTable)ViewBag.Tests).Rows)
+                                {
+                                    <tr>
+                                        <td>
+                                            @test["Difficulty"]
+                                        </td>
+                                        <td>
+                                            @test["TotalQuestions"]
+                                        </td>
+                                        <td>
+                                            @*@Html.ActionLink("Edit", "SaveTest", new { testid = @test["TestId"] }) |*@
+                                            @Html.ActionLink("Questions", "TestQuestions", new { testid = @test["TestId"] }, new { @class = "quizsmall", @title = "Test Questions" }) |
+                                            @Html.ActionLink("Delete", "DeleteTest", new { testid = @test["TestId"] }, new { @class = "deletesmall", @title = "Delete Test" })
+
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            }
+        }
+
+
+        @{
+            if (ViewBag.Materials != null)
+            {
+                <div class="col-md-6" style="border-left: solid thin #91cc42; ">
+                    <h4>Materials</h4>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            @using (Html.BeginForm("UploadMaterial", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                            {
+                                @Html.AntiForgeryToken()
+
+                                <div class="x_panel">
+                                    @*<div class="x_title">
+
+                                        </div>*@
+                                    <div class="x_content">
+                                        <div class="form-horizontal row">
+                                            <div class="col-md-8">
+                                                <input type="file" id="MaterialFilePosted" name="MaterialFilePosted" class="form-control" onchange="show(this)" required />
+                                            </div>
+                                            <div class="col-md-2">
+                                                <input type="submit" value="UPLOAD" class="btn btn-success" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                            <table class="table">
+                                <tr>
+                                    <th>
+                                        File Name
+                                    </th>
+                                    <th></th>
+                                </tr>
+                                @foreach (DataRow file in ((DataTable)ViewBag.Materials).Rows)
+                                {
+                                    <tr>
+                                        <td>@file["FileName"]</td>
+                                        <td>
+                                            @Html.ActionLink("Delete", "DeleteMaterial", new { sectionid = @file["SectionId"], fileid = @file["MaterialId"] }, new { @class = "deletesmall", @title = "Delete Material" })
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+
+    </div>
+
+    @{
+        if (ViewBag.Chapters != null) /* && ((DataTable)ViewBag.Chapters).Rows.Count > 0*/
+        {
+            <div class="row" style="border-left: solid thin #91cc42;">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-10">
+                            <h4>Chapters List</h4>
+                        </div>
+                        <div class="col-md-2">
+                            @Html.ActionLink("Add Chapter", "addchapter", null, new { @class = "newaddbutton" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="chapterslist x_panel">
+                        @foreach (DataRow chapter in ((DataTable)ViewBag.Chapters).Rows)
+                        {
+                            <div class="chapteritem">
+                                <div class="chaptertitle">
+                                    @chapter["SortId"]. <a href="@chapter["VideoLink1"]" target="_blank"><u>@chapter["Title"]</u></a>
+                                </div>
+                                <div class="chapterduration">
+                                    @chapter["Video1Duration"]
+                                </div>
+                                <div class="chapteredit">
+                                    @Html.ActionLink("Edit", "SaveChapter", new { chapterid = @chapter["ChapterId"] }, new { @class = "editsmall", @title = "Edit Chapter" }) |
+                                    @Html.ActionLink("Delete", "DeleteChapter", new { chapterid = @chapter["ChapterId"] }, new { @class = "deletesmall", @title = "Delete Chapter" })
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+<hr />
+
+<div style="padding-top: 15px;">
+    @Html.ActionLink("Back to Course Content", "SaveCourseContent", null, new { @class = "btn btn-default" })
+</div>
+
+

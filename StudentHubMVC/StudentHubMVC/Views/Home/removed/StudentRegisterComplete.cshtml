@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "Registration - StudentHub.in";
+    Layout = "~/Views/Shared/_LayoutFront.cshtml";
+}
+
+<section class="registraion-form section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="edu-title text-center">
+                    <h2>Registration Process Completed</h2>
+                    <hr>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div style="min-height: 135px;padding: 10px 50px;font-size: 17px;text-align: center;color: #292f43;/* border: solid thin #8dc641; */">
+                Email Verified. Please LOGIN to continue.
+                @ViewBag.Response
+            </div>
+        </div>
+    </div>
+</section>

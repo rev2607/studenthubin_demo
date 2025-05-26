@@ -1,0 +1,31 @@
+/* .scholarships_card_edit{
+    flex: 0 0 23.3%;
+} */
+
+.list-group-item{
+    position: relative;
+}
+
+/* .dot::before{
+    content: "";
+    background-color: #777;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    padding: 0;
+    margin: 0;
+    left: 0;
+    display: block;
+    top:10px;
+} */
+
+.scholarships_card_edit:hover{
+    background-color: #f5fcff;
+    cursor: pointer;
+}
+
+.brand_icon{
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+}

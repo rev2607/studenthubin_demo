@@ -1,0 +1,165 @@
+﻿@model System.Data.DataSet
+
+@{
+    ViewBag.Title = "Student Dashboard";
+    Layout = "~/Views/Shared/_LayoutStudent.cshtml";
+}
+
+<div style="padding: 5px; border-bottom: solid thin #90cb42; margin-bottom:10px;">
+    <h2>Dashboard</h2>
+</div>
+
+<div class="container">
+    <div class="row">
+        @if (ViewBag.Response != "" && ViewBag.Response != null)
+        {
+            <div class="message">@ViewBag.Response</div>
+        }
+
+        <div class="col-md-6" style="border-right: solid thin #90cb42; max-height: 400px; overflow-y: auto; padding-bottom: 10px; margin-bottom: 10px;">
+            <h4>Current Batches</h4>
+            <table class="table">
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Start Date
+                    </th>
+                    <th>
+                        Timings
+                    </th>
+                    <th>
+                        Class Mode
+                    </th>
+                    <th>
+                    <th></th>
+                </tr>
+
+                @foreach (System.Data.DataRow item in Model.Tables[0].Rows)
+                {
+                    <tr>
+                        <td>
+                            @item["Name"]
+                            @*<img src="~/assets/img/logos/@item["Logo"]" alt="@item["Name"]" style="width: 50px;" />*@
+                        </td>
+                        <td>
+                            @item["StartDate"]
+                        </td>
+                        <td>
+                            @item["Timing"]
+                        </td>
+                        <td>
+                            @item["ClassMode"]
+                        </td>
+                        <td>
+                            <a href="/student/dashboard/batchregister/@item["ID"]">REGISTER</a>
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+        <div class="col-md-6" style="max-height: 400px; overflow-y: auto; padding-bottom: 10px; margin-bottom: 10px;">
+            <h4>Registered Batches</h4>
+            <table class="table">
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Start Date
+                    </th>
+                    <th>
+                        Timings
+                    </th>
+                    <th>
+                        Class Mode
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (System.Data.DataRow item in Model.Tables[1].Rows)
+                {
+                    <tr>
+                        <td>
+                            @item["Name"]
+                            @*<img src="~/assets/img/logos/@item["Logo"]" alt="@item["Name"]" style="width: 50px;" />*@
+                        </td>
+                        <td>
+                            @item["StartDate"]
+                        </td>
+                        <td>
+                            @item["Timing"]
+                        </td>
+                        <td>
+                            @item["ClassMode"]
+                        </td>
+                        <td>
+                            @if (@item["BatchStatus"].ToString() == "ACTIVE")
+                            {
+                                <a href="@item["ClassRoomLink"]" target="_blank">Class</a>
+                            }
+                            else
+                            {
+                                <div>Pending</div>
+                            }
+                            
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+        <div class="col-md-12" style="border-top: solid thin #90cb42; float: left; margin-top: 10px;">
+            <h4>Completed Courses</h4>
+            <table class="table">
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Start Date
+                    </th>
+                    <th>
+                        Class Mode
+                    </th>
+                    <th>
+                        Rating
+                    </th>
+                    <th>
+                        Review
+                    </th>
+                    <th>
+                    <th></th>
+                </tr>
+
+                @foreach (System.Data.DataRow item in Model.Tables[2].Rows)
+                {
+                    <tr>
+                        <td>
+                            @item["Name"]
+                            <img src="~/assets/img/logos/@item["Logo"]" alt="@item["Name"]" style="width: 50px;" />
+                        </td>
+                        <td>
+                            @item["StartDate"]
+                        </td>
+                        <td>
+                            @item["ClassMode"]
+                        </td>
+                        <td>
+                            @item["Rating"]
+                        </td>
+                        <td>
+                            @item["Review"]
+                        </td>
+                        <td>
+                            @Html.ActionLink("Review Class", "", new { id = @item["ID"] })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+</div>
+

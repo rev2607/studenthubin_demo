@@ -1,0 +1,288 @@
+﻿@model StudentHubMVC.Models.ViewModels.Home.VMHomeCollegesSearch
+
+@using System.Configuration;
+
+
+@{
+    ViewBag.Title = "index";
+    Layout = "~/Views/Shared/_LayoutFrontOthers.cshtml";
+}
+
+<style>
+    body {
+        background-color: #f1f1f1 !important;
+    }
+
+    .searchsection {
+        padding: 4px 0 5px;
+        margin-bottom: 10px;
+        max-height: 155px;
+        overflow: auto;
+    }
+
+    .searchlabel {
+        display: block;
+        position: relative;
+        font-weight: 600;
+        /*padding: 0 0 0 40px;*/
+        z-index: 9;
+        cursor: pointer;
+        -webkit-transition: all .25s linear;
+        font-size: 11px;
+        line-height: 2.2;
+        letter-spacing: .4px;
+        color: #7b7b7b;
+        transition: 0s ease all;
+        text-transform: uppercase;
+    }
+
+    .listing_filter {
+        padding: 4px 0 5px;
+        margin-bottom: 10px;
+        max-height: 155px;
+        overflow: auto;
+    }
+</style>
+
+<!-- Start main-content -->
+<div class="main-content">
+    <!-- Section: inner-header -->
+    <section class="inner-header mt-110 bg-gray-eee">
+
+        <div class="container pt-5 pb-5">
+            <!-- Section Content -->
+            <div class="section-content">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <ol class="breadcrumb text-left text-black mt-10">
+                            <li><a href="#">Home</a></li>
+                            <li class="active text-gray-silver">Colleges</li>
+
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container-fluid mt-10 mb-30 pt-10 pb-30">
+            <div class="row">
+                <div class="col-md-9 pull-right flip sm-pull-none">
+                    <div class="blog-posts bg-color-details" id="collegeSearchResults">
+                        @Html.Partial("__SearchResults", Model)
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="sidebar sidebar-right mt-sm-30 bg-color-details">
+                        <div class="widget">
+                            <div class="search-form">
+                                @using (Html.BeginForm("Index", "Colleges", FormMethod.Get))
+                                {
+                                    @Html.HiddenFor(model => model.searchType)
+                                    @Html.HiddenFor(model => model.searchCourse)
+                                    @Html.HiddenFor(model => model.searchState)
+                                    @Html.HiddenFor(model => model.searchCity)
+                                    @Html.HiddenFor(model => model.page)
+                                    @Html.HiddenFor(model => model.nextPage)
+                                    @Html.HiddenFor(model => model.previousPage)
+                                    <div class="input-group">
+                                        <input id="searchKeyword" name="searchKeyword" type="text" placeholder="ENTER COLLEGE" class="form-control search-input">
+                                        <span class="input-group-btn">
+                                            <button type="submit" class="btn search-button" onclick="getCollegeSearchResults(1); return false;"><i class="fa fa-search"></i></button>
+                                        </span>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="widget">
+                            <h5 class="widget-title line-bottom">COLLEGE TYPE</h5>
+                            @*<div class="search-form">
+                                <form>
+                                    <div class="input-group">
+                                        <input type="text" placeholder="FIND COLLEGE TYPE" class="form-control search-input" onkeyup="filterSearch('streamsSection', this);">
+                                        <span class="input-group-btn">
+                                            <button type="submit" class="btn search-button"><i class="fa fa-search"></i></button>
+                                        </span>
+                                    </div>
+                                </form>
+                            </div>*@
+                            <div class="listing_filter" id="collegeTypesFilter">
+                                @foreach (KeyValuePair<int, string> type in Model.CollegeTypes)
+                                {
+                                    <div style="width: 100%;" id="streamsSection">
+                                        <input id="@type.Key" type="checkbox" name="searchType" value="@type.Key" class="checkbox" style="width: 5%; display: inline-block; float: left; margin-right: 10px; margin-top: 5px;" onchange="typeClick();">
+                                        <label class="searchlabel" style="width: 90%;display: inline-block;float: left;">@type.Value</label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="widget">
+                            <h5 class="widget-title line-bottom">COURSES</h5>
+                            @*<div class="search-form">
+                                <form>
+                                    <div class="input-group">
+                                        <input type="text" placeholder="FIND COURSE" class="form-control search-input" onkeyup="filterSearch('streamsSection', this);">
+                                        <span class="input-group-btn">
+                                            <button type="submit" class="btn search-button"><i class="fa fa-search"></i></button>
+                                        </span>
+                                    </div>
+                                </form>
+                            </div>*@
+                            <div class="listing_filter" id="coursesFilter">
+                                @foreach (KeyValuePair<int, string> course in Model.CollegeCourses)
+                                {
+                                    <div style="width: 100%;" id="streamsSection">
+                                        <input id="@course.Key" type="checkbox" name="searchCourse" value="@course.Key" class="checkbox" style="width: 5%; display: inline-block; float: left; margin-right: 10px; margin-top: 5px;" onchange="courseClick();">
+                                        <label class="searchlabel" style="width: 90%;display: inline-block;float: left;">@course.Value</label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="widget">
+                            <h5 class="widget-title line-bottom">STATES</h5>
+                            @*<div class="search-form">
+                                <form>
+                                    <div class="input-group">
+                                        <input type="text" placeholder="FIND STATE" class="form-control search-input" onkeyup="filterSearch('streamsSection', this);">
+                                        <span class="input-group-btn">
+                                            <button type="submit" class="btn search-button"><i class="fa fa-search"></i></button>
+                                        </span>
+                                    </div>
+                                </form>
+                            </div>*@
+                            <div class="listing_filter" id="statesFilter">
+                                @foreach (string state in Model.CollegeStates)
+                                {
+                                    <div style="width: 100%;" id="streamsSection">
+                                        <input id="@state" type="checkbox" name="searchState" value="@state" class="checkbox" style="width: 5%; display: inline-block; float: left; margin-right: 10px; margin-top: 5px;" onchange="statClick();">
+                                        <label class="searchlabel" style="width: 90%;display: inline-block;float: left;">@state</label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="widget">
+                            <h5 class="widget-title line-bottom">CITES</h5>
+                            @*<div class="search-form">
+                                <form>
+                                    <div class="input-group">
+                                        <input type="text" placeholder="FIND CITY" class="form-control search-input" onkeyup="filterSearch('streamsSection', this);">
+                                        <span class="input-group-btn">
+                                            <button type="submit" class="btn search-button"><i class="fa fa-search"></i></button>
+                                        </span>
+                                    </div>
+                                </form>
+                            </div>*@
+                            <div class="listing_filter" id="citiesFilter">
+                                @foreach (string city in Model.CollegeCities)
+                                {
+                                    <div style="width: 100%;" id="streamsSection">
+                                        <input id="@city" type="checkbox" name="searchCity" value="@city" class="checkbox" style="width: 5%; display: inline-block; float: left; margin-right: 10px; margin-top: 5px;" onchange="cityClick();">
+                                        <label class="searchlabel" style="width: 90%;display: inline-block;float: left;">@city</label>
+                                    </div>
+                                }   
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        function typeClick() {
+            var types = [];
+            $.each($("#collegeTypesFilter input[type=checkbox]:checked"), function () {
+                types.push(this.value);
+            });
+            //alert(types);
+            $("#searchType").val(types.join(','));
+        }
+        function courseClick() {
+            var types = [];
+            $.each($("#coursesFilter input[type=checkbox]:checked"), function () {
+                types.push(this.value);
+            });
+            $("#searchCourse").val(types.join(','));
+        }
+        function stateClick() {
+            var types = [];
+            $.each($("#statesFilter input[type=checkbox]:checked"), function () {
+                types.push(this.value);
+            });
+            $("#searchState").val(types.join(','));
+        }
+        function cityClick() {
+            var types = [];
+            $.each($("#citiesFilter input[type=checkbox]:checked"), function () {
+                types.push(this.value);
+            });
+            $("#searchCity").val(types.join(','));
+        }
+
+        function getCollegeSearchResults(page) {
+
+            showPleaseWait();
+            var Keyword = $("#searchKeyword").val();
+            var Types = $("#searchType").val();
+            var Cities = $("#searchCity").val();
+            var States = $("#searchState").val();
+            var Courses = $("#searchCourse").val();
+            //alert(Keyword + ' - ' + Types + ' - ' + Cities + ' - ' + States + ' - ' + Courses + ' - ');
+            $.ajax({
+                url: "@Url.Action("GetCollegeSearchResultsView", "Colleges")",
+                data: { searchKeyword: Keyword, searchType: Types, searchCity: Cities, searchState: States, searchCourse: Courses, page: page },
+                method: "POST",
+                success:
+                    function (html) {
+                        $("#collegeSearchResults").html(html);
+                        hidePleaseWait();
+                    },
+                error:
+                    function (jqXHR, textStatus, errorThrown) {
+                        hidePleaseWait();
+                        alert(textStatus + " - " + errorThrown);
+                    }
+            });
+        }
+
+        function filterSearch(section, ele) {
+
+            var valThis = $(ele).val().toLowerCase();
+            alert(section);
+            $(section + ' input[type=checkbox]').each(function () {
+                var text = $("label[for='" + $(this).attr('id') + "']").text().toLowerCase();
+                (text.indexOf(valThis) == 0) ? $(this).parent().show() : $(this).parent().hide();
+            });
+        }
+
+        (function ($) {
+            $(document).ready(function () {
+                // Options search field
+                $('#options').before(
+                    '<input id="search" style="display: inline; width:180px;" type="text" />'
+                    + '<span><a href="" onclick="return false;" id="search-clear">X</a></span>'
+                );
+                $('#search').keyup(function () {
+                    var valThis = $(this).val().toLowerCase();
+                    $('input[type=checkbox]').each(function () {
+                        var text = $("label[for='" + $(this).attr('id') + "']").text().toLowerCase();
+                        (text.indexOf(valThis) == 0) ? $(this).parent().show() : $(this).parent().hide();
+                    });
+                });
+                // Search clear button
+                $("#search-clear").click(function () {
+                    $("#search").val("");
+                    $('input[type=checkbox]').each(function () {
+                        $(this).parent().show();
+                    });
+                });
+            });
+        })(jQuery);
+    </script>
+}

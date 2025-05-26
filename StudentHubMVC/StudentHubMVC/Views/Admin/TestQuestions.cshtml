@@ -1,0 +1,284 @@
+﻿@using System.Data
+@model StudentHubMVC.Liason.EntityLayer.SectionTestQuestionEN
+
+@{
+    ViewBag.Title = "Test Questions";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<style>
+    .optionavalue, .optionbvalue, .optioncvalue, .optiondvalue, .answervalue, .questionvalue {
+        display: inline-block;
+    }
+</style>
+
+<div style="width: 100%;">
+    <div style="padding: 30px 0px 15px 0px; width: 80%; display: inline-block;">
+        <div style="font-size:large; display: inline-block; font-weight: bold;"><u>@ViewBag.CourseName</u></div>
+        &nbsp;>&nbsp;
+        <div style="font-size:large; display: inline-block;"><u>Test Questions</u></div>
+        &nbsp;>&nbsp;
+        <div style="font-size:medium; display: inline-block;">@ViewBag.Difficulty</div>
+    </div>
+    <div style="padding-top: 10px; width: 18%; display: inline-block;">
+        <div style="width: 100%; display: inline-block; text-align: right; font-weight: bold;">
+            <label id="newquestion" name="newquestion" style="cursor: pointer;color: #292f43;border: #8dc642 solid 2px;padding: 5px;">Add New Question</label>
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12" style="border-left: solid thin #91cc42; margin-bottom: 5px;">
+
+            @Html.ActionLink("Back to Section Content", "SaveSection")
+
+            <div id="addquestion" name="addquestion" style="display: none;">
+                <hr />
+                @using (Html.BeginForm("TestQuestions", "Admin", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+
+                        @*<hr />*@
+
+                        @if (ViewBag.SaveMessage != "" && ViewBag.SaveMessage != null)
+                        {
+                            <div class="message">@ViewBag.SaveMessage</div>
+                        }
+
+
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        @*@if (ViewBag.ID != null && ViewBag.ID != "")*@
+
+                        <input class="form-control text-box single-line" id="Sno" name="Sno" type="text" value="" style="display: none;">
+
+
+                        @*<div class="form-group">
+                                <div class="col-md-2">
+                                    @Html.Label("Course: ", htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="control-label">Course Name @ViewBag.CourseName</label> |
+                                </div>
+                                <div class="col-md-2">
+                                    @Html.Label("Difficulty: ", htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="control-label">MEDIUM @ViewBag.CourseName</label>
+                                </div>
+                            </div>*@
+
+                        <div class="form-group">
+                            <div class="col-md-2">
+                                @Html.LabelFor(model => model.Question, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="col-md-10">
+                                @Html.TextAreaFor(model => model.Question, htmlAttributes: new { @class = "form-control width100", @required = "required" })
+                                @Html.ValidationMessageFor(model => model.Question, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-2">
+                                @Html.LabelFor(model => model.OptionA, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="col-md-4">
+                                @Html.TextAreaFor(model => model.OptionA, htmlAttributes: new { @class = "form-control width100" })
+                                @Html.ValidationMessageFor(model => model.OptionA, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-md-2">
+                                @Html.LabelFor(model => model.OptionB, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="col-md-4">
+                                @Html.TextAreaFor(model => model.OptionB, htmlAttributes: new { @class = "form-control width100" })
+                                @Html.ValidationMessageFor(model => model.OptionB, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-2">
+                                @Html.LabelFor(model => model.OptionC, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="col-md-4">
+                                @Html.TextAreaFor(model => model.OptionC, htmlAttributes: new { @class = "form-control width100" })
+                                @Html.ValidationMessageFor(model => model.OptionC, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-md-2">
+                                @Html.LabelFor(model => model.OptionD, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="col-md-4">
+                                @Html.TextAreaFor(model => model.OptionD, htmlAttributes: new { @class = "form-control width100" })
+                                @Html.ValidationMessageFor(model => model.OptionD, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-2">
+                                @Html.LabelFor(model => model.Answer, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="col-md-4">
+                                @Html.DropDownListFor(model => model.Answer, new List<SelectListItem>
+                                   {
+                                       new SelectListItem { Value = "A", Text = "A" },
+                                       new SelectListItem { Value = "B", Text = "B" },
+                                       new SelectListItem { Value = "C", Text = "C" },
+                                       new SelectListItem { Value = "D", Text = "D" }
+                                   }, "Select", new { @class = "form-control", @required = "required" })
+                                @Html.ValidationMessageFor(model => model.Answer, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-offset-2 col-md-4">
+                                <input type="submit" value="SAVE QUESTION" class="btn btn-success" />
+                                <input type="reset" value="RESET" class="btn btn-success" />
+                            </div>
+                        </div>
+
+                    </div>
+                }
+            </div>
+
+        </div>
+
+    </div>
+
+    <hr />
+
+    @if (ViewBag.SaveMessage != "" && ViewBag.SaveMessage != null)
+    {
+        <div class="message">@ViewBag.SaveMessage</div>
+    }
+    @if (Request.Params.AllKeys.Contains("message"))
+    {
+        <div class="message">@Request.Params["message"]</div>
+    }
+
+    @{
+        if (ViewBag.Questions != null && ((DataTable)ViewBag.Questions).Rows.Count > 0)
+        {
+            <div class="row" style="border-left: solid thin #91cc42;">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-10">
+                            <h4>Questions List</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="questionslist">
+                        @foreach (DataRow question in ((DataTable)ViewBag.Questions).Rows)
+                        {
+                            <div class="section fullquestion">
+                                <div class="question" style="border-bottom: solid #e0e0e0 thin;">
+                                    <div style="width: 4%; display: inline-block; text-align: center;">
+                                        <b>@question["Sno"].</b>
+                                    </div>
+                                    <div style="width: 77%; overflow-wrap: break-word; display: inline-block; border-left: solid #e0e0e0 thin; border-right: solid #e0e0e0 thin; padding: 5px;">
+                                        <div class="questionvalue">@question["Question"]</div>
+                                    </div>
+                                    <div style="width: 10%; display: inline-block; text-align: center;">
+                                        <b>Answer:</b> <div class="answervalue">@question["Answer"]</div>
+                                    </div>
+                                    <div style="width: 6%; display: inline-block; text-align: center;">
+                                        <div id="editquestion">
+                                            <div style="cursor: pointer; display: inline-block;" class="editlbl editsmall" title="Edit Question">
+                                            </div>
+                                            @Html.ActionLink("Delete", "DeleteQuestion", new { questionid = @question["QuestionId"] }, new { @class = "deletesmall", title = "Delete Question" })
+                                            <label style="display: none;" class="qid">@question["QuestionId"]</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="questionoptions" style="padding: 5px;">
+                                    <div class="questionoption" style="width: 48%; margin-left: 10px; display: inline-block; padding: 5px;">
+                                        <b>A.</b> <div class="optionavalue">@question["OptionA"]</div>
+                                    </div>
+                                    <div class="questionoption" style="width: 48%; margin-left: 10px; display: inline-block; padding: 5px;">
+                                        <b>B.</b> <div class="optionbvalue">@question["OptionB"]</div>
+                                    </div>
+                                    <div class="questionoption" style="width: 48%; margin-left: 10px; display: inline-block; padding: 5px;">
+                                        <b>C.</b> <div class="optioncvalue">@question["OptionC"]</div>
+                                    </div>
+                                    <div class="questionoption" style="width: 48%; margin-left: 10px; display: inline-block; padding: 5px;">
+                                        <b>D.</b> <div class="optiondvalue">@question["OptionD"]</div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        @*<div class="section">
+                                <div class="question" style="border-bottom: solid #e0e0e0 thin;">
+                                    <div style="width: 4%; display: inline-block; text-align: center;">
+                                        <b>15.</b>
+                                    </div>
+                                    <div style="width: 77%; overflow-wrap: break-word; display: inline-block; border-right: solid #e0e0e0 thin; padding: 5px;">
+                                        Adding a route mapping to your global.asax.cs file before the default will handle the /administration/ part. Or you might want to look into MVC Areas.
+                                    </div>
+                                    <div style="width: 10%; display: inline-block; text-align: center;">
+                                        <b>Answer:</b> A
+                                    </div>
+                                    <div style="width: 6%; display: inline-block; text-align: center;">
+                                        <label style="cursor: pointer;">EDIT</label>
+                                    </div>
+                                </div>
+                                <div class="questionoptions" style="padding: 5px;">
+                                    <div class="questionoption" style="width: 48%; margin-left: 10px; display: inline-block; padding: 5px;">
+                                        <b>A.</b> OptionA
+                                    </div>
+                                    <div class="questionoption" style="width: 48%; margin-left: 10px; display: inline-block; padding: 5px;">
+                                        <b>B.</b> OptionB
+                                    </div>
+                                    <div class="questionoption" style="width: 48%; margin-left: 10px; display: inline-block; padding: 5px;">
+                                        <b>C.</b> OptionC
+                                    </div>
+                                    <div class="questionoption" style="width: 48%; margin-left: 10px; display: inline-block; padding: 5px;">
+                                        <b>D.</b> OptionD
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section">
+                                <div class="question" style="border-bottom: solid #e0e0e0 thin;">
+                                    <div style="width: 4%; display: inline-block; text-align: center;">
+                                        <b>15.</b>
+                                    </div>
+                                    <div style="width: 77%; overflow-wrap: break-word; display: inline-block; border-right: solid #e0e0e0 thin; padding: 5px;">
+                                        Adding a route mapping to your global.asax.cs file before the default will handle the /administration/ part. Or you might want to look into MVC Areas.
+                                    </div>
+                                    <div style="width: 10%; display: inline-block; text-align: center;">
+                                        <b>Answer:</b> A
+                                    </div>
+                                    <div style="width: 6%; display: inline-block; text-align: center;">
+                                        <label style="cursor: pointer;">EDIT</label>
+                                    </div>
+                                </div>
+                                <div class="questionoptions" style="padding: 5px;">
+                                    <div class="questionoption" style="width: 48%; margin-left: 10px; display: inline-block; padding: 5px;">
+                                        <b>A.</b> OptionA
+                                    </div>
+                                    <div class="questionoption" style="width: 48%; margin-left: 10px; display: inline-block; padding: 5px;">
+                                        <b>B.</b> OptionB
+                                    </div>
+                                    <div class="questionoption" style="width: 48%; margin-left: 10px; display: inline-block; padding: 5px;">
+                                        <b>C.</b> OptionC
+                                    </div>
+                                    <div class="questionoption" style="width: 48%; margin-left: 10px; display: inline-block; padding: 5px;">
+                                        <b>D.</b> OptionD
+                                    </div>
+                                </div>
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+        }
+    }
+
+
+</div>
+
+
+<div style="padding-top: 15px;">
+    @Html.ActionLink("Back to Section Content", "SaveSection")
+</div>

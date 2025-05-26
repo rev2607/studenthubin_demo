@@ -1,0 +1,131 @@
+<ul class="nav nav-pills mb-5 justify-content-center" id="pills-tab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <a class="nav-link active" id="pills-latestresults-tab" data-toggle="pill" href="#pills-latestresults" role="tab" aria-controls="pills-latestresults" aria-selected="true">
+          <img width="15" src="../../../assets/images/svg_icons/Latest Results.svg"/>
+          <span class="pl-2">Latest Results</span>
+      </a>
+    </li>
+     <li class="nav-item" role="presentation">
+      <a class="nav-link" id="pills-examnotifications-tab" data-toggle="pill" href="#pills-examnotifications" role="tab" aria-controls="pills-examnotifications" aria-selected="false">
+        <img width="15" src="../../../assets/images/svg_icons/Exam notify.svg"/>
+        <span class="pl-2">Exam Notifications</span>
+      </a>
+    </li>
+   <!-- <li class="nav-item" role="presentation">
+      <a class="nav-link"  [class.disabled]="true" id="pills-examschedule-tab" data-toggle="pill" href="#pills-examschedule" role="tab" aria-controls="pills-examschedule" aria-selected="false">
+        <img width="15" src="../../../assets/images/svg_icons/Exam sched.svg"/>
+        <span class="pl-2">Exam schedule</span>
+      </a>
+    </li> -->
+</ul>
+<div class="tab-content" id="pills-tabContent">
+    <div class="tab-pane fade show active" id="pills-latestresults" role="tabpanel" aria-labelledby="pills-latestresults-tab">
+        <div class="row">
+            <div class="col-sm-6" *ngFor="let result of latestResults">
+              <div class="card lu_card_edit">
+                <div class="card-body" (click)="onResultClick(result.Url)">
+                  <h6 class="card-title">{{result.Name}} <span class="badge badge-danger">New</span></h6>
+                  <!-- <p class="card-text">Adikavi Nannaya University B.Tech 5th & 7th Sem Regular & Backlog Dec 2021 Exam Results</p> -->
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6" *ngFor="let result of upcomingResults">
+            <div class="card lu_card_edit">
+              <div class="card-body" (click)="onResultClick(result.Url)">
+                <h6 class="card-title">{{result.Name}} <span class="badge badge-danger">Upcoming</span></h6>
+                <!-- <p class="card-text">Adikavi Nannaya University B.Tech 5th & 7th Sem Regular & Backlog Dec 2021 Exam Results</p> -->
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  <div class="tab-pane fade" id="pills-examnotifications" role="tabpanel" aria-labelledby="pills-examnotifications-tab">
+        <div class="row" *ngIf="examNotifications">
+            <div class="col-sm-6" *ngFor="let notification of examNotifications">
+              <div class="card lu_card_edit">
+                <div class="card-body" (click)="onNotificationClick(notification.UrlKeyWord)">
+                  <h6 class="card-title">{{notification.Title}} <span class="badge badge-danger">New</span></h6>
+                </div>
+              </div>
+            </div>
+            
+<!--            
+            <div class="col-12 col-sm-12">
+              <button type="button" class="btn btn-outline-dark btn-block">View More</button>
+            </div> -->
+        </div>
+    </div>
+    <!-- <div class="tab-pane fade" id="pills-examschedule" role="tabpanel" aria-labelledby="pills-examschedule-tab">
+        <div class="row">
+            <div class="col-sm-6">
+              <div class="card lu_card_edit">
+                <div class="card-body">
+                  <h6 class="card-title">20 Dec 2022 | Institute of Technology <span class="badge badge-danger">New</span></h6>
+                  <p class="card-text">Adikavi Nannaya University B.Tech 5th & 7th Sem Regular & Backlog Dec 2021 Exam Results</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="card lu_card_edit">
+                <div class="card-body">
+                    <h6 class="card-title">20 Dec 2022 | Institute of Technology <span class="badge badge-danger">New</span></h6>
+                    <p class="card-text">Adikavi Nannaya University B.Tech 5th & 7th Sem Regular & Backlog Dec 2021 Exam Results</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="card lu_card_edit">
+                  <div class="card-body">
+                      <h6 class="card-title">20 Dec 2022 | Institute of Technology <span class="badge badge-danger">New</span></h6>
+                      <p class="card-text">Adikavi Nannaya University B.Tech 5th & 7th Sem Regular & Backlog Dec 2021 Exam Results</p>
+                  </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="card lu_card_edit">
+                  <div class="card-body">
+                      <h6 class="card-title">20 Dec 2022 | Institute of Technology</h6>
+                      <p class="card-text">Adikavi Nannaya University B.Tech 5th & 7th Sem Regular & Backlog Dec 2021 Exam Results</p>
+                  </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="card lu_card_edit">
+                  <div class="card-body">
+                      <h6 class="card-title">20 Dec 2022 | Institute of Technology</h6>
+                      <p class="card-text">Adikavi Nannaya University B.Tech 5th & 7th Sem Regular & Backlog Dec 2021 Exam Results</p>
+                  </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="card lu_card_edit">
+                  <div class="card-body">
+                      <h6 class="card-title">20 Dec 2022 | Institute of Technology</h6>
+                      <p class="card-text">Adikavi Nannaya University B.Tech 5th & 7th Sem Regular & Backlog Dec 2021 Exam Results</p>
+                  </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="card lu_card_edit">
+                  <div class="card-body">
+                      <h6 class="card-title">20 Dec 2022 | Institute of Technology</h6>
+                      <p class="card-text">Adikavi Nannaya University B.Tech 5th & 7th Sem Regular & Backlog Dec 2021 Exam Results</p>
+                  </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="card lu_card_edit">
+                  <div class="card-body">
+                      <h6 class="card-title">20 Dec 2022 | Institute of Technology</h6>
+                      <p class="card-text">Adikavi Nannaya University B.Tech 5th & 7th Sem Regular & Backlog Dec 2021 Exam Results</p>
+                  </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-12">
+              <button type="button" class="btn btn-outline-dark btn-block">View More</button>
+            </div>
+        </div>
+    </div>  -->
+</div>

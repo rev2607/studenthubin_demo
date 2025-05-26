@@ -1,0 +1,32 @@
+.nav-link {
+    border: 1px solid #8cc542;
+    margin: 0 8px;
+    color: #000;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    color: #fff;
+    background-color: #8cc542;
+}
+
+.lu_card_edit{
+    box-shadow: 0 3px 10px rgb(0 0 0 / 10%);
+    /* border-radius: 10px; */
+    border: 1px solid transparent;
+    border-left: 15px solid transparent;
+    margin-bottom: 30px;
+}
+
+.lu_card_edit:hover{
+    cursor: pointer;
+    border: 1px solid #8cc542;
+    border-left: 15px solid #8cc542;
+}
+
+.pt-5, .py-5 {
+    padding-top: 1rem!important;
+}
+
+.pb-5, .py-5 {
+    padding-top: 1rem!important;
+}

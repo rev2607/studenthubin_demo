@@ -1,0 +1,63 @@
+﻿
+@model IEnumerable<ad_mock_register>
+
+@{
+    ViewBag.Title = "Mock Tests Users";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@if (Model != null)
+{
+<table class="table">
+    <tr>
+        <th>
+            ID
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            Mobile
+        </th>
+        <th>
+            Status
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.adloginid)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.adlogin_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.adlogin_emailid)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.adlogin_mobileno)
+            </td>
+            <td>
+                @if (item.adlogin_status == "1")
+                {
+                    <span>ACTIVE</span>
+                }
+                else
+                {
+                    <span>INACTIVE</span>
+                }
+            </td>
+            <td>
+                @*@Html.ActionLink("Edit", "SaveExamCourse", new { examcourseid = item.exmcrs_Id }, new { @class = "editsmall" })*@
+            </td>
+        </tr>
+    }
+
+</table>
+}

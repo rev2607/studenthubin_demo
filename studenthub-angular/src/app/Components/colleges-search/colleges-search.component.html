@@ -1,0 +1,320 @@
+<div class="banner_wrapper bg_sh_blue">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="/colleges">Colleges</a></li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<div class="container-fluid">
+    <!-- College Details Area -->
+    <div class="row text-center bg_theme_colored">
+        <div class="col-sm-12 pb-5">
+            <h1 class="title_1 text-white">Let's explore top colleges in India</h1>
+        </div>
+    </div>
+
+</div>
+
+<!-- Main Content -->
+<div id="main-content" class="container-fluid">
+
+    <!-- Advertisement Area -->
+    <div class="advertisement_area"></div>
+
+    <!-- Search Filter and College List -->
+    <div class="row p-3">
+        <div class="col-md-3">
+            <section class="filter_search" *ngIf="collegeResultFilters">
+                <div class="filter_title px-0">
+                    <h3 class="filter_main_title">Search Filters</h3>
+                </div>
+                <div class="filters-outer-cont">
+                    <ul class="filter_container p-0">
+                        <li class="filter_type_area">
+
+                            <!-- state search -->
+                            <div class="accordion" id="">
+                                <div class="card rounded-0 mb-3">
+                                    <div class="card-header p-0" id="headingOne">
+                                        <h2 class="mb-0 filter_type">
+                                            <div class="btn text-left filter_name" type="button" data-toggle="collapse" data-target="#collapseState" aria-expanded="true" aria-controls="collapseState">
+                                                STATE
+                                            </div>
+                                            <!-- <a class="clear_filter" href="#">Clear</a> -->
+                                        </h2>
+                                    </div>
+
+                                    <div id="collapseState" class="collapse show">
+                                        <div class="card-body p-2">
+                                            <div class="mb-2">
+                                                <i class="fa fa-search search_icon" aria-hidden="true"></i>
+                                                <input type="text" class="search form-control search_field rounded-0" placeholder="Search State" (keyup)="filterState($event)">
+                                            </div>
+                                            <div class="mt-3">
+                                                <ul class="p-0 checkbox_items">
+                                                    <div *ngFor="let state of collegeResultFilters.StatesAndCities">
+                                                        <li *ngIf="!state.isHidden">
+                                                            <div class="custom-checkbox">
+                                                                <!-- <span class="fa chkbox-icon"></span> -->
+                                                                <input type="checkbox" class="checkbox_input" id="state_0" value="Andhra Pradesh" [(ngModel)]="state.isChecked"
+                                                                    (change)="onStateChange()">
+                                                                <label for="state_0" class="checkbox_label">{{state.State}}</label>
+                                                            </div>
+                                                        </li>
+                                                    </div>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- city search -->
+                            <div class="accordion" id="">
+                                <div class="card rounded-0 mb-3">
+                                    <div class="card-header p-0" id="">
+                                        <h2 class="mb-0 filter_type">
+                                            <div class="btn text-left filter_name" type="button" data-toggle="collapse" data-target="#collapseCity" aria-expanded="true" aria-controls="collapseCity">
+                                                CITY
+                                            </div>
+                                            <!-- <a class="clear_filter" href="#">Clear</a> -->
+                                        </h2>
+                                    </div>
+
+                                    <div id="collapseCity" class="collapse show">
+                                        <div class="card-body p-2">
+                                            <div class="mb-2">
+                                                <i class="fa fa-search search_icon" aria-hidden="true"></i>
+                                                <input type="text" class="search form-control search_field rounded-0" placeholder="Search City" (keyup)="filterCity($event)">
+                                            </div>
+                                            <div class="mt-3">
+                                                <ul class="p-0 checkbox_items">
+                                                    <div *ngFor="let city of cities">
+                                                        <li *ngIf="city.isVisible">
+                                                            <div class="custom-checkbox">
+                                                                <!-- <span class="fa chkbox-icon"></span> -->
+                                                                <input type="checkbox" class="checkbox_input" id="city_0" value="Agartala" [(ngModel)]="city.isChecked" (change)="onCityChange()">
+                                                                <label class="checkbox_label">{{city.Name}}</label>
+                                                            </div>
+                                                        </li>
+                                                    </div>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- STREAM search -->
+                            <!-- <div class="accordion" id="">
+                                <div class="card rounded-0 mb-3">
+                                    <div class="card-header p-0" id="">
+                                        <h2 class="mb-0 filter_type">
+                                            <div class="btn text-left filter_name" type="button" data-toggle="collapse" data-target="#collapseStream" aria-expanded="true"
+                                                aria-controls="collapseStream">
+                                                STREAM
+                                            </div>
+                                            <!-- <a class="clear_filter" href="#">Clear</a> -->
+                            <!-- </h2>
+                                    </div>
+
+                                    <div id="collapseStream" class="collapse show">
+                                        <div class="card-body p-2">
+                                            <div class="mt-3">
+                                                <ul class="p-0">
+                                                    <li>
+                                                        <div class="custom-checkbox"> -->
+                            <!-- <span class="fa chkbox-icon"></span> -->
+                            <!-- <input type="checkbox" class="checkbox_input" id="stream_0" value="Engineering">
+                                                            <label for="stream_0" class="checkbox_label">Engineering</label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="custom-checkbox"> -->
+                            <!-- <span class="fa chkbox-icon"></span> -->
+                            <!-- <input type="checkbox" class="checkbox_input" id="stream_1" value="Research">
+                                                            <label for="stream_1" class="checkbox_label">Research</label>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+
+                            <!-- TYPE search -->
+                            <div class="accordion" id="">
+                                <div class="card rounded-0 mb-3">
+                                    <div class="card-header p-0" id="">
+                                        <h2 class="mb-0 filter_type">
+                                            <div class="btn text-left filter_name" type="button" data-toggle="collapse" data-target="#collapseType" aria-expanded="true" aria-controls="collapseType">
+                                                TYPE
+                                            </div>
+                                            <!-- <a class="clear_filter" href="#">Clear</a> -->
+                                        </h2>
+                                    </div>
+                                    <div id="collapseType" class="collapse show">
+                                        <div class="card-body p-2">
+                                            <div class="mt-3">
+                                                <ul class="p-0">
+                                                    <li *ngFor="let type of types">
+                                                        <div class="custom-checkbox">
+                                                            <!-- <span class="fa chkbox-icon"></span> -->
+                                                            <input type="checkbox" class="checkbox_input" id="type_0" value="Govt" [(ngModel)]="type.isChecked" (change)="onTypeChange()">
+                                                            <label for="type_0" class="checkbox_label">{{type.Name}}</label>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- SUB-TYPE search -->
+                            <div class="accordion" id="">
+                                <div class="card rounded-0 mb-3">
+                                    <div class="card-header p-0" id="">
+                                        <h2 class="mb-0 filter_type">
+                                            <div class="btn text-left filter_name" type="button" data-toggle="collapse" data-target="#collapseSubType" aria-expanded="true"
+                                                aria-controls="collapseSubType">
+                                                SUB-TYPE
+                                            </div>
+                                            <!-- <a class="clear_filter" href="#">Clear</a> -->
+                                        </h2>
+                                    </div>
+                                    <div id="collapseSubType" class="collapse show">
+                                        <div class="card-body p-2">
+                                            <div class="mt-3">
+                                                <ul class="p-0 checkbox_items">
+                                                    <li *ngFor="let subType of subTypes">
+                                                        <div class="custom-checkbox">
+                                                            <!-- <span class="fa chkbox-icon"></span> -->
+                                                            <input type="checkbox" class="checkbox_input" id="subtype_0" value="IIT" [(ngModel)]="subType.isChecked" (change)="onSubTypeChange()">
+                                                            <label for="subtype_0" class="checkbox_label">{{subType.Name}}</label>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Branch search -->
+                            <!-- <div class="accordion" id="">
+                                <div class="card rounded-0 mb-3">
+                                    <div class="card-header p-0" id="headingOne">
+                                        <h2 class="mb-0 filter_type">
+                                            <div class="btn text-left filter_name" type="button" data-toggle="collapse" data-target="#collapseBranch" aria-expanded="true"
+                                                aria-controls="collapseBranch">
+                                                BRANCH
+                                            </div>
+                                        </h2>
+                                    </div>
+
+                                    <div id="collapseBranch" class="collapse show">
+                                        <div class="card-body p-2">
+                                            <div class="mb-2">
+                                                <i class="fa fa-search search_icon" aria-hidden="true"></i>
+                                                <input type="text" class="search form-control search_field rounded-0" placeholder="Search Branch">
+                                            </div>
+                                            <div class="mt-3">
+                                                <ul class="p-0 checkbox_items">
+                                                    <li>
+                                                        <div class="custom-checkbox">
+                                                            <input type="checkbox" class="checkbox_input" id="branch_0" value="Aeronautical Engineering">
+                                                            <label for="branch_0" class="checkbox_label">Aeronautical Engineering</label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="custom-checkbox">                                          
+                                                            <input type="checkbox" class="checkbox_input" id="branch_1" value="Aerospace Engineering">
+                                                            <label for="branch_1" class="checkbox_label">Aerospace Engineering</label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="custom-checkbox">
+                                                            <input type="checkbox" class="checkbox_input" id="branch_2" value="Agricultural and Food Engineering">
+                                                            <label for="branch_2" class="checkbox_label">Agricultural and Food Engineering</label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="custom-checkbox">
+                                                            <input type="checkbox" class="checkbox_input" id="branch_3" value="Agricultural Engineering">
+                                                            <label for="branch_3" class="checkbox_label">Agricultural Engineering</label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="custom-checkbox">
+                                                            <input type="checkbox" class="checkbox_input" id="branch_4" value="Applied Electronics and Instrumentation">
+                                                            <label for="branch_4" class="checkbox_label">Applied Electronics and Instrumentation</label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="custom-checkbox">
+                                                            <input type="checkbox" class="checkbox_input" id="branch_5" value="Applied Geology">
+                                                            <label for="branch_5" class="checkbox_label">Applied Geology</label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="custom-checkbox">
+                                                            <input type="checkbox" class="checkbox_input" id="branch_6" value="Applied Geophysics">
+                                                            <label for="branch_6" class="checkbox_label">Applied Geophysics</label>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>-->
+                        </li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+
+        <div class="col-sm-12 col-md-9 col-lg-9">
+            <section id="college_section">
+                <div class="college_list_header_area px-0 mt-3">
+                    <h3 class="college_main_title mt-3">COLLEGES IN INDIA</h3>
+                    <span class="college_count">{{collegesCount}} colleges</span>
+                </div>
+
+                <div class="college_list">
+                    <div class="row">
+                        <!-- item one -->
+                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 pr-0" *ngFor="let college of filteredColleges  | paginate: { itemsPerPage: 9, currentPage: p }">
+                            <div class="college_item text-center">
+                                <div class="college_image">
+                                    <a [routerLink]="['/colleges,college.ID']">
+                                        <img [src]="college.CoverPic">
+                                    </a>
+                                </div>
+                                <div class="college_logo text-center">
+                                    <a [routerLink]="['/colleges', college.ID]">
+                                        <img [src]="college.Logo">
+                                    </a>
+                                </div>
+                                <div class="college_details text-center">
+                                    <a [routerLink]="['/colleges', college.ID]">
+                                        <div class="college_name">{{college.Name}}</div>
+                                    </a>
+                                    <div class="college_place">{{college.City}} , {{college.State}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center mt-3">
+                        <pagination-controls (pageChange)="p = $event" class="float-right"></pagination-controls>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>

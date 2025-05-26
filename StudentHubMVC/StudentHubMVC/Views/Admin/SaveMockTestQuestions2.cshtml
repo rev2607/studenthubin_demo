@@ -1,0 +1,590 @@
+﻿@model StudentHubMVC.MockTestQuestions
+
+
+@{
+    ViewBag.Title = "Mock Test Questions Save";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@{
+    //if(Model == null)
+    //{
+    //    Model = new MockTestQuestions();
+    //}
+
+    var context = new Entities();
+    int MockTestId = ViewBag.MockTestId;
+    Model.MockTestId = MockTestId;
+    var Questions = new Entities().MockTestQuestions.Where(cond => cond.MockTestId == MockTestId).AsEnumerable<MockTestQuestions>();
+    int CourseId = ViewBag.CourseId;
+    var CourseName = new Entities().ExamCourses.Where(course => course.exmcrs_Id == CourseId).Select(u => u.exmcrs_Name).SingleOrDefault();
+
+    string path = System.Configuration.ConfigurationManager.AppSettings.Get("MockTestQuestionImages").Replace("~", string.Empty) + "/";
+    string tinyMceRTE = System.Configuration.ConfigurationManager.AppSettings.Get("TinyMceRTE");
+}
+
+<style>
+    .questionvalue {
+        text-overflow: ellipsis;
+        min-height: 25px;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .optionavalue, .optionbvalue, .optioncvalue, .optiondvalue, .optionevalue {
+        display: inline-block;
+        padding-left: 10px;
+    }
+
+    .questionoption a {
+        display: inline-block;
+    }
+
+        .questionoption a img {
+            height: 15px;
+            text-align: right;
+        }
+</style>
+
+<div style="width: 100%;">
+    <div style="padding: 10px 0px 15px 0px; width: 80%; display: inline-block;">
+        <div style="font-size:x-large; display: inline-block;"><u>@Html.ActionLink("Mock Tests Manager", "MockTestsManager")</u></div>
+        &nbsp;>&nbsp;
+        <div style="font-size: larger; display: inline-block; font-weight: bold;">@Html.ActionLink(@CourseName, "SaveMockTest")</div>
+        &nbsp;>&nbsp;
+        <div style="font-size: larger; display: inline-block; font-weight: bold;">Save Mock Test Questions</div>
+    </div>
+    <div style="padding-top: 10px; width: 14%; display: inline-block;">
+        <a href="#MockTestQuestions" class="newaddbutton">Go To Questions</a>
+    </div>
+    <div style="padding-top: 10px; width: 5%; display: inline-block;">
+        <label class="newaddbutton" title="New Question" onclick="GetQuestionForEdit(0);">Add</label>
+       
+    </div>
+
+</div>
+
+@using (Html.BeginForm("SaveMockTestQuestions2", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", id = "frmSaveQuestion" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="x_panel">
+        @*<div class="x_title">
+
+            </div>*@
+        <div class="x_content">
+            <div class="form-horizontal">
+
+                @if (ViewBag.SaveMessage != "" && ViewBag.SaveMessage != null)
+                {
+                    <div class="message">@ViewBag.SaveMessage</div>
+                }
+                @*@if (Request.Params.AllKeys.Contains("message"))
+                {*@
+                    <div class="message" id="saveMessage" style="display: none;">Question Saved</div>
+                @*}*@
+                @if (ViewBag.ErrorMessage != "" && ViewBag.ErrorMessage != null)
+                {
+                    <div class="errormessage">@ViewBag.ErrorMessage</div>
+                }
+                @if (Request.Params.AllKeys.Contains("errormessage"))
+                {
+                    <div class="errormessage">@Request.Params["errormessage"]</div>
+                }
+
+                @Html.HiddenFor(model => model.QuestionID)
+                @Html.HiddenFor(model => model.MockTestId)
+                @Html.HiddenFor(model => model.QuestionImage)
+                @Html.HiddenFor(model => model.OptionAImage)
+                @Html.HiddenFor(model => model.OptionBImage)
+                @Html.HiddenFor(model => model.OptionCImage)
+                @Html.HiddenFor(model => model.OptionDImage)
+                @Html.HiddenFor(model => model.OptionEImage)
+                @Html.HiddenFor(model => model.ExplanationImage)
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.Label("Question Text", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.QuestionText, new { @class = "form-control width100", @rows = "4", @required = "required", @maxlength = "1000" })
+                            @Html.ValidationMessageFor(model => model.QuestionText, "", new { @class = "text-danger" })
+                            <div class="row">
+                                <div class="col-md-1">
+                                    <label class="control-label">Image</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="file" id="QuestionImages" name="QuestionImages" class="form-control" />
+                                </div>
+                                <div class="col-md-7">
+                                    @*@if (Model.QuestionImage != "" && Model.QuestionImage != null)
+                                    {*@
+                                        <div class="col-md-2">
+                                            <a href="@path@Model.QuestionImage" target="_blank" id="anc_QuestionImage">
+                                                <img src="~/assets/img/imagesmall.png" class="img-responsive" id="img_QuestionImage" />
+                                            </a>
+                                        </div>
+                                    @*}*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.OptionA, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextAreaFor(model => model.OptionA, new { @class = "form-control", @rows = "3", @required = "required" })
+                            @Html.ValidationMessageFor(model => model.OptionA, "", new { @class = "text-danger" })
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label class="control-label">Image</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="file" id="OptionAImages" name="OptionAImages" class="form-control" />
+                                </div>
+                                <div class="col-md-2">
+                                    @*@if (Model.OptionAImage != "" && Model.OptionAImage != null)
+                                    {*@
+                                        <div class="col-md-12">
+                                            <a href="@path@Model.OptionAImage" target="_blank" id="anc_OptionAImage">
+                                                <img src="~/assets/img/imagesmall.png" class="img-responsive" id="img_OptionAImage" />
+                                            </a>
+                                        </div>
+                                    @*}*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.OptionB, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextAreaFor(model => model.OptionB, new { @class = "form-control", @rows = "3", @required = "required" })
+                            @Html.ValidationMessageFor(model => model.OptionB, "", new { @class = "text-danger" })
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label class="control-label">Image</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="file" id="OptionBImages" name="OptionBImages" class="form-control" />
+                                </div>
+                                <div class="col-md-2">
+                                    @*@if (Model.OptionBImage != "" && Model.OptionBImage != null)
+                                    {*@
+                                        <div class="col-md-12">
+                                            <a href="@path@Model.OptionBImage" target="_blank" id="anc_OptionBImage">
+                                                <img src="~/assets/img/imagesmall.png" class="img-responsive" id="img_OptionBImage" />
+                                            </a>
+                                        </div>
+                                    @*}*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.OptionC, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextAreaFor(model => model.OptionC, new { @class = "form-control", @rows = "3", @required = "required" })
+                            @Html.ValidationMessageFor(model => model.OptionC, "", new { @class = "text-danger" })
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label class="control-label">Image</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="file" id="OptionCImages" name="OptionCImages" class="form-control" />
+                                </div>
+                                <div class="col-md-2">
+                                    @*@if (Model.OptionCImage != "" && Model.OptionCImage != null)
+                                    {*@
+                                        <div class="col-md-12">
+                                            <a href="@path@Model.OptionCImage" target="_blank" id="anc_OptionCImage">
+                                                <img src="~/assets/img/imagesmall.png" class="img-responsive" id="img_OptionCImage" />
+                                            </a>
+                                        </div>
+                                    @*}*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.OptionD, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextAreaFor(model => model.OptionD, new { @class = "form-control", @rows = "3", @required = "required" })
+                            @Html.ValidationMessageFor(model => model.OptionD, "", new { @class = "text-danger" })
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label class="control-label">Image</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="file" id="OptionDImages" name="OptionDImages" class="form-control" />
+                                </div>
+                                <div class="col-md-2">
+                                    @*@if (Model.OptionDImage != "" && Model.OptionDImage != null)
+                                    {*@
+                                        <div class="col-md-12">
+                                            <a href="@path@Model.OptionDImage" target="_blank" id="anc_OptionDImage">
+                                                <img src="~/assets/img/imagesmall.png" class="img-responsive" id="img_OptionDImage" />
+                                            </a>
+                                        </div>
+                                    @*}*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.OptionE, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextAreaFor(model => model.OptionE, new { @class = "form-control", @rows = "3" })
+                            @Html.ValidationMessageFor(model => model.OptionE, "", new { @class = "text-danger" })
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label class="control-label">Image</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="file" id="OptionEImages" name="OptionEImages" class="form-control" />
+                                </div>
+                                <div class="col-md-2">
+                                    @*@if (Model.OptionEImage != "" && Model.OptionEImage != null)
+                                    {*@
+                                        <div class="col-md-12">
+                                            <a href="@path@Model.OptionEImage" target="_blank" id="anc_OptionEImage">
+                                                <img src="~/assets/img/imagesmall.png" class="img-responsive" id="img_OptionEImage" />
+                                            </a>
+                                        </div>
+                                    @*}*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+
+                        </div>
+                        <div class="col-md-4">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.Explanation, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.Explanation, new { @class = "form-control width100", @rows = "3" })
+                            @Html.ValidationMessageFor(model => model.Explanation, "", new { @class = "text-danger" })
+                            <div class="row">
+                                <div class="col-md-1">
+                                    <label class="control-label">Image</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="file" id="ExplanationImages" name="ExplanationImages" class="form-control" />
+                                </div>
+                                <div class="col-md-7">
+                                    @*@if (Model.ExplanationImage != "" && Model.ExplanationImage != null)
+                                    {*@
+                                        <div class="col-md-2">
+                                            <a href="@path@Model.ExplanationImage" target="_blank" id="anc_ExplanationImage">
+                                                <img src="~/assets/img/imagesmall.png" class="img-responsive" id="img_ExplanationImage" />
+                                            </a>
+                                        </div>
+                                    @*}*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.AnswerOption, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.AnswerOption, new List<SelectListItem> {
+                                    new SelectListItem { Text = "A", Value = "A" },
+                                    new SelectListItem { Text = "B", Value = "B" },
+                                    new SelectListItem { Text = "C", Value = "C" },
+                                    new SelectListItem { Text = "D", Value = "D" },
+                                    new SelectListItem { Text = "E", Value = "E" }
+                                }, "Select", new { @class = "form-control", @required = "required" })
+                            @Html.ValidationMessageFor(model => model.AnswerOption, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.AnswerOption2, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.AnswerOption2, new List<SelectListItem> {
+                                    new SelectListItem { Text = "A", Value = "A" },
+                                    new SelectListItem { Text = "B", Value = "B" },
+                                    new SelectListItem { Text = "C", Value = "C" },
+                                    new SelectListItem { Text = "D", Value = "D" },
+                                    new SelectListItem { Text = "E", Value = "E" }
+                                }, "Select", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.AnswerOption2, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.AnswerOption3, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.AnswerOption3, new List<SelectListItem> {
+                                    new SelectListItem { Text = "A", Value = "A" },
+                                    new SelectListItem { Text = "B", Value = "B" },
+                                    new SelectListItem { Text = "C", Value = "C" },
+                                    new SelectListItem { Text = "D", Value = "D" },
+                                    new SelectListItem { Text = "E", Value = "E" }
+                                }, "Select", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.AnswerOption3, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-offset-8 col-md-1">
+                            @Html.ActionLink("Cancel", "SaveMockTestQuestions", null, new { @class = "btn btn-primary" })
+                        </div>
+                        <div class="col-md-2">
+                            <label class="btn btn-success" onclick="SaveQuestion();">Save Question</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div id="dvQuestionsList">
+    @{Html.RenderAction("_mockTestQuestionsList", "Admin", new { MockTestId = MockTestId }); }
+</div>
+
+
+<hr />
+
+<div>
+    @Html.ActionLink("Back to Mock Tests Manager", "SaveMockTest", null, new { @class = "btn btn-default" })
+</div>
+
+@section scripts
+{
+    <script src="@tinyMceRTE"></script>
+
+    <script type="text/javascript">
+
+        var imagePath = '@path';
+
+        $(document).ready(function () {
+
+            InitializeRichTextEditor();
+
+            function InitializeRichTextEditor() {
+                tinymce.init({
+                    selector: "#QuestionText",
+                    plugins: "powerpaste",
+                    //menubar: "edit",
+                    //toolbar: "pastetext",
+                    powerpaste_word_import: "prompt",
+                    powerpaste_html_import: "merge"
+                });
+                tinymce.init({
+                    selector: "#OptionA",
+                    plugins: "powerpaste",
+                    powerpaste_word_import: "prompt",
+                    powerpaste_html_import: "merge"
+                });
+                tinymce.init({
+                    selector: "#OptionB",
+                    plugins: "powerpaste",
+                    powerpaste_word_import: "prompt",
+                    powerpaste_html_import: "merge"
+                });
+                tinymce.init({
+                    selector: "#OptionC",
+                    plugins: "powerpaste",
+                    powerpaste_word_import: "prompt",
+                    powerpaste_html_import: "merge"
+                });
+                tinymce.init({
+                    selector: "#OptionD",
+                    plugins: "powerpaste",
+                    powerpaste_word_import: "prompt",
+                    powerpaste_html_import: "merge"
+                });
+                tinymce.init({
+                    selector: "#OptionE",
+                    plugins: "powerpaste",
+                    powerpaste_word_import: "prompt",
+                    powerpaste_html_import: "merge"
+                });
+                tinymce.init({
+                    selector: "#Explanation",
+                    plugins: "powerpaste",
+                    powerpaste_word_import: "prompt",
+                    powerpaste_html_import: "merge"
+                });
+            }
+        });
+
+        function GetQuestionForEdit(QId) {
+
+            showPleaseWait();
+            var URL = '@Url.Action("GetQuestionData")';
+            
+            $.ajax({
+                url : URL,
+                data : { MockTestQuestionId : QId },
+                type: "POST",
+                error: function (jqXhr, textStatus, errorMessage) {
+                    hidePleaseWait();
+                    alert('Error: ' + errorMessage + '\nStatus: ' + textStatus + '\nInfo: ' + jqXhr.textStatus);
+                },
+                success: function (data) {
+                    
+                    tinymce.get('QuestionText').getBody().innerHTML = data.QuestionText;
+                    tinymce.get('OptionA').getBody().innerHTML = data.OptionA;
+                    tinymce.get('OptionB').getBody().innerHTML = data.OptionB;
+                    tinymce.get('OptionC').getBody().innerHTML = data.OptionC;
+                    tinymce.get('OptionD').getBody().innerHTML = data.OptionD;
+                    tinymce.get('OptionE').getBody().innerHTML = data.OptionE;
+                    tinymce.get('Explanation').getBody().innerHTML = data.Explanation;
+
+                    $("#QuestionImage").val(data.QuestionImage);
+                    $("#anc_QuestionImage").attr("href", imagePath + data.QuestionImage);
+                    $("#img_QuestionImage").attr("src", imagePath + data.QuestionImage);
+
+                    $("#OptionAImage").val(data.OptionAImage);
+                    $("#anc_OptionAImage").attr("href", imagePath + data.OptionAImage);
+                    $("#img_OptionAImage").attr("src", imagePath + data.OptionAImage);
+
+                    $("#OptionBImage").val(data.OptionBImage);
+                    $("#anc_OptionBImage").attr("href", imagePath + data.OptionBImage);
+                    $("#img_OptionBImage").attr("src", imagePath + data.OptionBImage);
+
+                    $("#OptionCImage").val(data.OptionCImage);
+                    $("#anc_OptionCImage").attr("href", imagePath + data.OptionCImage);
+                    $("#img_OptionCImage").attr("src", imagePath + data.OptionCImage);
+
+                    $("#OptionDImage").val(data.OptionDImage);
+                    $("#anc_OptionDImage").attr("href", imagePath + data.OptionDImage);
+                    $("#img_OptionDImage").attr("src", imagePath + data.OptionDImage);
+
+                    $("#OptionEImage").val(data.OptionEImage);
+                    $("#anc_OptionEImage").attr("href", imagePath + data.OptionEImage);
+                    $("#img_OptionEImage").attr("src", imagePath + data.OptionEImage);
+
+                    $("#ExplanationImage").val(data.ExplanationImage);
+                    $("#anc_ExplanationImage").attr("href", imagePath + data.ExplanationImage);
+                    $("#img_ExplanationImage").attr("src", imagePath + data.ExplanationImage);
+
+                    $("#AnswerOption").val(data.AnswerOption);
+                    $("#AnswerOption2").val(data.AnswerOption2);
+                    $("#AnswerOption3").val(data.AnswerOption3);
+
+                    $("#QuestionID").val(data.QuestionID);
+
+                    $("#QuestionImages").val("");
+                    $("#OptionAImages").val("");
+                    $("#OptionBImages").val("");
+                    $("#OptionCImages").val("");
+                    $("#OptionDImages").val("");
+                    $("#OptionEImages").val("");
+                    $("#ExplanationImages").val("");
+
+                    tinyMCE.triggerSave();
+
+                    ScrollToTop();
+                    hidePleaseWait();
+                    //$("#tinymce").innerHTML = data.QuestionText;
+                    //$("#QuestionText").val(data.QuestionText);
+                }
+            });
+        }
+
+
+        function SaveQuestion() {
+
+            showPleaseWait();
+
+            tinyMCE.triggerSave();
+            var questionData = new FormData($("#frmSaveQuestion")[0]);// $("#frmSaveQuestion").serialize();
+            var URL = '@Url.Action("SaveMockTestQuestions2")';
+            
+            $.ajax({
+                url: URL,
+                data: questionData,
+                type: "POST",
+                contentType: false,
+                processData: false,
+                error: function (jqXhr, textStatus, errorMessage) {
+                    hidePleaseWait();
+                    alert('Error: ' + errorMessage + '\nStatus: ' + textStatus + '\nInfo: ' + jqXhr.textStatus);
+                },
+                success: function (data) {
+                    $("#saveMessage").show();
+                    $(".message").fadeOut(5000);
+                    //$("#dvQuestionsList").html(data);
+
+                    var MockTestId = $("#MockTestId").val();
+                    //$("#frmSaveQuestion").reset();
+                    GetQuestionForEdit(0);
+                    GetTestQuestions();
+                    $("#MockTestId").val(MockTestId);
+                    ScrollToTop();
+                    hidePleaseWait();
+                }
+            });
+        }
+
+
+        function GetTestQuestions() {
+
+            var TestId = $("#MockTestId").val();
+            var URL = '@Url.Action("_mockTestQuestionsList")';
+            
+            $.ajax({
+                url: URL,
+                data: { MockTestId: TestId },
+                type: "GET",
+                error: function (jqXhr, textStatus, errorMessage) {
+                    alert('Error: ' + errorMessage + '\nStatus: ' + textStatus + '\nInfo: ' + jqXhr.textStatus);
+                },
+                success: function (data) {
+                    $("#dvQuestionsList").html(data);
+                    //hidePleaseWait();
+                }
+            });
+        }
+
+
+        function ScrollToTop() {
+            $("html, body").animate({ scrollTop: 0 }, "slow");
+        }
+
+    </script>
+}

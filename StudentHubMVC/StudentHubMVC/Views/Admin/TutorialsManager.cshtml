@@ -1,0 +1,51 @@
+﻿@model IEnumerable<StudentHubMVC.VW_TutorialCoursesList>
+
+@{
+    ViewBag.Title = "Tutorials Manager";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div style="width: 100%;">
+    <div style="padding: 10px 0px 15px 0px; width: 75%; display: inline-block;">
+        <div style="font-size:x-large; display: inline-block;"><u>Tutorials Manager</u></div>
+    </div>
+    <div style="padding-top: 10px; width: 24%; display: inline-block;">
+        @Html.ActionLink("Add Tutorial for Course", "SaveCourseContent", null, new { @class = "newaddbutton" })
+    </div>
+</div>
+
+@if (Model != null && Model.Count() > 0)
+{
+    <table class="table">
+        <tr>
+            <th>
+                Course Name
+            </th>
+            <th>
+                Stream
+            </th>
+            <th>
+                Status
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var tutorial in Model)
+        {
+            <tr>
+                <td>
+                    @tutorial.Name
+                </td>
+                <td>
+                    @tutorial.Stream
+                </td>
+                <td>
+                    @tutorial.Status
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "SaveCourseContent", new { course = tutorial.CourseId }, new { @class = "editsmall" })
+                </td>
+            </tr>
+        }
+    </table>
+}

@@ -1,0 +1,400 @@
+﻿@model Colleges
+
+@{
+    ViewBag.Title = "details";
+    Layout = "~/Views/Shared/_LayoutFrontOthers.cshtml";
+
+    Entities db = new Entities();
+}
+
+
+<style>
+    body {
+        background-color: #f1f1f1 !important;
+    }
+</style>
+
+<h3>@ViewBag.name</h3>
+<!-- Start main-content -->
+<div class="main-content">
+
+    <!-- Section: inner-header -->
+    <section class="inner-header bg-gray-eee" style="display: inline-block; float: left; width: 100%; padding-top: 30px; margin-bottom: 30px; background: #202c44; ">
+        <div class="container pt-5 pb-5">
+            <!-- Section Content -->
+            <div class="section-content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <ol class="breadcrumb text-left text-black mt-10">
+                            <li><a href="/">Home</a></li>
+                            <li><a href="@Url.Action("index", "Colleges")">Colleges</a></li>
+                            <li class="active text-gray-silver">@Model.coll_Name</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container details-width mt-30 mb-30 pt-30 pb-30">
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="blog-posts bg-color-details">
+                        <article class="post clearfix mb-30 pb-30">
+                            <div class="media-body">
+                                @if (Model.coll_CoverPic != null && Model.coll_CoverPic != "")
+                                {
+                                    <img src="/assets/img/colleges/@Model.coll_CoverPic" style="max-height: 300px !important; width: 100% !important;" class="img-responsive">
+                                }
+                                else
+                                {
+                                    <img src="/assets/img/colleges/default.jpeg" style="max-height: 300px !important; width: 100% !important;" class="img-responsive">
+                                }
+                            </div>
+                            <div class="entry-content mt-20">
+
+                                <div style="width: 100%;  display: inline-block; ">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            @if (Model.coll_Logo != null && Model.coll_Logo != "")
+                                            {
+                                                <img src="/assets/img/colleges/@Model.coll_Logo" style=" max-height: 250px; min-height: 150px; "> @*padding: 5px 10px;*@
+                                            }
+                                            else
+                                            {
+                                                <img src="/assets/img/colleges/default.jpeg" style="max-height: 250px; min-height: 150px; "> @*padding: 5px 10px;*@
+                                            }
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <h2 class="entry-title news text-white font-22">@Model.coll_Name</h2>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <p>
+                                                        @Model.coll_AddressLine1,
+                                                        @if (Model.coll_AddressLine2 != null)
+                                                        {@Model.coll_AddressLine2@Html.Raw(",")}
+                                                        @if (Model.coll_AddressLine3 != null)
+                                                        {@Model.coll_AddressLine3@Html.Raw(",")}
+                                                    </p>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <p>City: @Model.coll_City</p>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <p>State: @Model.coll_State</p>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <p>Pincode: @Model.coll_Pincode</p>
+                                                </div>
+                                            </div>                                            
+                                        </div>
+                                    </div>
+
+                                    @*<div style="width: 35%; display: inline-block; float: right;">
+                                        <div style="float: right;">
+                                            @if (Model.coll_Phone1 != null && @Model.coll_Phone1 != "")
+                                            { <p><i class="fa fa-phone" aria-hidden="true"></i>  Phone:  @Model.coll_Phone1</p> }
+                                            @if (Model.coll_Website != null && @Model.coll_Website != "")
+                                            {<p><i class="fa fa-globe" aria-hidden="true"></i>  Website: <a href="@Model.coll_Website">@Model.coll_Website</a></p>}
+                                        </div>
+                                    </div>*@
+                                </div>
+
+                                <div style="width: 100%;  display: inline-block; ">
+                                    <ul id="myTab" class="nav nav-tabs boot-tabs">
+                                        <li class="active"><a href="#OVERVIEW" data-toggle="tab">OVERVIEW</a></li>
+                                        <li><a href="#COURSES" data-toggle="tab">COURSES</a></li>
+                                        <li><a href="#FACILITIES" data-toggle="tab">FACILITIES</a></li>
+                                        <li><a href="#PLACEMENTS" data-toggle="tab">PLACEMENTS</a></li>
+                                        <li><a href="#CONTACTS" data-toggle="tab">CONTACTS</a></li>
+                                        <li><a href="#REVIEWS" data-toggle="tab">REVIEWS</a></li>
+                                    </ul>
+                                    <div id="myTabContent" class="tab-content" style="min-height: 400px;">
+                                        <div class="tab-pane fade in active" id="OVERVIEW">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered">
+                                                    @*<tr style="padding: 10px 10px !important;">
+                    <td style="width: 30%;">Institute Rating : </td>
+                    <td style="width: 70%; padding-left: 20px;"><p>@Model.coll_Approval</p></td>
+                </tr>*@
+                                                    <tr>
+                                                        <td style="width: 30%;">Eshtablished : </td>
+                                                        <td style="width: 70%; padding-left: 20px;"><p>@Model.coll_EstablishedYear</p></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width: 30%;">College Type : </td>
+                                                        <td style="width: 70%; padding-left: 20px;"><p>@(Model.CollegeTypeDropdownTypes == null ? "" : Model.CollegeTypeDropdownTypes.TypeValue)</p></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width: 30%;">Approved By : </td>
+                                                        <td style="width: 70%; padding-left: 20px;"><p>@Model.coll_Approval</p></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width: 30%;">Accreditation : </td>
+                                                        <td style="width: 70%; padding-left: 20px;"><p>@Model.coll_Accreditation</p></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width: 30%;">Ownership : </td>
+                                                        <td style="width: 70%; padding-left: 20px;"><p>@Model.coll_Ownership</p></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width: 30%;">Campus Size : </td>
+                                                        <td style="width: 70%; padding-left: 20px;"><p>@Model.coll_CampusSize</p></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width: 30%;">Genders Accepted : </td>
+                                                        <td style="width: 70%; padding-left: 20px;"><p>@Model.coll_EducationStatus</p></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width: 30%;">Genders Accepted : </td>
+                                                        <td style="width: 70%; padding-left: 20px;"><p>@Model.coll_EducationStatus</p></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width: 30%;">Website : </td>
+                                                        <td style="width: 70%; padding-left: 20px;">@if (Model.coll_Website != null && @Model.coll_Website != "")
+                                            {<p><i class="fa fa-globe" aria-hidden="true"></i>  <a href="@Model.coll_Website">@Model.coll_Website</a></p>}</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+
+                                            <hr />
+                                            <h5><b>Package Details</b></h5>
+                                            <table class="table table-bordered">
+                                                <tr>
+                                                    <td style="width: 50%;">
+                                                        <span style="width: 65%; display: inline-block;">Highest Package : </span>
+                                                        <span style="width: 30%; text-align: center;">@Model.coll_HighestPackage</span>
+                                                    </td>
+                                                    <td style="width: 50%;">
+                                                        <span style="width: 65%; display: inline-block;">Lowest Package : </span>
+                                                        <span style="width: 30%; text-align: center;">@Model.coll_LowestPackage</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 50%;">
+                                                        <span style="width: 65%; display: inline-block;">Average Package : </span>
+                                                        <span style="width: 30%; text-align: center;">@Model.coll_AveragePackage</span>
+                                                    </td>
+                                                    <td style="width: 50%;">
+                                                        <span style="width: 65%; display: inline-block; ">International Package : </span>
+                                                        <span style="width: 30%; text-align: center;">@Model.coll_InternationalPackage</span>
+                                                    </td>
+                                                </tr>
+                                            </table>
+
+                                            @if (Model.coll_Description != null && Model.coll_Description != "")
+                                            {
+                                                <hr />
+                                                <h5><b>Know Your College</b></h5>
+                                                <div>
+                                                    @Html.Raw(Model.coll_Description)
+                                                </div>
+                                                <br />
+                                            }
+                                        </div>
+
+                                        <div class="tab-pane fade" id="COURSES">
+                                            @if (Model.shub_collegecoursesrelation != null && Model.shub_collegecoursesrelation.Count > 0)
+                                            { 
+                                                List<DropdownTypes> courseLevels = db.DropdownTypes.Where(d => d.GroupName == StudentHubMVC.Liason.Constants.CollegeCourseLevels).ToList();
+
+                                                List<DropdownTypes> courseTypes = db.DropdownTypes.Where(d => d.GroupName == StudentHubMVC.Liason.Constants.CollegeCourseTypes).ToList();
+
+                                                var selectedCourseLevels = Model.shub_collegecoursesrelation.GroupBy(c => c.CollegeCourses.colcrs_CourseLevel).Select(c => new { level = c.Key, course = c.ToList() }).Select(c => c.level).ToArray();
+
+                                                foreach(long level in selectedCourseLevels)
+                                                {
+                                                    <h3>@courseLevels.Where(l => l.DropdownTypeId == level).FirstOrDefault().TypeValue</h3>
+                                                    <hr />
+
+                                                    var selectedCourseTypes = Model.shub_collegecoursesrelation.Where(c=>c.CollegeCourses.colcrs_CourseLevel == level).GroupBy(c => c.CollegeCourses.colcrs_CourseType).Select(c => new { type = c.Key, course = c.ToList() }).Select(c => c.type).ToArray();
+
+                                                    foreach(long type in selectedCourseTypes)
+                                                    {
+                                                        <h5>@courseTypes.Where(t => t.DropdownTypeId == type).FirstOrDefault().TypeValue</h5>
+
+                                                        <div class="table-responsive">
+                                                            <table class="table table-bordered table-striped">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th style="width:40%;height:18px;">Name</th>
+                                                                        <th style="width:10%;height:18px;">Seats</th>
+                                                                        <th style="width:18%;height:18px;">Fees</th>
+                                                                        <th style="width:15%;height:18px;">Duration</th>
+                                                                        <th style="width:17%;height:18px;">Mode</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    @foreach (CollegeCoursesRelation collcourse in Model.shub_collegecoursesrelation.Where(c => c.CollegeCourses.colcrs_CourseLevel == level && c.CollegeCourses.colcrs_CourseType == type))
+                                                                    {
+                                                                    <tr>
+                                                                        <td>
+                                                                            <p>@collcourse.CollegeCourses.colcrs_Name</p>
+                                                                        </td>
+                                                                        <td>
+                                                                            <p>@collcourse.collcrsrel_Seats</p>
+                                                                        </td>
+                                                                        <td>
+                                                                            <p>@collcourse.collcrsrel_FeeDetails</p>
+                                                                        </td>
+                                                                        <td>
+                                                                            <p>@collcourse.collcrsrel_Duration</p>
+                                                                        </td>
+                                                                        <td>
+                                                                            <p>@collcourse.collcrsrel_Mode</p>
+                                                                        </td>
+                                                                    </tr>
+                                                                    }
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    }
+                                                }
+                                                <br />
+                                            }
+                                        </div>
+
+                                        <div class="tab-pane fade" id="FACILITIES">
+                                            @if(Model.coll_ID > 0)
+                                            {
+                                                var facilities = db.CollegeFacilities.Where(f => f.collfac_CollegeId == Model.coll_ID).ToList();
+
+                                                if(facilities != null && facilities.Count > 0)
+                                                {
+                                                    <ul>
+                                                        @foreach(CollegeFacilities facility in facilities)
+                                                        {
+                                                            <li>@facility.FacilitiesNames.TypeValue</li>
+                                                        }
+                                                    </ul>
+                                                }
+                                            }
+                                        </div>
+
+                                        <div class="tab-pane fade" id="PLACEMENTS">
+                                            @if (Model.coll_Recruiters != null && Model.coll_Recruiters != "")
+                                            {
+                                                <hr />
+                                                <h5><b>Top Recruiters</b></h5>
+                                                <div>
+                                                    @Html.Raw(Model.coll_Recruiters)
+                                                </div>
+                                                <br />
+                                            }
+                                        </div>
+
+                                        <div class="tab-pane fade" id="CONTACTS">
+
+                                        </div>
+
+                                        <div class="tab-pane fade" id="REVIEWS">
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </article>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+
+                    <div class="sidebar sidebar-right mt-sm-30 bg-color-details" style="padding-bottom: 1px !important;">
+                        <div class="widget mb-20">
+                            <div class="row">
+                                <div class="col-md-12" style="text-align: center;">
+                                    @if (Model.coll_Logo != null && Model.coll_Logo != "")
+                                    {
+                                        <img src="/assets/img/colleges/@Model.coll_Logo" style=" max-height: 250px; min-height: 150px; "> @*padding: 5px 10px;*@
+                                    }
+                                    else
+                                    {
+                                        <img src="/assets/img/colleges/default.jpeg" style="max-height: 250px; min-height: 150px; "> @*padding: 5px 10px;*@
+                                    }
+
+                                </div>
+                                @*<div class="col-md-12">
+                                    <div class="apply-now mt-5 mb-20 text-center">
+                                        <a href="apply-now.html" class="apply-now-button" style="padding-top: 8px !important; padding-bottom: 8px !important;"> APPLY NOW &nbsp; &nbsp;<span class="pe-7s-up-arrow"></span></a>
+                                    </div>
+                                </div>*@
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="widget-title font-weight-600 notifications" style="text-align: center;">AVIALABLE COURSES @*<img src="images/alert.gif" width="42" class="img-bell-right">*@</h3>
+                    <div class="sidebar sidebar-right mt-sm-30 bg-color-details">
+                        <div class="widget mb-20">
+                            @foreach (CollegeCoursesRelation collCourse in Model.shub_collegecoursesrelation)
+                            {
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="author-details media-post">
+                                            <h4 class="post-title mt-0 mb-0 font-weight-600 font-11 pl-20"><a href="#">@collCourse.CollegeCourses.colcrs_Name</a></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                            }
+                        </div>
+                    </div>
+
+                    @*<h3 class="widget-title font-weight-600 notifications">NOTIFICATIONS <img src="~/assets/img/alert.gif" width="42" class="img-bell-right"></h3>
+                    <div class="sidebar sidebar-right mt-sm-30 bg-color-details">
+                        <div class="widget mb-20">
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="author-details media-post">
+                                        <a href="#" class="post-thumb mb-0 pull-left flip pr-20">
+                                            <img class="img-thumbnail round" alt="" src="images/college-logo.jpg">
+                                        </a>
+                                        <h4 class="post-title mt-0 mb-0 font-weight-600 font-12"><a href="#">BITSAT 2019 Result Announced</a></h4>
+
+                                        <div class="post-right font-13 font-weight-600 mt-5">
+
+                                            <p>BITS Pilani has released BITSAT Result 2019. Download Here...  <a href="#" class="review-redmore">Read More</a></p>
+
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <hr>                <div class="row">
+                                <div class="col-md-12">
+                                    <div class="author-details media-post">
+                                        <a href="#" class="post-thumb mb-0 pull-left flip pr-20">
+                                            <img class="img-thumbnail round" alt="" src="images/college-logo.jpg">
+                                        </a>
+                                        <h4 class="post-title mt-0 mb-0 font-weight-600 font-12"><a href="#">BITSAT 2019 Result Announced</a></h4>
+
+                                        <div class="post-right font-13 font-weight-600 mt-5">
+
+                                            <p>BITS Pilani has released BITSAT Result 2019. Download Here...  <a href="#" class="review-redmore">Read More</a></p>
+
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <hr>
+                    </div>
+
+                    <div class="download-brochure mt-40 mb-40 text-center">
+                        <a href="#" class="download-brochure-button">DOWNLOAD BROCHURE &nbsp; &nbsp;<i class="fa fa-download" aria-hidden="true"></i></a>
+                    </div>
+                </div>*@
+            </div>
+        </div>
+        </div>
+    </section>
+
+</div>

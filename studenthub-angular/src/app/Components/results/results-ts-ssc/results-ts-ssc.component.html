@@ -1,0 +1,142 @@
+              <div class="resultRow">
+                    <p>Hall Ticket No</p>
+                    <div class="stly2">
+                        <span id="lblHTNo">{{result.RollNo}}</span>
+                    </div>
+                </div>
+                <div class="resultRow">
+                    <p>Name</p>
+                    <div class="stly2">
+                        <span id="lblName">{{result.FullName}}</span>
+                    </div>
+                </div>
+                <div class="resultRow">
+                    <p>Results</p>
+                    <div class="stly2">
+                        <span id="lblTotal">{{result.Result}}</span>
+                    </div>
+                </div>
+                <div class="resultRow">
+                    <p>GPA 9</p>
+                    <div class="stly2">
+                        <span id="lblResultGrade">{{result.GPA}}</span>
+                    </div>
+                </div>
+                <div class="resultRow">
+                    <p>PH-Description</p>
+                    <div class="stly2">
+                        <span id="lblTotal">{{result.PHDescription}}</span>
+                    </div>
+                </div>
+                <div class="resultRow">
+                    <p>District Name</p>
+                    <div class="stly2">
+                        <span id="lblResultGrade">{{result.DistrictName}}</span>
+                    </div>
+                </div>
+                <div class="clear"></div>
+
+                <!-- Result Table -->
+                <div class="w-100 table-responsive">
+                    <table bordered="0" class="first-year">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Co-Curricular Area</th>
+                                <th class="text-center">Grade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Value Education & Life Skills</td>
+                                <td>{{result.ValueEducationLifeSkillsGrade}}</td>
+                            </tr>
+                            <tr>
+                                <td>Arts & Cultural Education</td>
+                                <td>{{result.ArtCulturalEducationGrade}}</td>
+                            </tr>
+                            <tr>
+                                <td>Work & Computer Education</td>
+                                <td>{{result.WorkComputerEducationGrade}}</td>
+                            </tr>
+                            <tr>
+                                <td>Physical & Health Education</td>
+                                <td>{{result.PhysicalHealthEducationGrade}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table bordered="0" class="first-year">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Subject</th>
+                                <th class="text-center">Flag</th>
+                                <th class="text-center">Internal Grade</th>
+                                <th class="text-center">External Grade</th>
+                                <th class="text-center">Overall Grade</th>
+                                <th class="text-center">Grade Points</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Lang - I</td>
+                                <td>{{result.Language1Flag}}</td>
+                                <td>{{result.Language1InternalGrade}}</td>
+                                <td>{{result.Language1Grade1}}</td>
+                                <td>{{result.Language1FinalGrade}}</td>
+                                <td>{{result.Language1Points}}</td>
+                            </tr>
+                            <tr>
+                                <td>Lang - II</td>
+                                <td>{{result.Language2Flag}}</td>
+                                <td>{{result.Language2InternalGrade}}</td>
+                                <td>{{result.Language2Grade1}}</td>
+                                <td>{{result.Language2FinalGrade}}</td>
+                                <td>{{result.Language2Points}}</td>
+                            </tr>
+                            <tr>
+                                <td>Lang - III</td>
+                                <td>{{result.Language3Flag}}</td>
+                                <td>{{result.Language3InternalGrade}}</td>
+                                <td>{{result.Language3Grade1}}</td>
+                                <td>{{result.Language3FinalGrade}}</td>
+                                <td>{{result.Language3Points}}</td>
+                            </tr>
+                            <tr>
+                                <td>Maths</td>
+                                <td>{{result.MathsFlag}}</td>
+                                <td>{{result.MathsInternalGrade}}</td>
+                                <td>{{result.MathsGrade1}}</td>
+                                <td>{{result.MathsFinalGrade}}</td>
+                                <td>{{result.MathsPoints}}</td>
+                            </tr>
+                            <tr>
+                                <td>Science</td>
+                                <td>{{result.ScienceFlag}}</td>
+                                <td>{{result.ScienceInternalGrade}}</td>
+                                <td>{{result.ScienceGrade1}}</td>
+                                <td>{{result.ScienceFinalGrade}}</td>
+                                <td>{{result.SciencePoints}}</td>
+                            </tr>
+                            <tr>
+                                <td>Social</td>
+                                <td>{{result.SocialFlag}}</td>
+                                <td>{{result.SocialInternalGrade}}</td>
+                                <td>{{result.SocialGrade1}}</td>
+                                <td>{{result.SocialFinalGrade}}</td>
+                                <td>{{result.SocialPoints}}</td>
+                            </tr>
+                            <tr>
+                                <td>Optional Language</td>
+                                <td>{{result.OptionalLanguageFlag}}</td>
+                                <td>{{result.OptionalLanguageGrade}}</td>
+                                <td>{{result.OptionalLanguageGrade1}}</td>
+                                <td>{{result.OptionalLanguageFinalGrade}}</td>
+                                <td>{{result.OptionalLanguagePoints}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="clear"></div>
+
+                <!-- Result Instructions -->
+                <div class="clear"></div>
+                <div class="ad320" style="width:100%; text-align:center; margin-bottom:10px;  margin-top:10px; display:none;"></div>

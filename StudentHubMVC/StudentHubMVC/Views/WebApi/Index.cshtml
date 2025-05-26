@@ -1,0 +1,151 @@
+﻿@model StudentHubMVC.Models.ViewModels.VMWebApi
+
+@{
+    ViewBag.Title = "WebApi - Studenthub.in";
+    Layout = "~/Views/Shared/_LayoutWebApi.cshtml";
+
+}
+
+<h1 style="text-align: center;">WEB API URL DETAILS</h1>
+<table style="margin-left: auto; margin-right: auto;">
+    <tbody>
+        <tr>
+            <td>
+                <div style="padding-left: 10px; margin-bottom: 25px; border-left: solid #8fc942;">
+                    <h4>GETTING RESULTS SEARCH FILTERS</h4>
+                    <p><b>URL: </b> https://studenthub.in/webapi/GetResultSearchFilters</p>
+                    <p><b>Type: </b>POST<br><b>Parameters: </b><i>ApiKey</i><br><b>Response: </b>JSON</p>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div style="padding-left: 10px; margin-bottom: 25px; border-left: solid #8fc942;">
+                    <h4>GETTING SEARCH RESULTS FROM SEARCH FILTERS</h4>
+                    <p><b>URL: </b> https://studenthub.in/webapi/GetResultsSearchResults</p>
+                    <p><b>Type: </b>POST<br><b>Parameters: </b><i>State, ExamType, ExamId, Year, ApiKey</i><br><b>Response: </b>JSON</p>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div style="padding-left: 10px; margin-bottom: 25px; border-left: solid #8fc942;">
+                    <h4>GETTING RESULTS based on Name/Hallticket</h4>
+                    <p><b>URL: </b> https://studenthub.in/webapi/GetResultsMain</p>
+                    <p><b>Type: </b>POST<br><b>Parameters: </b><i>RequestType, Value, ExamId, Year, ApiKey</i><br><b>Response: </b>JSON</p>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<table style="margin-left: auto; margin-right: auto; padding: 50px 0px 0px 0px;">
+    <tbody>
+        <tr>
+            <td>
+                <table style="text-align: center;">
+                    <thead>
+                        <tr>
+                            <th width="150px">SEARCH TYPES (Request Type)</th>
+                            <th width="150px">STATES</th>
+                            <th width="250px">EXAM TYPES</th>
+                            <th width="150px">Years</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                @foreach (var stype in Model.ResultsSearchFilters.SearchType)
+                                {
+                                    <p>@stype</p>
+                                }
+                            </td>
+                            <td>
+                                @foreach (var stype in Model.ResultsSearchFilters.States)
+                                {
+                                    <p>@stype</p>
+                                }
+                            </td>
+                            <td>
+                                @foreach (var stype in Model.ResultsSearchFilters.ExamTypes)
+                                {
+                                    <p>@stype</p>
+                                }
+                            </td>
+                            <td>
+                                @foreach (var stype in Model.ResultsSearchFilters.Years)
+                                {
+                                    <p>@stype</p>
+                                }
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<table style="margin-left: auto; margin-right: auto;">
+    <tbody>
+        <tr>
+            <td>
+                <table style="text-align: center;">
+                    <thead><tr><th style="padding: 50px 30px 0px 30px; ">EXAM DETAILS</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            @{
+                                var currState = "";
+                            }
+                            <td>
+                                <table>
+                                    @foreach (var stype in Model.ResultsSearchFilters.ExamsDetails.OrderBy(_ => _.State).ThenBy(_ => _.ExamType).ThenBy(_ => _.ExamName))
+                                    {
+                                        if (currState != stype.State)
+                                        {
+                                            <tr style="padding-bottom: 25px; padding-top: 50px; text-align: left;"><td><h3 style="margin-top: 50px;">@stype.State</h3></td></tr>
+                                            <tr>
+                                                <td><b>Exam Type</b></td>
+                                                <td><b>Exam Id</b></td>
+                                                <td><b>Exam Name</b></td>
+                                            </tr>
+                                        }
+                                        currState = stype.State;
+                                        <tr>
+                                            <td style="padding: 5px 10px;">@stype.ExamType</td>
+                                            <td style="padding: 5px 10px;">@stype.ExamId</td>
+                                            <td style="padding: 5px 10px;">@stype.ExamName</td>
+                                        </tr>
+                                    }
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+<h1 style="text-align: center; margin-top: 150px;">OLD WEB API URL DETAILS</h1>
+
+<table style="margin-left: auto; margin-right: auto;">
+    <tbody>
+        @foreach (var url in Model.WebApiList.OrderBy(_ => _.State))
+        {
+            if (currState != url.State)
+            {
+                <tr><td><h2 style="padding-bottom: 25px; padding-top: 50px;">@url.State</h2></td></tr>
+            }
+            currState = url.State;
+            <tr>
+                <td>
+                    <div style="padding-left: 10px; margin-bottom: 25px; border-left: solid #8fc942;">
+                        <h4>@url.Title</h4>
+                        <p><b>URL: </b> @url.Url</p>
+                        <p>@Html.Raw(url.Description)</p>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

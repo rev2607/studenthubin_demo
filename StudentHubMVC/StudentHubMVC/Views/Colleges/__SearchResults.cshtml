@@ -1,0 +1,74 @@
+﻿@model StudentHubMVC.Models.ViewModels.Home.VMHomeCollegesSearch
+
+@using System.Configuration;
+
+<div class="waitOverlay"></div>
+<div class="col-md-12">
+    <div class="row">
+        @foreach (Colleges college in Model.Colleges)
+        {
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <div class="participate_colleges">
+                    <div class="article_container">
+                        <div class="article_img_container">
+                            @if (college.coll_CoverPic != null && college.coll_CoverPic != "")
+                            {
+                                <img src="@(ConfigurationManager.AppSettings["Colleges"].Replace("~/", "/") + college.coll_CoverPic)"
+                                     style="height: 175px !important; width: 100% !important;" class="img-responsive">
+                            }
+                            else
+                            {
+                                <img src="@(ConfigurationManager.AppSettings["Colleges"].Replace("~/", "/") + "default.jpeg")"
+                                     style="height: 175px !important; width: 100% !important;" class="img-responsive">
+                            }
+
+                        </div>
+                        <div class="article_content_overlay">
+                            <div class="article_content">
+                                <h3><a href="@Url.Action("Details", "Colleges", new { name = college.coll_UrlKeyword })"> @college.coll_Name</a></h3>
+                                <div class="info">
+                                    <i class="fa fa-map-marker"></i> @college.coll_City, @college.coll_State
+                                </div>
+                            </div>
+                            <div class="likeAndreting">
+                                <div class="like">
+                                    <a rel="nofollow" href="javascript:void(0)" href="#">
+                                        <i class="fa fa-heart"></i>
+                                    </a>
+                                </div>
+                                <div class="rating"><span> 10 </span>&nbsp;&nbsp;/&nbsp;&nbsp;10</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collegeinfo_wrapper">
+                        <div class="detail">
+                            <h4><a href="#">@college.CollegeTypeDropdownTypes.TypeValue</a></h4>
+                            @*<div class="fees"><span><i class="fa fa-inr"></i> @college.coll_AveragePackage</span> / Year </div>*@
+                            <div class="rating">
+                                <div class="rate_con"><span>10</span></div>
+                            </div>
+                        </div>
+                        <div class="view_all"><a href="@Url.Action("Details", "Colleges", new { name = college.coll_UrlKeyword })">VIEW ALL COURSES &amp; FEES</a></div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<div class="col-md-12">
+    <nav>
+        <ul class="pagination theme-colored">
+            @if (Model.PreviousPageExist)
+            {
+                <li> <a aria-label="First" title="First" onclick="getCollegeSearchResults(1);"> <span aria-hidden="true">««</span> </a> </li>
+                <li> <a aria-label="Previous" title="Previous" onclick="getCollegeSearchResults(@Model.previousPage)"> <span aria-hidden="true">«</span> </a> </li>
+            }
+            <li class="active"><a href="#">Page @Model.page of @Model.totalPages.</a></li>
+            @if (Model.NextPageExist)
+            {
+                <li> <a aria-label="Next" title="Next" onclick="getCollegeSearchResults(@Model.nextPage)"> <span aria-hidden="true">»</span> </a> </li>
+                <li> <a aria-label="Last" title="Last"> <span aria-hidden="true" onclick="getCollegeSearchResults(@Model.lastPage)">»»</span> </a> </li>
+            }
+        </ul>
+    </nav>
+</div>

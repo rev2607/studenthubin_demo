@@ -1,0 +1,26 @@
+.banner_wrapper {
+  width: 100%;
+  position: relative;
+  margin: 0;
+  /* background: linear-gradient(109.6deg, rgb(102, 203, 149) 11.2%, rgb(39, 210, 175) 98.7%); */
+  /* background: linear-gradient(114.3deg, rgb(19, 126, 57) 0.2%, rgb(8, 65, 91) 68.5%); */
+  padding: 1rem 0 1rem 0;
+}
+
+.breadcrumb li {
+  color: #fff;
+  font-weight: 500;
+}
+
+.breadcrumb li a {
+  color: #bbb;
+  font-weight: 400;
+}
+
+.fc-height50 {
+  height: 50px;
+}
+
+.breadcrumb {
+  background: none !important;
+}
